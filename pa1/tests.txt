@@ -1,0 +1,357 @@
+Caso queira testar localmente, os casos de teste utilizados nesta PA são:
+
+./bin/pa1.out -z 9 -s 27 -a s
+./bin/pa1.out -z 9 -s 27 -a i
+./bin/pa1.out -z 9 -s 27 -a q
+./bin/pa1.out -z 9 -s 27 -a q3
+./bin/pa1.out -z 9 -s 27 -a qi
+./bin/pa1.out -z 9 -s 27 -a q3i
+./bin/pa1.out -z 9 -s 27 -a h
+./bin/pa1.out -z 9 -s 27 -a rs
+./bin/pa1.out -z 81 -s 17 -a s
+./bin/pa1.out -z 81 -s 17 -a i
+./bin/pa1.out -z 81 -s 17 -a q
+./bin/pa1.out -z 81 -s 17 -a q3
+./bin/pa1.out -z 81 -s 17 -a qi
+./bin/pa1.out -z 81 -s 17 -a q3i
+./bin/pa1.out -z 81 -s 17 -a h
+./bin/pa1.out -z 81 -s 17 -a rs
+./bin/pa1.out -z 448 -s 15 -a s
+./bin/pa1.out -z 448 -s 15 -a i
+./bin/pa1.out -z 448 -s 15 -a q
+./bin/pa1.out -z 448 -s 15 -a q3
+./bin/pa1.out -z 448 -s 15 -a qi
+./bin/pa1.out -z 448 -s 15 -a q3i
+./bin/pa1.out -z 448 -s 15 -a h
+./bin/pa1.out -z 448 -s 15 -a rs
+./bin/pa1.out -z 4803 -s 34 -a s
+./bin/pa1.out -z 4803 -s 34 -a i
+./bin/pa1.out -z 4803 -s 34 -a q
+./bin/pa1.out -z 4803 -s 34 -a q3
+./bin/pa1.out -z 4803 -s 34 -a qi
+./bin/pa1.out -z 4803 -s 34 -a q3i
+./bin/pa1.out -z 4803 -s 34 -a h
+./bin/pa1.out -z 4803 -s 34 -a rs
+./bin/pa1.out -z 19097 -s 25 -a s
+./bin/pa1.out -z 19097 -s 25 -a i
+./bin/pa1.out -z 19097 -s 25 -a q
+./bin/pa1.out -z 19097 -s 25 -a q3
+./bin/pa1.out -z 19097 -s 25 -a qi
+./bin/pa1.out -z 19097 -s 25 -a q3i
+./bin/pa1.out -z 19097 -s 25 -a h
+./bin/pa1.out -z 19097 -s 25 -a rs
+
+
+Esta é a VPL onde você deve submeter sua atividade.
+
+As especificações da atividade se encontram nos slides da prática.
+
+IMPORTANTE: Certifique-se de seguir o passo a passo proposto no tutorial disponibilizado no moodle.
+
+
+Failed tests
+Test 1: -z 9 -s 27 -a s
+Test 2: -z 9 -s 27 -a i
+Test 3: -z 9 -s 27 -a q
+Test 4: -z 9 -s 27 -a q3
+Test 5: -z 9 -s 27 -a qi
+Test 6: -z 9 -s 27 -a q3i
+Test 7: -z 9 -s 27 -a h
+Test 8: -z 9 -s 27 -a rs
+Test 9: -z 81 -s 17 -a s
+Test 10: -z 81 -s 17 -a i
+Test 11: -z 81 -s 17 -a q
+Test 12: -z 81 -s 17 -a q3
+Test 13: -z 81 -s 17 -a qi
+Test 14: -z 81 -s 17 -a q3i
+Test 15: -z 81 -s 17 -a h
+Test 16: -z 81 -s 17 -a rs
+Test 17: -z 448 -s 15 -a s
+Test 18: -z 448 -s 15 -a i
+Test 19: -z 448 -s 15 -a q
+Test 20: -z 448 -s 15 -a q3
+Test 1: -z 9 -s 27 -a s
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg s seed 27 size 9 time 0.000000571 cmp 360 move 18 calls 1
+
+
+--- Expected output (regular expression)---
+
+alg s seed 27 size 9 time ([0-9]*|[0-9]*\.[0-9]+) cmp 36 move 18 calls 1\s*
+
+
+Test 2: -z 9 -s 27 -a i
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg i seed 27 size 9 time 0.000000511 cmp 290 move 38 calls 1
+
+
+--- Expected output (regular expression)---
+
+alg i seed 27 size 9 time ([0-9]*|[0-9]*\.[0-9]+) cmp 30 move 38 calls 1\s*
+
+
+Test 3: -z 9 -s 27 -a q
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg q seed 27 size 9 time 0.000000691 cmp 290 move 30 calls 6
+
+
+--- Expected output (regular expression)---
+
+alg q seed 27 size 9 time ([0-9]*|[0-9]*\.[0-9]+) cmp 29 move 30 calls 12\s*
+
+
+Test 4: -z 9 -s 27 -a q3
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg q3 seed 27 size 9 time 0.000000861 cmp 290 move 45 calls 6
+
+
+--- Expected output (regular expression)---
+
+alg q3 seed 27 size 9 time ([0-9]*|[0-9]*\.[0-9]+) cmp 33 move 33 calls 16\s*
+
+
+Test 5: -z 9 -s 27 -a qi
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg qi seed 27 size 9 time 0.000000531 cmp 290 move 38 calls 2
+
+
+--- Expected output (regular expression)---
+
+alg qi seed 27 size 9 time ([0-9]*|[0-9]*\.[0-9]+) cmp 21 move 28 calls 4\s*
+
+
+Test 6: -z 9 -s 27 -a q3i
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg q3i seed 27 size 9 time 0.000000521 cmp 290 move 38 calls 2
+
+
+--- Expected output (regular expression)---
+
+alg q3i seed 27 size 9 time ([0-9]*|[0-9]*\.[0-9]+) cmp 26 move 33 calls 4\s*
+
+
+Test 7: -z 9 -s 27 -a h
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg h seed 27 size 9 time 0.000000551 cmp 280 move 53 calls 1
+
+
+--- Expected output (regular expression)---
+
+alg h seed 27 size 9 time ([0-9]*|[0-9]*\.[0-9]+) cmp 33 move 53 calls 1\s*
+
+
+Test 8: -z 9 -s 27 -a rs
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg rs seed 27 size 9 time 0.000000521 cmp 360 move 18 calls 8
+
+
+--- Expected output (regular expression)---
+
+alg rs seed 27 size 9 time ([0-9]*|[0-9]*\.[0-9]+) cmp 36 move 18 calls 8\s*
+
+
+Test 9: -z 81 -s 17 -a s
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg s seed 17 size 81 time 0.000019286 cmp 32400 move 222 calls 1
+
+
+--- Expected output (regular expression)---
+
+alg s seed 17 size 81 time ([0-9]*|[0-9]*\.[0-9]+) cmp 3240 move 222 calls 1\s*
+
+
+Test 10: -z 81 -s 17 -a i
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg i seed 17 size 81 time 0.000009356 cmp 18100 move 1897 calls 1
+
+
+--- Expected output (regular expression)---
+
+alg i seed 17 size 81 time ([0-9]*|[0-9]*\.[0-9]+) cmp 1817 move 1897 calls 1\s*
+
+
+Test 11: -z 81 -s 17 -a q
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg q seed 17 size 81 time 0.000006492 cmp 6790 move 441 calls 68
+
+
+--- Expected output (regular expression)---
+
+alg q seed 17 size 81 time ([0-9]*|[0-9]*\.[0-9]+) cmp 679 move 441 calls 136\s*
+
+
+Test 12: -z 81 -s 17 -a q3
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg q3 seed 17 size 81 time 0.000007212 cmp 5900 move 579 calls 62
+
+
+--- Expected output (regular expression)---
+
+alg q3 seed 17 size 81 time ([0-9]*|[0-9]*\.[0-9]+) cmp 629 move 459 calls 136\s*
+
+
+Test 13: -z 81 -s 17 -a qi
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg qi seed 17 size 81 time 0.000004749 cmp 7170 move 690 calls 11
+
+
+--- Expected output (regular expression)---
+
+alg qi seed 17 size 81 time ([0-9]*|[0-9]*\.[0-9]+) cmp 721 move 690 calls 10\s*
+
+
+Test 14: -z 81 -s 17 -a q3i
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg q3i seed 17 size 81 time 0.000005751 cmp 8240 move 796 calls 11
+
+
+--- Expected output (regular expression)---
+
+alg q3i seed 17 size 81 time ([0-9]*|[0-9]*\.[0-9]+) cmp 852 move 812 calls 10\s*
+
+
+Test 15: -z 81 -s 17 -a h
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg h seed 17 size 81 time 0.000007044 cmp 7130 move 1163 calls 1
+
+
+--- Expected output (regular expression)---
+
+alg h seed 17 size 81 time ([0-9]*|[0-9]*\.[0-9]+) cmp 755 move 1163 calls 1\s*
+
+
+Test 16: -z 81 -s 17 -a rs
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg rs seed 17 size 81 time 0.000012983 cmp 32400 move 222 calls 80
+
+
+--- Expected output (regular expression)---
+
+alg rs seed 17 size 81 time ([0-9]*|[0-9]*\.[0-9]+) cmp 3240 move 222 calls 80\s*
+
+
+Test 17: -z 448 -s 15 -a s
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg s seed 15 size 448 time 0.000292751 cmp 1001280 move 1314 calls 1
+
+
+--- Expected output (regular expression)---
+
+alg s seed 15 size 448 time ([0-9]*|[0-9]*\.[0-9]+) cmp 100128 move 1314 calls 1\s*
+
+
+Test 18: -z 448 -s 15 -a i
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg i seed 15 size 448 time 0.000228084 cmp 495200 move 49973 calls 1
+
+
+--- Expected output (regular expression)---
+
+alg i seed 15 size 448 time ([0-9]*|[0-9]*\.[0-9]+) cmp 49526 move 49973 calls 1\s*
+
+
+Test 19: -z 448 -s 15 -a q
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg q seed 15 size 448 time 0.000041795 cmp 54510 move 3189 calls 390
+
+
+--- Expected output (regular expression)---
+
+alg q seed 15 size 448 time ([0-9]*|[0-9]*\.[0-9]+) cmp 5451 move 3189 calls 780\s*
+
+
+Test 20: -z 448 -s 15 -a q3
+Incorrect program output
+--- Input ---
+
+--- Program output ---
+
+alg q3 seed 15 size 448 time 0.000045282 cmp 48700 move 4158 calls 364
+
+
+--- Expected output (regular expression)---
+
+alg q3 seed 15 size 448 time ([0-9]*|[0-9]*\.[0-9]+) cmp 5020 move 3288 calls 790\s*
+
+
+Summary of tests
+
++------------------------------+
+| 40 tests run/ 0 tests passed |
++------------------------------+

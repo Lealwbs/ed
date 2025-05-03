@@ -2,44 +2,64 @@
 #include <string>
 #include "graph.hpp"
 
-int main(){
+int main(int argc, char* argv[]){
+
+    Grafo grafo = Grafo();
 
     int qtde_vertices;
     std::cin >> qtde_vertices;
+    // std::cout << "qtde_vertices: "; 
+    // std::cout << qtde_vertices << std::endl;
 
-    std::cout << "qtde_vertices: " << qtde_vertices << std::endl;
+    for(int i = 0; i < qtde_vertices; i++){
+        int qtde_vizinhos;
+        std::cin >> qtde_vizinhos;
+        grafo.InsereVertice();
+        // std::cout << "qtde_vizinhos: ";
+        // std::cout << qtde_vizinhos << std::endl;
 
+        for (int j = 0; j < qtde_vizinhos; j++){
+            int vizinho;
+            std::cin >> vizinho;
+            grafo.InsereAresta(i, vizinho);
+            // std::cout << "vizinho: ";
+            // std::cout << vizinho << std::endl;
+        }
+    }
 
-
+    std::string operacao;
+    operacao = argv[1];
+    // std::cin >> operacao;
+    // std::cout << "operacao: " << operacao << std::endl;
     // int input_buffer;
 
+    if (operacao == "-d"){
 
+        std::cout << "Quantidade de vértices: " << grafo.QuantidadeVertices() << std::endl;
+        std::cout << "Quantidade de arestas: " << grafo.QuantidadeArestas() << std::endl;
+        std::cout << "Grau mínimo: " << grafo.GrauMinimo() << std::endl;
+        std::cout << "Grau máximo: " << grafo.GrauMaximo() << std::endl;
 
+    } else if (operacao == "-n"){
 
-    
+        for(int i = 0; i < qtde_vertices; i++){
+            std::cout << "Vizinhos do vértice " << i << ": ";
+            grafo.ImprimeVizinhos(i);
+            std::cout << std::endl;
+        }
 
-    // Nesta atividade você deverá implementar um programa que:
-    // 1. Recebe uma operação a ser realizada com o grafo pela linha
-    // de comando. As operações são:
-    // ❑ “-d” Dados básicos: Deve imprimir na tela, um valor por
-    // linha: a quantidade de vértices e de arestas do grafo, o
-    // grau mínimo e o máximo.
-    // ❑ “-n” Vizinhanças: Deve imprimir os vizinhos de cada um
-    // dos vértices. Todos os vizinhos de um vértice devem estar
-    // na mesma linha separados por um espaço em branco e
-    // encerrando com uma quebra de linha.
-    // ❑ “-k” : Deve imprimir 1 caso o grafo de entrada seja um
-    // grafo completo e 0 caso contrário.
-    // 2. Recebe os dados de um grafo pela entrada padrão.
+    } else if (operacao == "-k"){
 
-    // Leitura do grafo
-    // 1. Um inteiro n indicando quantos vértices o
-    // grafo possui.
-    // 2. As próximas n linhas contém as vizinhos de
-    // cada vértice. Um inteiro m indicando
-    // quantos vizinhos o vértice possi seguidos de
-    // m inteiros indicando cada vizinho.
+        if (grafo.QuantidadeArestas() == (qtde_vertices * (qtde_vertices - 1)) / 2){
+            std::cout << "Grafo completo" << std::endl;
+        } else {
+            std::cout << "Grafo incompleto" << std::endl;
+        }
 
+    } else {
+
+        std::cout << "Operação inválida" << std::endl;
+    }
 
     return 0;
 }

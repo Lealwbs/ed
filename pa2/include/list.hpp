@@ -1,52 +1,67 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
-enum NodeType{
-    NODE = 0,
-    NODE_LIST = 1
-};
-class ListaAdjacencia;
-
 class Node{
     public:
-        Node(NodeType nodeType, Node* next = nullptr);
+        Node(int value, Node* next = nullptr);
         ~Node();
 
-        int getValue();
         void setValue(int value);
+        void setNext(Node* next);
+        
+        int getValue();
+        Node* getNext();
+
+    private:
+        int value;
+        Node* next;
+};
+
+class List{
+    public:
+        List();
+        ~List();
+
+        void addNode(int value);
+        int getSize();
+
+        void printList();
+
+    private:
+        Node* head;
+        int size;
+};
+
+class NodeVertice{ 
+
+    public:
+        NodeVertice(Node* next = nullptr);
+        ~NodeVertice();
 
         Node* getNext();
         void setNext(Node* next);
 
         int getPosicaoVertice();
 
-        ListaAdjacencia* lista_arestas; 
-
     private:
-        Node* next;
-        NodeType nodeType; 
-
-        // type = 0
-        int value; 
-
-        // type = 1
         int posicao_vertice;
-        int qtde_arestas;
+        NodeVertice* next;
 };
+
 
 class ListaAdjacencia{
     public:
+        ListaAdjacencia();
         ~ListaAdjacencia();
 
         Node* getHead();
-        int getSize();
 
-        void addVertice(int value);
+        void addNodeVertice(int value);
         void printList();
         void deleteList();
 
     private:
-        Node* head;
+        NodeVertice* head;
         int size;
 };
 

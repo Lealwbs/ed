@@ -22,9 +22,9 @@ class List{
         List();
         ~List();
 
-        void addNode(int value);
+        Node* getHead();
         int getSize();
-
+        void addNode(int value);
         void printList();
 
     private:
@@ -35,34 +35,42 @@ class List{
 class NodeVertice{ 
 
     public:
-        NodeVertice(Node* next = nullptr);
+        NodeVertice(int posicao_vertice, NodeVertice* next = nullptr);
         ~NodeVertice();
 
-        Node* getNext();
-        void setNext(Node* next);
-
         int getPosicaoVertice();
+        void setNext(NodeVertice* next);
+        NodeVertice* getNext();
+        int getSizeLista();
+        void addArestaInside(int aresta_value);
+
+        void printLista();
 
     private:
         int posicao_vertice;
         NodeVertice* next;
+        List arestas;
 };
-
 
 class ListaAdjacencia{
     public:
         ListaAdjacencia();
         ~ListaAdjacencia();
 
-        Node* getHead();
+        NodeVertice* getHeadLista();
 
-        void addNodeVertice(int value);
-        void printList();
-        void deleteList();
+        void addNodeVertice();
+
+        int getSizeLista();
+
+        void addAresta(int posicao_vertice, int aresta_value);
+        NodeVertice* findVerticeByPosition(int posicao_vertice);
+
+        void printLista();
 
     private:
-        NodeVertice* head;
-        int size;
+        NodeVertice* headLista;
+        int sizeLista;
 };
 
 #endif

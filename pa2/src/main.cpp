@@ -4,16 +4,36 @@
 
 int main(){
 
-    List Vetor;
+    // List Vetor;
 
-    Vetor.addNode(1);
-    Vetor.addNode(2);
-    Vetor.addNode(2);
-    Vetor.addNode(2);
+    // Vetor.addNode(1);
+    // Vetor.addNode(2);
+    // Vetor.addNode(2);
+    // Vetor.addNode(2);
 
-    Vetor.printList();
-    std::cout << Vetor.getSize() << std::endl;
-    return 0;
+    // Vetor.printList();
+    // std::cout << Vetor.getSize() << std::endl;
+    // return 0;
+
+    ListaAdjacencia vetor;
+
+    std::cout << vetor.getSizeLista() << std::endl;
+    vetor.addNodeVertice();
+    vetor.addNodeVertice();
+    vetor.addNodeVertice();
+    std::cout << vetor.getSizeLista() << std::endl;
+    
+    std::cout << (vetor.findVerticeByPosition(0))->getSizeLista() << std::endl;
+    // vetor.addAresta(0, 200);
+    // vetor.addAresta(0, 300);
+    // vetor.addAresta(0, 400);
+
+    // vetor.addNodeVertice();
+    // vetor.addAresta(1, 5);
+    // vetor.addAresta(1, 6);
+    // vetor.addAresta(1, 5);
+
+    // vetor.printLista();
 
 }
 

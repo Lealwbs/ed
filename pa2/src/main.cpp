@@ -18,22 +18,31 @@ int main(){
     ListaAdjacencia vetor;
 
     std::cout << vetor.getSizeLista() << std::endl;
-    vetor.addNodeVertice();
-    vetor.addNodeVertice();
-    vetor.addNodeVertice();
+    vetor.addManyNodeVertices(6);
     std::cout << vetor.getSizeLista() << std::endl;
     
-    std::cout << (vetor.findVerticeByPosition(0))->getSizeLista() << std::endl;
-    // vetor.addAresta(0, 200);
-    // vetor.addAresta(0, 300);
-    // vetor.addAresta(0, 400);
+    vetor.addAresta(0, 2);
+    vetor.addAresta(0, 5);
 
-    // vetor.addNodeVertice();
-    // vetor.addAresta(1, 5);
-    // vetor.addAresta(1, 6);
-    // vetor.addAresta(1, 5);
+    vetor.addAresta(1, 2);
+    vetor.addAresta(1, 4);
+    vetor.addAresta(1, 5);
 
-    // vetor.printLista();
+    vetor.addAresta(2, 0);
+    vetor.addAresta(2, 1);
+    vetor.addAresta(2, 4);
+
+    vetor.addAresta(3, 5);
+    
+    vetor.addAresta(4, 1);
+    vetor.addAresta(4, 2);
+
+    vetor.addAresta(5, 0);
+    vetor.addAresta(5, 1);
+    vetor.addAresta(5, 3);
+    
+    vetor.printListaInformation();
+
 
 }
 

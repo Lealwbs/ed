@@ -23,6 +23,7 @@ class List{
         ~List();
 
         Node* getHead();
+        Node* getTail();
         int getSize();
         void addNode(int value);
         void printList();
@@ -58,19 +59,23 @@ class ListaAdjacencia{
         ~ListaAdjacencia();
 
         NodeVertice* getHeadLista();
+        NodeVertice* getTailLista();
 
         void addNodeVertice();
+        void addManyNodeVertices(int qtdeVertices);
 
         int getSizeLista();
+        int getQtdeArestas();
 
         void addAresta(int posicao_vertice, int aresta_value);
-        NodeVertice* findVerticeByPosition(int posicao_vertice);
 
-        void printLista();
+        void printListaFullInformation();
+        void printListaInformation();
 
     private:
         NodeVertice* headLista;
         int sizeLista;
+        int qtdeArestas;
 };
 
 #endif

@@ -52,9 +52,27 @@ int List::getSize(){
     return this->size;
 };
 
+Node* List::getTail(){
+    if (this->size == 0){
+        return nullptr;
+    } else {
+        Node* current = this->head;
+        while(current->getNext() != nullptr){
+            current = current->getNext();
+        };
+        return current;
+    };
+};
+
 void List::addNode(int value){
-    Node* newNode = new Node(value, this->head);
-    this->head = newNode; 
+    Node* newNode = new Node(value, nullptr);
+    
+    if(this->size == 0){
+        this->head = newNode; 
+    } else {
+        Node* current = this->getTail();
+        current->setNext(newNode);
+    }
     this->size++;
 };
 
@@ -77,7 +95,7 @@ NodeVertice::NodeVertice(int posicao_vertice, NodeVertice* next){
 NodeVertice::~NodeVertice(){
     this->next = nullptr;
     this->posicao_vertice = -1;
-    delete &(this->arestas);
+    // delete &(this->arestas);
 };
 
 int NodeVertice::getPosicaoVertice(){
@@ -97,7 +115,7 @@ int NodeVertice::getSizeLista(){
 };
 
 void NodeVertice::addArestaInside(int aresta_value){
-    arestas.addNode(aresta_value);
+    this->arestas.addNode(aresta_value);
 };
 
 void NodeVertice::printLista(){
@@ -107,8 +125,9 @@ void NodeVertice::printLista(){
 // *****************************
 
 ListaAdjacencia::ListaAdjacencia(){
-    this->sizeLista = 0;
     this->headLista = nullptr;
+    this->sizeLista = 0;
+    this->qtdeArestas = 0;
 };
 
 ListaAdjacencia::~ListaAdjacencia(){
@@ -118,44 +137,75 @@ ListaAdjacencia::~ListaAdjacencia(){
         current = current->getNext();
         delete temp;
     }
-    this->sizeLista = 0;
     this->headLista = nullptr;
+    this->sizeLista = 0;
+    this->qtdeArestas = 0;
+};
+
+NodeVertice* ListaAdjacencia::getTailLista(){
+    if (this->sizeLista == 0){
+        return nullptr;
+    } else {
+        NodeVertice* current = this->headLista;
+        while(current->getNext() != nullptr){
+            current = current->getNext();
+        };
+        return current;
+    };
 };
 
 void ListaAdjacencia::addNodeVertice(){
-    NodeVertice* newNodeVertice = new NodeVertice(sizeLista+1, this->headLista);
-    this->headLista = newNodeVertice;
+    NodeVertice* newNodeVertice = new NodeVertice(sizeLista+1, nullptr);
+    
+    if (this->sizeLista == 0){
+        this->headLista = newNodeVertice;
+    } else {
+        NodeVertice* current = this->getTailLista();
+        current->setNext(newNodeVertice);
+    }
     this->sizeLista++;
+};
+
+void ListaAdjacencia::addManyNodeVertices(int qtdeVertices){
+    for(int i=0; i<qtdeVertices; i++){
+        this->addNodeVertice();
+    };
 };
 
 int ListaAdjacencia::getSizeLista(){
     return this->sizeLista;
 };
 
-void ListaAdjacencia::addAresta(int posicao_vertice, int aresta_value){
-    NodeVertice* current = this->findVerticeByPosition(posicao_vertice);
-    current->addArestaInside(aresta_value);
+int ListaAdjacencia::getQtdeArestas(){
+    return this->qtdeArestas;
 };
 
-NodeVertice* ListaAdjacencia::findVerticeByPosition(int posicao_vertice){
+void ListaAdjacencia::addAresta(int posicao_vertice, int aresta_value){
     NodeVertice* current = this->headLista;
-    while(current != nullptr){
-        if(current->getPosicaoVertice() == posicao_vertice){
-            return current;
-        };
+    for(int i = 0; i < posicao_vertice; i++){
         current = current->getNext();
     };
-    return nullptr;
+    current->addArestaInside(aresta_value);
+    this->qtdeArestas++;
 };
 
-void ListaAdjacencia::printLista(){
+void ListaAdjacencia::printListaFullInformation(){
     NodeVertice* current = this->headLista;
     while(current != nullptr){
-        std::cout << current->getPosicaoVertice() << "º Vertice - ";
-        std::cout << "Size:" << current->getSizeLista() << " | ";
+        std::cout << "Vertice " << current->getPosicaoVertice() << " ";
+        std::cout << "(Size: " << current->getSizeLista() << ") | ";
         current->printLista();
         std::cout << std::endl;
 
         current = current->getNext();
-    }
-}
+    };
+};
+
+void ListaAdjacencia::printListaInformation(){
+    NodeVertice* current = this->headLista;
+    while(current != nullptr){
+        current->printLista();
+        std::cout << std::endl;
+        current = current->getNext();
+    };
+};

@@ -146,6 +146,10 @@ ListaAdjacencia::~ListaAdjacencia(){
     this->qtdeArestas = 0;
 };
 
+NodeVertice* ListaAdjacencia::getHeadLista(){
+    return this->headLista;
+};
+
 NodeVertice* ListaAdjacencia::getTailLista(){
     if (this->sizeLista == 0){
         return nullptr;

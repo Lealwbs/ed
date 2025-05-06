@@ -1,3 +1,4 @@
+#include "list.hpp"
 #include "graph.hpp"
 
 Grafo::Grafo(){};
@@ -20,11 +21,33 @@ int Grafo::QuantidadeArestas(){
 };
 
 int Grafo::GrauMinimo(){
-  return 0;
+  int grauMin = 99999;
+
+  NodeVertice* current = nullptr;
+  current = this->vertices.getHeadLista();
+
+  for(int i=0; i<(this->QuantidadeVertices()); i++){
+    if(current->getSizeLista() < grauMin){
+      grauMin = current->getSizeLista();
+    };          
+    current = current->getNext();
+  };
+  return grauMin;
 };
 
 int Grafo::GrauMaximo(){
-  return 0;
+  int grauMax = 0;
+
+  NodeVertice* current = nullptr;
+  current = this->vertices.getHeadLista();
+
+  for(int i=0; i<(this->QuantidadeVertices()); i++){
+    if(current->getSizeLista() > grauMax){
+      grauMax = current->getSizeLista();
+    };          
+    current = current->getNext();
+  };
+  return grauMax;
 };
 
 void Grafo::ImprimeVizinhos(int v){

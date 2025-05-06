@@ -4,11 +4,11 @@ Grafo::Grafo(){};
 Grafo::~Grafo(){};
 
 void Grafo::InsereVertice(){
-  void addNodeVertice();
+  this->vertices.addNodeVertice();
 };
 
 void Grafo::InsereAresta(int v, int w){
-  return this->vertices.addAresta(v, w);
+  this->vertices.addAresta(v, w);
 };
 
 int Grafo::QuantidadeVertices(){
@@ -16,7 +16,7 @@ int Grafo::QuantidadeVertices(){
 };
 
 int Grafo::QuantidadeArestas(){
-  return this->vertices.getQtdeArestas();
+  return (this->vertices.getQtdeArestas())/2;
 };
 
 int Grafo::GrauMinimo(){

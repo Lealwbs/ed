@@ -45,7 +45,11 @@ List::~List(){
 };
 
 Node* List::getHead(){
-    return this->head;
+    if(this->size > 0){
+        return this->head;
+    } else {
+        return nullptr;
+    };
 };
 
 int List::getSize(){
@@ -66,13 +70,14 @@ Node* List::getTail(){
 
 void List::addNode(int value){
     Node* newNode = new Node(value, nullptr);
-    
-    if(this->size == 0){
+
+    if(this->head == nullptr){
         this->head = newNode; 
     } else {
         Node* current = this->getTail();
         current->setNext(newNode);
-    }
+    };
+
     this->size++;
 };
 
@@ -95,7 +100,6 @@ NodeVertice::NodeVertice(int posicao_vertice, NodeVertice* next){
 NodeVertice::~NodeVertice(){
     this->next = nullptr;
     this->posicao_vertice = -1;
-    // delete &(this->arestas);
 };
 
 int NodeVertice::getPosicaoVertice(){
@@ -182,9 +186,11 @@ int ListaAdjacencia::getQtdeArestas(){
 
 void ListaAdjacencia::addAresta(int posicao_vertice, int aresta_value){
     NodeVertice* current = this->headLista;
+
     for(int i = 0; i < posicao_vertice; i++){
         current = current->getNext();
     };
+
     current->addArestaInside(aresta_value);
     this->qtdeArestas++;
 };

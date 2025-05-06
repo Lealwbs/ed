@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "graph.hpp"
+#include "../include/graph.hpp"
 
 int main(int argc, char* argv[]){
 

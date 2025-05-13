@@ -26,7 +26,8 @@ int main(){
     };
 
     for(int i=0; i<tamMinHeap; i++){
-        std::cout <<  Vetor[i]  << std::endl;
-    };
+        std::cout <<  Vetor[i] << ' '; //  << std::endl;
+    }; 
+    std::cout << std::endl;
     return 0;
 }

@@ -1,33 +1,27 @@
 #include "heap.hpp"
 #include <iostream>
 #include <vector>
+#include <list>
 
 int main(){
-    //class Heap MinHeap;
 
     int tamMinHeap = 0, entrada;
     std::cin >> tamMinHeap;
-    std::cout << tamMinHeap << std::endl;
+    // std::cout << "Tamanho Heap: " << tamMinHeap << std::endl;
 
-    int Vetor[tamMinHeap];
+    if(entrada == 0){};
+
+    class Heap MinHeap(tamMinHeap);
 
     for(int i=0; i<tamMinHeap; i++){
-
         std::cin >> entrada;
-        Vetor[i] = entrada;
-        //inserir entrada na estrutura de dados na ordem de leitura
-        //minheapsize ++ 
-
-
-
-        //remover todos os elementos do minheap e imprimilos na ordem de remoção separados por " ", com endl;
-
-
+        MinHeap.Inserir(entrada);
     };
 
     for(int i=0; i<tamMinHeap; i++){
-        std::cout <<  Vetor[i] << ' '; //  << std::endl;
+        std::cout <<  MinHeap.Remover() << ' '; //  << std::endl;
     }; 
     std::cout << std::endl;
+
     return 0;
 }

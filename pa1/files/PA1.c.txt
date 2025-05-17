@@ -107,6 +107,7 @@ char * printsortperf(sortperf_t * s, char * str, char * pref){
  return str;
 }
 
+
 void initVector(int * vet, int size){
 // Descricao: inicializa vet com valores aleatorios
 // Entrada: vet
@@ -114,7 +115,7 @@ void initVector(int * vet, int size){
   int i;
   // inicializa a parte alocada da vetor com valores aleatorios
   for (i=0; i<size; i++){
-    ///////////////////////////vet[i] = (int)(drand48()*size);
+    vet[i] = (int)(drand48()*size);
   }
 }
 
@@ -307,7 +308,7 @@ int main (int argc, char ** argv){
 
   // initialize
   resetcounter(&s);
-  /////////////////////////// srand48(opt.seed);
+  srand48(opt.seed);
   initVector(vet, opt.size);
   vet[opt.size] = vet[0]; // for heapsort
   //if (opt.size < 100) printVector(vet, opt.size);

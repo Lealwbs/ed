@@ -1,4 +1,5 @@
 #include "heap.hpp"
+#include <iostream>
 #include <algorithm> // para std::swap
 
 Heap::Heap(int maxsize){
@@ -11,44 +12,29 @@ Heap::~Heap(){
     delete[] data;
 };
 
-// void Heap::Inserir(int x){
-//     this->data[this->tamanho] = x;
-//     (this->tamanho)++;
-// };
-
-// int Heap::Remover(){
-//     if( this->tamanho == 0 ){
-//         return -1;
-//     };
-
-//     int tmp_first_element = data[0];
-//     for(int i=0; i<(this->tamanho-1); i++){
-//     data[i] = data[i+1];
-//     };
-
-//     data[tamanho-1] = 0;
-//     this->tamanho--;
-
-//     return tmp_first_element;
-// };
-
-
-void Heap::Inserir(int x) {
+void Heap::Inserir(int x){
     data[tamanho] = x;
+
     HeapifyPorCima(tamanho);
     tamanho++;
-}
 
-int Heap::Remover() {
-    if (tamanho == 0) return -1;
+    // std::cout << "HEAP: ";
+    // for(int j=0; j<tamanho; j++){
+    //     std::cout << data[j] << " ";
+    // };
+    // std::cout << std::endl;
+};
 
-    int min = data[0];
-    data[0] = data[tamanho - 1];
+int Heap::Remover(){
+    if( tamanho == 0 ) return -1;
+ 
+    int first_element = data[0];
+    data[0] = data[tamanho-1];
     tamanho--;
-    HeapifyPorBaixo(0);
 
-    return min;
-}
+    HeapifyPorBaixo(0);
+    return first_element;
+};
 
 //Retorna true caso o heap esteja vazio, false caso contrário.
 bool Heap::Vazio(){
@@ -70,29 +56,33 @@ int Heap::GetSucessorDir(int posicao){
 // Funções necessárias para implementar o Heapify recursivo
 // Você pode apagar elas caso decida implementar o Heapify iterativo
     
-void Heap::HeapifyPorCima(int posicao) {
-    if (posicao == 0) return;
+void Heap::HeapifyPorCima(int posicao){
+    if(posicao == 0) return;
     int pai = GetAncestral(posicao);
 
-    if (data[posicao] < data[pai]) {
-        std::swap(data[posicao], data[pai]);
-        HeapifyPorCima(pai);
-    }
-}
+    if(data[pai] > data[posicao]){
+        int tmp = data[pai];
+        data[pai] = data[posicao];
+        data[posicao] = tmp;
 
-void Heap::HeapifyPorBaixo(int posicao) {
+        HeapifyPorCima(pai);
+    };
+};
+
+void Heap::HeapifyPorBaixo(int posicao){
     int menor = posicao;
     int esq = GetSucessorEsq(posicao);
     int dir = GetSucessorDir(posicao);
 
-    if (esq < tamanho && data[esq] < data[menor]) {
-        menor = esq;
-    }
-    if (dir < tamanho && data[dir] < data[menor]) {
-        menor = dir;
-    }
-    if (menor != posicao) {
-        std::swap(data[posicao], data[menor]);
+    if(esq < tamanho && data[esq] < data[menor]) menor = esq;
+    if(dir < tamanho && data[dir] < data[menor]) menor = dir;
+
+    if(menor != posicao){
+        int tmp = data[posicao];
+        data[posicao] = data[menor];
+        data[menor] = tmp;
+
         HeapifyPorBaixo(menor);
-    }
-}
+    };
+};
+

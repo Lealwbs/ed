@@ -28,8 +28,8 @@ class Heap{
         /* Funções necessárias para implementar o Heapify recursivo
          * Você pode apagar elas caso decida implementar o Heapify iterativo
          */
-        void HeapifyPorBaixo(int posicao);
         void HeapifyPorCima(int posicao);
+        void HeapifyPorBaixo(int posicao);
 };
 
 

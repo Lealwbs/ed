@@ -1,0 +1,22 @@
+TP1 - VPL de Entrega
+ Número máximo de arquivos: 20
+Tipo de trabalho:  Trabalho individual
+Esta é a VPL destinada à entrega do seu trabalho.
+
+É importante ressaltar que os pontos obtidos nesta etapa não representam sua nota final, pois a avaliação completa levará em consideração outros critérios descritos na documentação do trabalho prático. Certifique-se de estar ciente de todas as diretrizes para garantir o correto atendimento aos requisitos.
+
+Você poderá realizar quantos envios quiser, permitindo ajustes e melhorias contínuas no seu código. Para a avaliação final, será considerada a nota máxima obtida entre todos os envios realizados.
+
+OBSERVAÇÃO IMPORTANTE!
+
+Seu código deve ser executado utilizando a seguinte linha de comando:
+
+bin/tp1.out arquivo.txt
+
+É importante destacar que o nome do arquivo não será necessariamente "arquivo.txt"; seu código deve ser capaz de receber qualquer arquivo como argumento e funcionar corretamente, independentemente do nome utilizado.
+
+Além disso, os arquivos fornecidos para avaliação não serão idênticos aos exemplos apresentados no enunciado ou aos arquivos disponibilizados para teste, porém, seguirão o mesmo formato. Portanto, é essencial que seu código esteja preparado para processar qualquer arquivo dentro desse formato, garantindo sua correta execução.
+
+Por fim, fique atento ao formato de saída, que deve seguir rigorosamente o exemplo fornecido na documentação do trabalho. A saída do programa deve ser exibida no terminal, e qualquer desvio em relação ao formato especificado poderá comprometer a sua avaliação.
+
+ATENÇÃO! Para todos os cálculos (leitura dos coeficientes) e impressões na saída, a quantidade de dígitos após a vírgula devem seguir o exemplo presente no enunciado, pois o VPL compara as saídas e só funciona se elas estiverem rigorosamente iguais, dica: use double.

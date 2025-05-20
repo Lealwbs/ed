@@ -20,3 +20,22 @@ Além disso, os arquivos fornecidos para avaliação não serão idênticos aos 
 Por fim, fique atento ao formato de saída, que deve seguir rigorosamente o exemplo fornecido na documentação do trabalho. A saída do programa deve ser exibida no terminal, e qualquer desvio em relação ao formato especificado poderá comprometer a sua avaliação.
 
 ATENÇÃO! Para todos os cálculos (leitura dos coeficientes) e impressões na saída, a quantidade de dígitos após a vírgula devem seguir o exemplo presente no enunciado, pois o VPL compara as saídas e só funciona se elas estiverem rigorosamente iguais, dica: use double.
+
+
+
+##### TP1 - VPL Exemplo (TESTES)
+
+Estamos disponibilizando alguns exemplos similares (mas não idênticos) aos que estão no VPL, para que vocês possam testar localmente, e tirar suas dúvidas no fórum ou na monitoria.
+
+Este exercício NÃO é avaliativo, e portanto vocês não devem entregá-lo.
+
+ OBSERVAÇÃO:
+
+Cada testeX.txt possui uma seção de input, o que estiver entre os marcadores desta seção vocês devem copiar, colar em um arquivo de nome arbitrário (ex: arquivo.txt) e dar de entrada para seu programa. O restante do .txt contém o output esperado que deve ser impresso no terminal pelo seu programa, vocês podem comparar estes textos. As linhas marcadas com "#######" não fazem parte do input e nem do output e podem/devem ser deletadas.
+
+
+Exemplos de documentações de semestres anteriores:
+https://drive.google.com/drive/folders/1sfjIvzIYMxGCWAycj_j6L1QXezAI-Mm3?usp=sharing 
+
+Video sobre Makefile, e Compilação
+https://www.youtube.com/watch?v=v9mWnGrAKUQ&feature=youtu.be

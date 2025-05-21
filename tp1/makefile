@@ -31,17 +31,17 @@ OBJ_FOLDER = ./obj/
 SRC_FOLDER = ./src/
 
 # all sources, objs, and header files
-MAIN = Main
+MAIN = main
 TARGET = tp1.out
-SRC = $(wildcard $(SRC_FOLDER)*.cc)
-OBJ = $(patsubst $(SRC_FOLDER)%.cc, $(OBJ_FOLDER)%.o, $(SRC))
+SRC = $(wildcard $(SRC_FOLDER)*.cpp)
+OBJ = $(patsubst $(SRC_FOLDER)%.cpp, $(OBJ_FOLDER)%.o, $(SRC))
 TEXT_FILES = ./files/tests/teste8.txt
-
-$(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.cc
-	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE_FOLDER)
 
 all: $(OBJ)
 	$(CC) $(CXXFLAGS) -o $(BIN_FOLDER)$(TARGET) $(OBJ)
+
+$(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.cpp
+	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE_FOLDER)
 
 run: all
 	clear
@@ -49,4 +49,4 @@ run: all
 
 clean:
 	@rm -rf $(OBJ_FOLDER)* $(BIN_FOLDER)*
-	bin/tp1.out arquivo.txt
+	bin/tp1.out

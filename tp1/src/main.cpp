@@ -1,7 +1,9 @@
-#include "Test.h"
 #include <iostream>
 #include <fstream>
-#include <string>
+
+#include "ordenador_universal.hpp"
+#include "sorting_algorithms.hpp" 
+#include "stats.hpp" 
 
 int main(int argc, char* argv[]) {
 
@@ -30,10 +32,10 @@ int main(int argc, char* argv[]) {
 
     int* vetor = new int[tam];
 
-    std::string linha;
+    int linha;
     for(int i=0; i<tam; i++) {
         arquivo >> linha;
-        vetor[i] = stoi(linha);
+        vetor[i] = linha;
     };
 
     ///////////////// IMPRIMIR VETOR /////////////////
@@ -45,5 +47,6 @@ int main(int argc, char* argv[]) {
     // Test* pTest = new Test();
     // pTest->Print();
     arquivo.close();
+
     return 0;
 }

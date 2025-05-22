@@ -5,16 +5,23 @@
 
 class Stats{
     public:
-        Stats();
+        Stats(double a, double b, double c);
         ~Stats();
 
         void resetCounter();
+        void calculateCost();
         void incCmp(int num);
         void incMove(int num);
         void incCalls(int num);
         void printStats();
+        void printAtributes();
 
     private:
+        double a;
+        double b;
+        double c;
+        double cost;
+        
         int cmp;
         int move;
         int calls;

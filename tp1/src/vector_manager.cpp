@@ -2,12 +2,12 @@
 #include <iostream>
 
 void vectorManager::initSeed(int seed){
-    srand48(seed);
+    srand(seed);
 };
 
 void vectorManager::initVector(int array[], int size){
     for (int i = 0; i < size; i++){
-        array[i] = (int)(drand48() * size);
+        array[i] = rand() % size;
     };
 };
 

@@ -3,11 +3,13 @@
 
 #define QUICK_SORT_SIZE 50
 
-void SortingAlgorithms::swap(int* a, int* b, Stats* stats) {
+Stats SortingAlgorithms::stats(1, 1, 1);
+
+void SortingAlgorithms::swap(int* a, int* b) {
     int temp = *a;
     *a = *b;
     *b = temp;
-    stats->incMove(3);
+    stats.incMove(3);
 }
 
 int SortingAlgorithms::medianOf3Integers(int a, int b, int c) {
@@ -19,51 +21,50 @@ int SortingAlgorithms::medianOf3Integers(int a, int b, int c) {
     return b;                            // c b a
 };
 
-void SortingAlgorithms::_insertionSort(int array[], int left, int right, Stats* stats) {
-    stats->incCalls(1);
+void SortingAlgorithms::_insertionSort(int array[], int left, int right) {
+    stats.incCalls(1);
     for (int i = left + 1; i <= right; i++) {
-        stats->incCmp(1);
+        stats.incCmp(1);
         int value = array[i];
-        stats->incMove(1);
+        stats.incMove(1);
         int j = i - 1;
 
         while (j >= left && value < array[j]) {
-            stats->incCmp(1);
+            stats.incCmp(1);
             array[j + 1] = array[j];
-            stats->incMove(1);
+            stats.incMove(1);
             j--;
         }
         array[j + 1] = value;
-        stats->incMove(1);
+        stats.incMove(1);
     }
 }
 
-
-void SortingAlgorithms::_quickSort3Ins(int array[], int left, int right, Stats* stats) {
-    stats->incCalls(1);
+void SortingAlgorithms::_quickSort3Ins(int array[], int left, int right) {
+    stats.incCalls(1);
     int start, end;
 
-    partition3(array, left, right, &start, &end, stats);
+    partition3(array, left, right, &start, &end);
 
     if (left < end) {
         if (end - left <= QUICK_SORT_SIZE) {
-            _insertionSort(array, left, end, stats);
+            _insertionSort(array, left, end);
         } else {
-            _quickSort3Ins(array, left, end, stats);
+            _quickSort3Ins(array, left, end);
         }
     }
 
     if (start < right) {
         if (right - start <= QUICK_SORT_SIZE) {
-            _insertionSort(array, start, right, stats);
+            _insertionSort(array, start, right);
         } else {
-            _quickSort3Ins(array, start, right, stats);
+            _quickSort3Ins(array, start, right);
         }
     }
 }
 
-void SortingAlgorithms::partition3(int array[], int left, int right, int* start, int* end, Stats* stats) {
-    stats->incCalls(1);
+void SortingAlgorithms::partition3(int array[], int left, int right, int* start, int* end) {
+    stats.incCalls(1);
 
     *start = left;
     *end = right;
@@ -73,28 +74,28 @@ void SortingAlgorithms::partition3(int array[], int left, int right, int* start,
     do {
         while (array[*start] < pivot) {
             (*start)++;
-            stats->incCmp(1);
+            stats.incCmp(1);
         }
-        stats->incCmp(1);
+        stats.incCmp(1);
 
         while (array[*end] > pivot) {
             (*end)--;
-            stats->incCmp(1);
+            stats.incCmp(1);
         }
-        stats->incCmp(1);
+        stats.incCmp(1);
 
         if (*start <= *end) {
-            swap(&array[*start], &array[*end], stats);
+            swap(&array[*start], &array[*end]);
             (*start)++;
             (*end)--;
         }
     } while (*start <= *end);
 }
 
-void SortingAlgorithms::InsertionSort(int array[], int tam, Stats *stats){
-    _insertionSort(array, 0, tam - 1, stats);
+void SortingAlgorithms::InsertionSort(int array[], int tam){
+    _insertionSort(array, 0, tam - 1);
 };
 
-void SortingAlgorithms::QuickSort(int array[], int tam, Stats *stats){
-    _quickSort3Ins(array, 0, tam - 1, stats);
+void SortingAlgorithms::QuickSort(int array[], int tam){
+    _quickSort3Ins(array, 0, tam - 1);
 };

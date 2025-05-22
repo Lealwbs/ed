@@ -47,6 +47,5 @@ run: all
 	clear
 	bin/tp1.out $(TEXT_FILES)
 
-clean:
+clean: bin
 	@rm -rf $(OBJ_FOLDER)* $(BIN_FOLDER)*
-	bin/tp1.out

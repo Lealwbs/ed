@@ -3,14 +3,14 @@
 
 #define QUICK_SORT_SIZE 50
 
-void SortingAlgorithms::swap(int *x, int *y, Stats* stats){
-    int temp = *x;
-    *x = *y;
-    *y = temp;
+void SortingAlgorithms::swap(int* a, int* b, Stats* stats) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
     stats->incMove(3);
-};
+}
 
-int SortingAlgorithms::medianOf3Integers (int a, int b, int c) {
+int SortingAlgorithms::medianOf3Integers(int a, int b, int c) {
     if ((a <= b) && (b <= c)) return b;  // a b c
     if ((a <= c) && (c <= b)) return c;  // a c b
     if ((b <= a) && (a <= c)) return a;  // b a c
@@ -19,51 +19,74 @@ int SortingAlgorithms::medianOf3Integers (int a, int b, int c) {
     return b;                            // c b a
 };
 
-void SortingAlgorithms::insertionSort(int vetor[], int ini, int fim, Stats * stats) {
-    int k, m;
-    int valor;
+void SortingAlgorithms::insertionSort(int array[], int left, int right, Stats* stats) {
     stats->incCalls(1);
-    for (k = ini + 1; k <= fim; k++) {
+    for (int i = left + 1; i <= right; i++) {
         stats->incCmp(1);
-        valor = vetor[k];
+        int value = array[i];
         stats->incMove(1);
-        m = k - 1;
-        while ((m >= 0) && (valor < vetor[m])) {
+        int j = i - 1;
+
+        while (j >= left && value < array[j]) {
             stats->incCmp(1);
-            vetor[m + 1] = vetor[m];
+            array[j + 1] = array[j];
             stats->incMove(1);
-            m--;
-        };
-        vetor[m + 1] = valor;
+            j--;
+        }
+        array[j + 1] = value;
         stats->incMove(1);
-    };
-};
+    }
+}
 
 
-// void quickSort_partition3(int* array, int left, int right, int* start, int* end, Stats* stats) {
-//     int pivot;
-//     stats->incCalls(1);
-//     *start = left;
-//     *end = right;
-//     pivot = medianOf3Integers(array[left], array[(*start + *end) / 2], array[right]);
+void SortingAlgorithms::quickSort3Ins(int array[], int left, int right, Stats* stats) {
+    stats->incCalls(1);
+    int start, end;
 
-//     do {
-//         while (pivot > array[*start]) {
-//             (*start)++;
-//             stats->incCmp(1);
-//         };
-//         stats->incCmp(1);
+    partition3(array, left, right, &start, &end, stats);
 
-//         while (pivot < array[*end]) {
-//             (*end)--;
-//             stats->incCmp(1);
-//         };
-//         stats->incCmp(1);
+    if (left < end) {
+        if (end - left <= QUICK_SORT_SIZE) {
+            insertionSort(array, left, end, stats);
+        } else {
+            quickSort3Ins(array, left, end, stats);
+        }
+    }
 
-//         if (*start <= *end) {
-//             swap(&array[*start], &array[*end], stats);
-//             (*start)++;
-//             (*end)--;
-//         };
-//     } while (*start <= *end);
-// };
+    if (start < right) {
+        if (right - start <= QUICK_SORT_SIZE) {
+            insertionSort(array, start, right, stats);
+        } else {
+            quickSort3Ins(array, start, right, stats);
+        }
+    }
+}
+
+void SortingAlgorithms::partition3(int array[], int left, int right, int* start, int* end, Stats* stats) {
+    stats->incCalls(1);
+
+    *start = left;
+    *end = right;
+
+    int pivot = medianOf3Integers(array[left], array[(left + right) / 2], array[right]);
+
+    do {
+        while (array[*start] < pivot) {
+            (*start)++;
+            stats->incCmp(1);
+        }
+        stats->incCmp(1);
+
+        while (array[*end] > pivot) {
+            (*end)--;
+            stats->incCmp(1);
+        }
+        stats->incCmp(1);
+
+        if (*start <= *end) {
+            swap(&array[*start], &array[*end], stats);
+            (*start)++;
+            (*end)--;
+        }
+    } while (*start <= *end);
+}

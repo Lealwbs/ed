@@ -1,49 +1,57 @@
 #include <iostream>
 #include <fstream>
 
-#include "ordenador_universal.hpp"
-#include "sorting_algorithms.hpp" 
-#include "vector_manager.hpp" 
-#include "stats.hpp" 
+#include "../include/ordenador.hpp"
+#include "../include/sorting_algorithms.hpp" 
+#include "../include/vector_manager.hpp" 
+#include "../include/stats.hpp" 
 
 void tests(){
 
-    SortingAlgorithms SortData;
+    SortingAlgorithms sort;
 
     double a = 0.0121560;
     double b = -0.0063780;
     double c = 0.0172897;
 
-    SortData.stats.setAtributes(a, b, c);
+    sort.stats.setAtributes(a, b, c);
 
     int seed = 1;
-    int size = 30;
+    int size = 100;
     int* vector = new int[size];
 
-    vectorManager::initSeed(seed);
-    vectorManager::initVector(vector, size);
-    // std::cout << "Initial vector: ";
-    vectorManager::printVector(vector, size);
-    
-    
-    std::cout << "InsertionSort ################################" << std::endl;
 
-    SortingAlgorithms::InsertionSort(vector, size);
-    // std::cout << "Sorted vector: ";
-    vectorManager::printVector(vector, size);
-    SortData.stats.printStats();
-    SortData.stats.resetCounter();
+    // vectorManager::initSeed(seed);
+    // vectorManager::initVector(vector, size);
+    // vectorManager::printVector(vector, size);
     
-    std::cout << "QuickSort ################################" << std::endl;
+    Ordenador ordenador = Ordenador();
     
+    // sort.stats.printStats();
+
+    // std::cout << "Universal ################################" << std::endl;
     vectorManager::initSeed(seed);
     vectorManager::initVector(vector, size);
-    
-    SortingAlgorithms::QuickSort(vector, size);
-    // std::cout << "Sorted vector: ";
-    vectorManager::printVector(vector, size);
-    SortData.stats.printStats();
-    
+    ordenador.OrdenadorUniversal(vector, size, 50, 90);
+    sort.stats.printStats();
+
+
+    // std::cout << "InsertionSort ################################" << std::endl;
+    sort.stats.resetCounter();
+    vectorManager::initSeed(seed);
+    vectorManager::initVector(vector, size);
+    sort.InsertionSort(vector, size);
+    sort.stats.printStats();
+
+
+    // std::cout << "QuickSort ################################" << std::endl;
+    sort.stats.resetCounter();
+    vectorManager::initSeed(seed);
+    vectorManager::initVector(vector, size);
+    sort.QuickSort(vector, size, 50);
+    sort.stats.printStats();
+
+    // std::cout << "END ################################" << std::endl;
 }
 
 int main(int argc, char* argv[]) {
@@ -75,11 +83,14 @@ int main(int argc, char* argv[]) {
 
     int* array = new int[tam];
 
+    // Inicializa o vetor com os valores do arquivo
     int linha;
     for(int i=0; i<tam; i++) {
         arquivo >> linha;
         array[i] = linha;
     };
+
+
 
     arquivo.close();
 

@@ -1,7 +1,5 @@
-#include "sorting_algorithms.hpp" 
-#include "stats.hpp"
-
-#define QUICK_SORT_SIZE 50
+#include "../include/sorting_algorithms.hpp" 
+#include "../include/stats.hpp"
 
 Stats SortingAlgorithms::stats(1, 1, 1);
 
@@ -10,7 +8,7 @@ void SortingAlgorithms::swap(int* a, int* b) {
     *a = *b;
     *b = temp;
     stats.incMove(3);
-}
+};
 
 int SortingAlgorithms::medianOf3Integers(int a, int b, int c) {
     if ((a <= b) && (b <= c)) return b;  // a b c
@@ -38,30 +36,30 @@ void SortingAlgorithms::_insertionSort(int array[], int left, int right) {
         array[j + 1] = value;
         stats.incMove(1);
     }
-}
+};
 
-void SortingAlgorithms::_quickSort3Ins(int array[], int left, int right) {
+void SortingAlgorithms::_quickSort3Ins(int array[], int left, int right, int minTamParticaoQS) {
     stats.incCalls(1);
     int start, end;
 
     partition3(array, left, right, &start, &end);
 
     if (left < end) {
-        if (end - left <= QUICK_SORT_SIZE) {
+        if (end - left <= minTamParticaoQS) {
             _insertionSort(array, left, end);
         } else {
-            _quickSort3Ins(array, left, end);
+            _quickSort3Ins(array, left, end, minTamParticaoQS);
         }
     }
 
     if (start < right) {
-        if (right - start <= QUICK_SORT_SIZE) {
+        if (right - start <= minTamParticaoQS) {
             _insertionSort(array, start, right);
         } else {
-            _quickSort3Ins(array, start, right);
+            _quickSort3Ins(array, start, right, minTamParticaoQS);
         }
     }
-}
+};
 
 void SortingAlgorithms::partition3(int array[], int left, int right, int* start, int* end) {
     stats.incCalls(1);
@@ -90,12 +88,12 @@ void SortingAlgorithms::partition3(int array[], int left, int right, int* start,
             (*end)--;
         }
     } while (*start <= *end);
-}
+};
 
 void SortingAlgorithms::InsertionSort(int array[], int tam){
     _insertionSort(array, 0, tam - 1);
 };
 
-void SortingAlgorithms::QuickSort(int array[], int tam){
-    _quickSort3Ins(array, 0, tam - 1);
+void SortingAlgorithms::QuickSort(int array[], int tam, int minTamParticaoQS){
+    _quickSort3Ins(array, 0, tam - 1, minTamParticaoQS);
 };

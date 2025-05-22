@@ -1,4 +1,4 @@
-#include "stats.hpp"
+#include "../include/stats.hpp"
 #include <iostream>
 #include <iomanip>
 #include <math.h>

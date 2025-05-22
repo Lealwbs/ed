@@ -1,8 +1,6 @@
 #ifndef STATS_HPP
 #define STATS_HPP
 
-#include <string>
-
 class Stats{
     public:
         Stats();

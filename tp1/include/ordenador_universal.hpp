@@ -6,33 +6,43 @@
 #include "sorting_algorithms.hpp"
 #include "stats.hpp"
 
-namespace ou {
+class ordenador_Universal {
 
-// Count number of "breaks" (inversions between consecutive elements)
-int countBreaks(const std::vector<int> &data);
+    private:
+        int numQuebras;
+        int seed;
+        int* vetor;
+        int tam;
 
-// Determine optimal partition threshold via empirical cost scanning
-int determinePartitionThreshold(const std::vector<int> &data,
-                                double costThreshold,
-                                double a,
-                                double b,
-                                double c);
+        Stats Default_Stats[10];
+        Stats InsrtSort_Stats[10];
+        Stats QuickSort_Stats[10];
 
-// Determine optimal break threshold via empirical cost scanning
-int determineBreaksThreshold(const std::vector<int> &data,
-                             double costThreshold,
-                             double a,
-                             double b,
-                             double c);
+        ordenador_Universal();
+        ~ordenador_Universal();
+        int MPS_step(int max, int min);
+        int LQ_step(int max, int min);
 
-// Universal sorter: chooses insertion or quicksort based on thresholds
-void universalSort(std::vector<int> &data,
-                   int minPartitionSize,
-                   int breakThreshold,
-                   double a,
-                   double b,
-                   double c);
 
-} // namespace ou
+        void registraEstatisticas(double custo);
 
-#endif // ORDENADOR_UNIVERSAL_HPP
+
+
+        void MPS_imprimeEstatisticas(double custo);
+        void LQ_imprimeEstatisticas(double custo);
+
+
+
+        void calculaNovaFaixa(int limiarParticao, int minMPS, int maxMPS, int passoMPS, int numMPS);
+        int menorCusto();
+
+    public:
+
+        int getNumeroQuebras(int vetor[], int tam);
+        void ordenadorUniversal(int vetor[], int tam, int minTamParticao, int limiarQuebras);
+        int determinaLimiarParticao(int vetor[], int tam, double limiarCusto);
+        int determinaLimiarQuebras(int vetor[], int tam, double limiarCusto);
+
+};
+
+#endif 

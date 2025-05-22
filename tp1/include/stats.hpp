@@ -15,6 +15,7 @@ class Stats{
         void incCalls(int num);
         void printStats();
         void printAtributes();
+        void setAtributes(double a, double b, double c);
 
     private:
         double a;

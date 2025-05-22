@@ -5,6 +5,7 @@
 
 class Stats{
     public:
+        Stats();
         Stats(double a, double b, double c);
         ~Stats();
 

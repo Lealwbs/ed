@@ -1,6 +1,11 @@
 #include "stats.hpp"
 #include <iostream>
 #include <iomanip>
+#include <math.h>
+
+Stats::Stats(){
+    Stats(1, 1, 1);
+};
 
 Stats::Stats(double a, double b, double c){
     this->a = a;
@@ -22,7 +27,7 @@ void Stats::resetCounter(){
 };
 
 void Stats::calculateCost(){
-    cost = a*cmp + b*move + c*calls;
+    cost = fabs(a*cmp + b*move + c*calls);
 };
 
 void Stats::incCmp(int num){

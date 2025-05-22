@@ -3,9 +3,51 @@
 
 #include "ordenador_universal.hpp"
 #include "sorting_algorithms.hpp" 
+#include "vector_manager.hpp" 
 #include "stats.hpp" 
 
+// void tests(){
+
+//     Stats stats1(0.0121560, -0.0063780, 0.0172897);
+//     Stats stats2(0.0121560, -0.0063780, 0.0172897);
+//     stats2.printStats();
+//     int seed = 200000;
+//     int size = 1000;
+//     int* vector = new int[size];
+
+//     vectorManager::initSeed(seed);
+//     vectorManager::initVector(vector, size);
+//     // std::cout << "Initial vector: ";
+//     // vectorManager::printVector(vector, size);
+    
+    
+//     std::cout << "################################" << std::endl;
+
+//     SortingAlgorithms::insertionSort(vector, 0, size - 1, &stats1);
+//     // std::cout << "Sorted vector: ";
+//     // vectorManager::printVector(vector, size);
+//     stats1.printStats();
+    
+//     std::cout << "################################" << std::endl;
+    
+//     vectorManager::initSeed(seed);
+//     vectorManager::initVector(vector, size);
+    
+//     SortingAlgorithms::quickSort3Ins(vector, 0, size - 1, &stats2);
+//     // std::cout << "Sorted vector: ";
+//     // vectorManager::printVector(vector, size);
+//     stats2.printStats();
+    
+// }
+
+// int main() {
+//     tests();
+//     return 0;
+// }
+
 int main(int argc, char* argv[]) {
+
+    tests();
 
     std::ifstream arquivo(argv[1]);
 
@@ -38,14 +80,6 @@ int main(int argc, char* argv[]) {
         vetor[i] = linha;
     };
 
-    ///////////////// IMPRIMIR VETOR /////////////////
-    // std::cout << "##################" << std::endl;
-    // for(int i=0; i<tam; i++) {
-    //     std::cout << vetor[i] << std::endl;
-    // };
-    
-    // Test* pTest = new Test();
-    // pTest->Print();
     arquivo.close();
 
     return 0;

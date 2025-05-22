@@ -25,27 +25,35 @@ CXXFLAGS = -std=c++11 -g -Wall
 #CXXFLAGS = -std=c++11 -O3 -Wall
 
 # folders
-INCLUDE_FOLDER = ./include/
-BIN_FOLDER = ./bin/
-OBJ_FOLDER = ./obj/
-SRC_FOLDER = ./src/
+INCLUDE_FOLDER = ./include
+BIN_FOLDER = ./bin
+OBJ_FOLDER = ./obj
+SRC_FOLDER = ./src
 
 # all sources, objs, and header files
-MAIN = main
-TARGET = tp1.out
-SRC = $(wildcard $(SRC_FOLDER)*.cpp)
-OBJ = $(patsubst $(SRC_FOLDER)%.cpp, $(OBJ_FOLDER)%.o, $(SRC))
+TARGET = tp1
+SRC = $(wildcard $(SRC_FOLDER)/*.cpp)
+OBJ = $(patsubst $(SRC_FOLDER)/%.cpp, $(OBJ_FOLDER)/%.o, $(SRC))
 TEXT_FILES = ./files/tests/teste8.txt
 
-all: $(OBJ)
-	$(CC) $(CXXFLAGS) -o $(BIN_FOLDER)$(TARGET) $(OBJ)
+# OS detection
+ifeq ($(OS),Windows_NT)
+	EXEC_EXT = .exe
+	CLEAR = cls
+else
+	EXEC_EXT = .out
+	CLEAR = clear
+endif
 
-$(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.cpp
+all: $(OBJ)
+	$(CC) $(CXXFLAGS) -o $(BIN_FOLDER)/$(TARGET)$(EXEC_EXT) $(OBJ)
+
+$(OBJ_FOLDER)/%.o: $(SRC_FOLDER)/%.cpp
 	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE_FOLDER)
 
 run: all
-	clear
-	bin/tp1.out $(TEXT_FILES)
+	$(CLEAR)
+	$(BIN_FOLDER)/$(TARGET)$(EXEC_EXT) $(TEXT_FILES)
 
-clean: bin
-	@rm -rf $(OBJ_FOLDER)* $(BIN_FOLDER)*
+clean:
+	@rm -rf $(OBJ_FOLDER)/* $(BIN_FOLDER)/*

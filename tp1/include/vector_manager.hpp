@@ -3,8 +3,9 @@
 
 class vectorManager{
     public:
-        static void initVector(int * vet, int size);
-        static void printVector(int * vet, int size);
+        static void initSeed(int seed);
+        static void initVector(int array[], int size);
+        static void printVector(int array[], int size);
 };
 
 #endif

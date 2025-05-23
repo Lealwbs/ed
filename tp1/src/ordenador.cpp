@@ -211,7 +211,7 @@ int Ordenador::LimQueb_menorCusto(int numMPS, float* menorCustoOutput) {
 
         custo = fabs(custoQuickSort - custoInsertionSort);
 
-        if(i==0 || (custo < menorCusto)){
+        if(i==0 || (custo < menorCusto && custo != 0)){
             menorCusto = custo;
             indexMenorCusto = i;
         }

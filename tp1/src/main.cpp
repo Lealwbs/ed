@@ -20,8 +20,6 @@
 //     int size = 100;
 //     int* vector = new int[size];
 
-
-
 //     // vectorManager::initSeed(seed);
 //     // vectorManager::initVector(vector, size);
 //     // vectorManager::printVector(vector, size);
@@ -106,7 +104,8 @@ int main(int argc, char* argv[]) {
     // std::cout << "################################################" << std::endl << std::endl;
     SortingAlgorithms::setQuickSortSize(limiarParticao);
     SortingAlgorithms::QuickSort(array, tamanhoArray);
-    int limiarQuebras = order.LimQueb_determinaLimiar(array, seed, tamanhoArray, limiarCusto);
+    // int limiarQuebras = order.LimQueb_determinaLimiar(array, seed, tamanhoArray, limiarCusto);
+    order.LimQueb_determinaLimiar(array, seed, tamanhoArray, limiarCusto);
 
     // std::cout << "Limiar de Particao: " << limiarParticao << std::endl;
     // std::cout << "Limiar de Quebras: " << limiarQuebras << std::endl;

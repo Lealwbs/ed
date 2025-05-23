@@ -97,9 +97,9 @@ int Ordenador::LimPart_determinaLimiar(int vetor[], int vetorCopia[], int tam, d
 
         diffCusto = std::fabs(LimPart_Stats[posMinMPS].getCost() - LimPart_Stats[posMaxMPS].getCost());
 
-        std::cout << "nummps: " << numMPS << " ";
-        std::cout << "limParticao: " << LimPart_Stats[limiarParticao].getMinTamParticao() << " ";
-        std::cout << "mpsdiff: " << std::setprecision(6) << diffCusto << std::endl;
+        std::cout << "nummps " << numMPS << " ";
+        std::cout << "limParticao " << LimPart_Stats[limiarParticao].getMinTamParticao() << " ";
+        std::cout << "mpsdiff " << std::fixed << std::setprecision(6) << diffCusto << std::endl << std::endl;
 
         if (iter++ >= 5) {
             std::cout << "Max iterations reached." << std::endl;
@@ -118,7 +118,7 @@ int Ordenador::LimPart_menorCusto(int numMPS) {
     for(int i = 0; i < numMPS; i++){
         custo = fabs(LimPart_Stats[i].getCost());
 
-        if(i == 0 || (menorCusto > custo && custo > 0)){
+        if(i == 0 || (custo < menorCusto && custo > 0)){
             menorCusto = custo;
             indexMenorCusto = i;
         }
@@ -130,3 +130,82 @@ int Ordenador::LimPart_menorCusto(int numMPS) {
 ////////////////////////////////////////////////////////////////////
 // LIMIAR DE QUEBRA ////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
+
+int Ordenador::LimQueb_determinaLimiar(int vetor[], int seed, int tam, double limiarCusto) {
+    int minMPS = 1;
+    int maxMPS = (int)(tam/2);
+    int numMPS = 20;
+    int passoMPS = (int)(maxMPS - minMPS)/5;
+    float diffCusto = limiarCusto + 1;
+    int limiarQuebras;
+    int iter = 0;
+
+    do {
+        std::cout << "iter " << iter << std::endl;
+        numMPS = 0;
+
+        for (limiarQuebras = minMPS; limiarQuebras <= maxMPS; limiarQuebras += passoMPS) {
+            vectorManager::initSeed(seed);
+            vectorManager::shuffleVector(vetor, tam, limiarQuebras);
+            SortingAlgorithms::stats.resetCounter();
+            SortingAlgorithms::QuickSort(vetor, tam);   // QS
+            SortingAlgorithms::stats.setNumQuebras(limiarQuebras);
+            SortingAlgorithms::stats.calculateCost();
+            InsSort_Stats[numMPS] = SortingAlgorithms::stats;
+
+            SortingAlgorithms::stats.printStats_LimPart();
+
+            vectorManager::initSeed(seed);
+            vectorManager::shuffleVector(vetor, tam, limiarQuebras);
+            SortingAlgorithms::stats.resetCounter();
+            SortingAlgorithms::InsertionSort(vetor, tam);   // QS
+            SortingAlgorithms::stats.setNumQuebras(limiarQuebras);
+            SortingAlgorithms::stats.calculateCost();
+            InsSort_Stats[numMPS] = SortingAlgorithms::stats;
+
+            SortingAlgorithms::stats.printStats_LimPart();
+
+            numMPS++;
+        }
+
+        limiarQuebras = LimQueb_menorCusto(numMPS);
+        int posMinMPS, posMaxMPS;
+
+        calculaNovaFaixa(limiarQuebras, &minMPS, &maxMPS, &passoMPS, &numMPS, &posMinMPS, &posMaxMPS);
+
+        diffCusto = std::fabs(InsSort_Stats[posMinMPS].getCost() - QuickSort_Stats[posMaxMPS].getCost());
+
+        std::cout << "numlq " << numMPS << " ";
+        std::cout << "limQuebras " << LimPart_Stats[limiarQuebras].getNumQuebras() << " ";
+        std::cout << "lqdiff " << std::fixed << std::setprecision(6) << diffCusto << std::endl;
+
+        if (iter++ >= 5) {
+            std::cout << "Max iterations reached." << std::endl;
+            break;
+        }
+
+    } while ((diffCusto > limiarCusto) && (numMPS >= 5));
+
+    return limiarQuebras;
+}
+
+int Ordenador::LimQueb_menorCusto(int numMPS) {
+    int indexMenorCusto;
+    double custo, menorCusto;
+    double custoQuickSort, custoInsertionSort;
+
+    for(int i = 0; i < numMPS; i++){
+        custoQuickSort = fabs(QuickSort_Stats[i].getCost());
+        custoInsertionSort= fabs(InsSort_Stats[i].getCost());
+
+        custo = fabs(custoQuickSort - custoInsertionSort);
+
+        menorCusto = custo;
+        if(custo < menorCusto && custo > 0){
+            menorCusto = custo;
+            indexMenorCusto = i;
+        }
+    }
+
+    return indexMenorCusto;
+}

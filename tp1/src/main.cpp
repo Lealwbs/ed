@@ -92,7 +92,6 @@ int main(int argc, char* argv[]) {
         array[i] = linha;
         arrayCopy[i] = linha;
     };
-    arquivo.close();
 
     Ordenador order = Ordenador();
     SortingAlgorithms::stats.setAtributes(a, b, c);
@@ -104,13 +103,16 @@ int main(int argc, char* argv[]) {
     
     int limiarParticao = order.LimPart_determinaLimiar(array, arrayCopy, tamanhoArray, limiarCusto);
     
-    // SortingAlgorithms::QuickSort(arrayCopy, tamanhoArray, limiarParticao);
-    // int limiarQuebras = order.LimQueb_determinaLimiar(arrayCopy, tamanhoArray, limiarCusto);
+    std::cout << "################################################" << std::endl << std::endl;
+    SortingAlgorithms::setQuickSortSize(limiarParticao);
+    SortingAlgorithms::QuickSort(array, tamanhoArray);
+    int limiarQuebras = order.LimQueb_determinaLimiar(array, seed, tamanhoArray, limiarCusto);
 
     std::cout << std::endl;
     std::cout << "Limiar de Particao: " << limiarParticao << std::endl;
-    // std::cout << "Limiar de Quebras: " << limiarQuebras << std::endl;
+    std::cout << "Limiar de Quebras: " << limiarQuebras << std::endl;
 
+    arquivo.close();
     delete[] array;
     delete[] arrayCopy;
 

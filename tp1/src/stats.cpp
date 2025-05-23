@@ -108,3 +108,11 @@ int Stats::getMinTamParticao(){
 void Stats::setMinTamParticao(int num){
     minTamParticao = num;
 };
+
+int Stats::getNumQuebras(){
+    return numQuebras;
+};
+
+void Stats::setNumQuebras(int num){
+    numQuebras = num;
+};

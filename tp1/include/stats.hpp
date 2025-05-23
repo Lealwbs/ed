@@ -24,8 +24,12 @@ class Stats{
         int getCmp();
         int getMove();
         int getCalls();
+
         int getMinTamParticao();
         void setMinTamParticao(int num);
+
+        int getNumQuebras();
+        void setNumQuebras(int num);
 
     private:
         double a;
@@ -38,6 +42,7 @@ class Stats{
         int calls;
 
         int minTamParticao;
+        int numQuebras;
 };
 
 #endif 

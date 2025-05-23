@@ -26,8 +26,8 @@ class Ordenador {
         // Limiar de Quebras
         Stats InsSort_Stats[10];
         Stats QuickSort_Stats[10];
-        int LimQueb_determinaLimiar(int vetor[], int tam, double limiarCusto);
-        int LimQueb_menorCusto();
+        int LimQueb_determinaLimiar(int vetor[], int seed, int tam, double limiarCusto);
+        int LimQueb_menorCusto(int numMPS);
 
         
     private:

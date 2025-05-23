@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
     
     int limiarParticao = order.LimPart_determinaLimiar(array, arrayCopy, tamanhoArray, limiarCusto);
     
-    std::cout << "################################################" << std::endl << std::endl;
+    // std::cout << "################################################" << std::endl << std::endl;
     SortingAlgorithms::setQuickSortSize(limiarParticao);
     SortingAlgorithms::QuickSort(array, tamanhoArray);
     int limiarQuebras = order.LimQueb_determinaLimiar(array, seed, tamanhoArray, limiarCusto);

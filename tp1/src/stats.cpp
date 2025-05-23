@@ -17,6 +17,7 @@ Stats::Stats(double a, double b, double c){
     move = 0;
     calls = 0;
     minTamParticao = 0;
+    numQuebras = 0;
 };
 
 Stats::~Stats(){};
@@ -27,6 +28,7 @@ void Stats::resetCounter(){
     move = 0;
     calls = 0;
     minTamParticao = 0;
+    numQuebras = 0;
 };
 
 void Stats::calculateCost(){

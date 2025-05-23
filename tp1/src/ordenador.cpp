@@ -53,7 +53,7 @@ void Ordenador::calculaNovaFaixa(int limiarParticao, int minMPS, int maxMPS, int
 // LIMIAR DE PARTIÇÃO //////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-int Ordenador::LimPart_determinaLimiar(int vetor[], int tam, double limiarCusto) {
+int Ordenador::LimPart_determinaLimiar(int vetor[], int vetorCopia[], int tam, double limiarCusto) {
     int minMPS = 2;
     int maxMPS = tam;
     int passoMPS = (maxMPS - minMPS) / 5;
@@ -68,13 +68,17 @@ int Ordenador::LimPart_determinaLimiar(int vetor[], int tam, double limiarCusto)
     //   int numMPS = 0;
     //   int passoMPS = _passoMPS(maxMPS, minMPS);
     //   int limParticao;
-//   int i = 0;
 
-    do{
+    int iter = 0;
+    do{ 
+        std::cout << "iter " << iter << " " << std::endl;
         numMPS = 0;
+        iter++;
+        
         for (int t = minMPS; t <= maxMPS; t += passoMPS) {
+
             SortingAlgorithms::stats.resetCounter();
-            resetar 
+            // resetar 
             OrdenadorUniversal(vetor, tam, t, tam);
 
             custo[numMPS] = SortingAlgorithms::stats.getCost();  // REGISTRA ESTATÍSTICAS

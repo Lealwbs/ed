@@ -16,6 +16,11 @@ class Stats{
         void printAtributes();
         void setAtributes(double a, double b, double c);
 
+        double getCmp();
+        double getMove();
+        double getCalls();
+        double getCost();
+
     private:
         double a;
         double b;

@@ -45,7 +45,7 @@ void Stats::printStats(){
     std::cout << "cost " << std::fixed << std::setprecision(9) << cost << " ";
     std::cout << "cmp " << cmp << " ";
     std::cout << "move " << move << " ";
-    std::cout << "calls " << calls << " ";
+    std::cout << "calls " << calls;
     std::cout << std::endl;
 };
 
@@ -60,4 +60,21 @@ void Stats::setAtributes(double a, double b, double c){
     this->a = a;
     this->b = b;
     this->c = c;
+};
+
+double Stats::getCmp(){
+    return cmp;
+};
+
+double Stats::getMove(){
+    return move;
+};
+
+double Stats::getCalls(){
+    return calls;
+};
+
+double Stats::getCost(){
+    calculateCost();
+    return cost;
 };

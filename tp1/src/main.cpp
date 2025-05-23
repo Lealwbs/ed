@@ -21,6 +21,7 @@ void tests(){
     int* vector = new int[size];
 
 
+
     // vectorManager::initSeed(seed);
     // vectorManager::initVector(vector, size);
     // vectorManager::printVector(vector, size);
@@ -56,7 +57,7 @@ void tests(){
 
 int main(int argc, char* argv[]) {
 
-    tests();
+    //tests();
 
     std::ifstream arquivo(argv[1]);
 
@@ -70,29 +71,47 @@ int main(int argc, char* argv[]) {
     double a; // Coeficiente das Comparações:
     double b; // Coeficiente das Movimentações
     double c; // Coeficieinte das Chamadas
-    int tam; // Número de Chaves
+    int tamanhoArray; // Número de Chaves
 
-    arquivo >> seed >> limiarCusto >> a >> b >> c >> tam;
+    arquivo >> seed >> limiarCusto >> a >> b >> c >> tamanhoArray;
 
     // std::cout << "seed: " << seed << std::endl;
     // std::cout << "limiarCusto: " << limiarCusto << std::endl;
     // std::cout << "a: " << a << std::endl;
     // std::cout << "b: " << b << std::endl;
     // std::cout << "c: " << c << std::endl;
-    // std::cout << "tam: " << tam << std::endl;
+    // std::cout << "tamanhoArray: " << tam << std::endl;
 
-    int* array = new int[tam];
+    int* array = new int[tamanhoArray];
+    int* arrayCopy = new int[tamanhoArray];
 
-    // Inicializa o vetor com os valores do arquivo
+    // Inicializa os vetores com os valores do arquivo e fecha o arquivo.
     int linha;
-    for(int i=0; i<tam; i++) {
+    for(int i=0; i<tamanhoArray; i++) {
         arquivo >> linha;
         array[i] = linha;
+        arrayCopy[i] = linha;
     };
-
-
-
     arquivo.close();
+
+    Ordenador order = Ordenador();
+
+    std::cout << "size " << tamanhoArray << " ";
+    std::cout << "seed " << seed << " ";
+    std::cout << "breaks " << order.getNumeroQuebras(array, tamanhoArray);
+    std::cout << std::endl << std::endl;
+    
+    int limiarParticao = order.LimPart_determinaLimiar(arrayCopy, tamanhoArray, limiarCusto);
+    
+    // SortingAlgorithms::QuickSort(arrayCopy, tamanhoArray, limiarParticao);
+    // int limiarQuebras = order.LimQueb_determinaLimiar(arrayCopy, tamanhoArray, limiarCusto);
+
+    std::cout << std::endl;
+    std::cout << "Limiar de Partição: " << limiarParticao << std::endl;
+    // std::cout << "Limiar de Quebras: " << limiarQuebras << std::endl;
+
+    delete[] array;
+    delete[] arrayCopy;
 
     return 0;
 }

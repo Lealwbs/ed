@@ -34,7 +34,7 @@ SRC_FOLDER = ./src
 TARGET = tp1
 SRC = $(wildcard $(SRC_FOLDER)/*.cpp)
 OBJ = $(patsubst $(SRC_FOLDER)/%.cpp, $(OBJ_FOLDER)/%.o, $(SRC))
-TEXT_FILES = ./files/tests/teste8.txt
+TEXT_FILES = ./files/tests/teste2.txt
 
 # OS detection
 ifeq ($(OS),Windows_NT)

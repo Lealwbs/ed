@@ -7,6 +7,7 @@ class vectorManager{
         static void initVector(int array[], int size);
         static void printVector(int array[], int size);
         static void shuffleVector(int array[], int size, int numShuffle);
+        static void copyVector(int source[], int destination[], int size);
 };
 
 #endif

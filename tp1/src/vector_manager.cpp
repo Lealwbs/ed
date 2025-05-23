@@ -33,3 +33,9 @@ void vectorManager::shuffleVector(int array[], int size, int numShuffle){
         p1 = p2 = 0;
     }
 }
+
+void vectorManager::copyVector(int source[], int destination[], int size){
+    for (int i = 0; i < size; i++){
+        destination[i] = source[i];
+    }
+}

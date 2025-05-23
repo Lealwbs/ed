@@ -1,6 +1,8 @@
 #include "../include/ordenador.hpp"
+#include "../include/vector_manager.hpp"
 #include <math.h>
 #include <iostream>
+#include <iomanip>
 
 Ordenador::Ordenador(){};
 Ordenador::~Ordenador(){};
@@ -10,7 +12,7 @@ void Ordenador::OrdenadorUniversal(int vetor[], int tam, int minTamParticao, int
         SortingAlgorithms::InsertionSort(vetor, tam);
     } else {
         if (tam > minTamParticao) {
-            SortingAlgorithms::QuickSort(vetor, tam, minTamParticao);
+            SortingAlgorithms::QuickSort(vetor, tam);
         } else {
             SortingAlgorithms::InsertionSort(vetor, tam);
         }
@@ -27,27 +29,33 @@ int Ordenador::getNumeroQuebras(int vetor[], int tam){
     return numQuebras;
 }
 
-void Ordenador::calculaNovaFaixa(int limiarParticao, int minMPS, int maxMPS, int passoMPS, int numMPS) {
-    int newMin, newMax;
-    if(limiarParticao == 0){
+void Ordenador::calculaNovaFaixa(double limParticao, int* minMPS, int* maxMPS, int* passoMPS, int* numMPS, int *minNumMPS, int *maxNumMPS){
+    int newMin, newMax, tmpMin;
+    if (limParticao == 0){
         newMin = 0;
         newMax = 2;
-    }else if(limiarParticao == numMPS-1){
-        newMin = numMPS-3;
-        newMax = numMPS-1;
-    }else{
-        newMin = limiarParticao-1;
-        newMax = limiarParticao+1;
+    } else if(limParticao == *numMPS-1){
+        newMin = *numMPS - 3;
+        newMax = *numMPS - 1;
+    } else{
+        newMin = limParticao - 1;
+        newMax = limParticao + 1;
     };
 
-    minMPS = minMPS + (passoMPS * newMin); //getMPS(newMin);
-    maxMPS = minMPS + (passoMPS * newMax); //getMPS(newMax);
-    passoMPS = (int)(maxMPS - minMPS) / 5;
-    if (passoMPS == 0) passoMPS++;
+    *minNumMPS = newMin;
+    *maxNumMPS = newMax;
 
-    // *minNumMPS = newMin;
-    // *maxNumMPS = newMax;
-};
+    tmpMin = *minMPS;
+    *minMPS = getMPS(tmpMin, *passoMPS, newMin);
+    *maxMPS = getMPS(tmpMin, *passoMPS, newMax);
+
+    *passoMPS = (int)((*maxMPS-*minMPS)/5);
+    if(*passoMPS == 0) (*passoMPS)++;
+    };
+
+int Ordenador::getMPS(int minMPS, int passoMPS, int num){
+    return minMPS + (passoMPS * num);
+}
 
 ////////////////////////////////////////////////////////////////////
 // LIMIAR DE PARTIÇÃO //////////////////////////////////////////////
@@ -56,130 +64,71 @@ void Ordenador::calculaNovaFaixa(int limiarParticao, int minMPS, int maxMPS, int
 int Ordenador::LimPart_determinaLimiar(int vetor[], int vetorCopia[], int tam, double limiarCusto) {
     int minMPS = 2;
     int maxMPS = tam;
-    int passoMPS = (maxMPS - minMPS) / 5;
-    float diffCusto = 0.0;
-    double custo[5];
-    int limiarParticao;
     int numMPS = 0;
-    
-    //       float diffCusto;
-    //   int minMPS = 2;
-    //   int maxMPS = tam;
-    //   int numMPS = 0;
-    //   int passoMPS = _passoMPS(maxMPS, minMPS);
-    //   int limParticao;
-
+    int passoMPS = (int)(maxMPS - minMPS)/5;
+    float diffCusto = 0.0;
+    int limiarParticao;
     int iter = 0;
-    do{ 
-        std::cout << "iter " << iter << " " << std::endl;
+
+    do {
+        std::cout << "iter " << iter << std::endl;
         numMPS = 0;
-        iter++;
-        
+
         for (int t = minMPS; t <= maxMPS; t += passoMPS) {
-
+            vectorManager::copyVector(vetorCopia, vetor, tam);
+            SortingAlgorithms::setQuickSortSize(t);
             SortingAlgorithms::stats.resetCounter();
-            // resetar 
-            OrdenadorUniversal(vetor, tam, t, tam);
 
-            custo[numMPS] = SortingAlgorithms::stats.getCost();  // REGISTRA ESTATÍSTICAS
+            OrdenadorUniversal(vetor, tam, t, 0);
 
-            std::cout << "mps " << numMPS << " " << std::endl;  // IMPRIME ESTATÍSTICAS
-            SortingAlgorithms::stats.printStats();
+            SortingAlgorithms::stats.calculateCost();
+            SortingAlgorithms::stats.setMinTamParticao(t);
+            LimPart_Stats[numMPS] = SortingAlgorithms::stats;
+
+            SortingAlgorithms::stats.printStats_LimPart();
 
             numMPS++;
         }
-        limiarParticao = LimPart_menorCusto();
-        calculaNovaFaixa(limiarParticao, minMPS, maxMPS, passoMPS, numMPS);
-        diffCusto = fabs(custo[minMPS] - custo[maxMPS]);
 
-    } while((diffCusto > limiarCusto) && (numMPS >= 5));
+        limiarParticao = LimPart_menorCusto(numMPS);
+        int posMinMPS, posMaxMPS;
 
-    return limiarParticao;
+        calculaNovaFaixa(limiarParticao, &minMPS, &maxMPS, &passoMPS, &numMPS, &posMinMPS, &posMaxMPS);
+
+        diffCusto = std::fabs(LimPart_Stats[posMinMPS].getCost() - LimPart_Stats[posMaxMPS].getCost());
+
+        std::cout << "nummps: " << numMPS << " ";
+        std::cout << "limParticao: " << LimPart_Stats[limiarParticao].getMinTamParticao() << " ";
+        std::cout << "mpsdiff: " << std::setprecision(6) << diffCusto << std::endl;
+
+        if (iter++ >= 5) {
+            std::cout << "Max iterations reached." << std::endl;
+            break;
+        }
+
+    } while ((diffCusto > limiarCusto) && (numMPS >= 5));
+
+    return LimPart_Stats[limiarParticao].getMinTamParticao();
 }
 
-// do{
-//     cout << "iter " << i << endl;
-//     numMPS = 0;
+int Ordenador::LimPart_menorCusto(int numMPS) {
+    int indexMenorCusto;
+    double custo, menorCusto;
 
-//     for(int tamMin = minMPS; tamMin <= maxMPS; tamMin += passoMPS){
-//       copiaVetor(vetor, tam);
-//       Sort::SetTamParticao(tamMin);
+    for(int i = 0; i < numMPS; i++){
+        custo = fabs(LimPart_Stats[i].getCost());
+        if(custo < 0){
+        custo *= -1;
+        }
 
-//       ordenadorUniversal(vetor, tam, tamMin, 0);
-      
-//       registraEstatisticasMinParticao(tamMin, numMPS);
-//       imprimeEstatisticasMinParticao(Registros[numMPS]);
-      
-//       numMPS++;
-//     }
-
-//     limParticao = menorCustoMinParticao(numMPS);
-//     int minNumMPS;
-//     int maxNumMPS;
-//     calculaNovaFaixa(limParticao, &minMPS, &maxMPS, &passoMPS, &numMPS, &minNumMPS, &maxNumMPS);
-
-//     diffCusto = Registros[minNumMPS].cost - Registros[maxNumMPS].cost;
-//     if(diffCusto < 0){
-//       diffCusto *= -1;
-//     }
-    
-//     cout << "nummps " << numMPS;
-//     cout << " limParticao " << Registros[limParticao].mps;
-//     cout << " mpsdiff " << setprecision(6) << diffCusto << endl << endl;
-    
-//     i++;
-//   }while (diffCusto > limiarCusto && numMPS >= 5);
-
-//   return Registros[limParticao].mps;
-// }
-
-
-
-
-int Ordenador::LimPart_menorCusto() {
-    double menorCusto = LimPart_Stats[0].getCost();
-    int index = 0;
-    for (int i = 1; i < 10; i++) {
-        if (LimPart_Stats[i].getCost() < menorCusto) {
-            menorCusto = LimPart_Stats[i].getCost();
-            index = i;
+        if(i == 0 || menorCusto > custo){
+            menorCusto = custo;
+            indexMenorCusto = i;
         }
     }
-    return index;
-}
 
-// asdsasasaasasasa
-//   int cmp, moves, calls;
-//   int idMenorCusto;
-//   double custo, menorCusto;
-
-//   for(int i = 0; i < numMPS; i++){
-//     cmp = Registros[i].cmp;
-//     moves = Registros[i].moves;
-//     calls = Registros[i].calls;
-
-//     custo = fabs(calcularCusto(cmp, moves, calls));
-//     if(custo < 0){
-//       custo *= -1;
-//     }
-
-//     if(i == 0 || menorCusto > custo){
-//       menorCusto = custo;
-//       idMenorCusto = i;
-//     }
-//   }
-
-//   return idMenorCusto;
-// }
-
-// int Ordenador::MPS_step(int max, int min) {
-//     return (max - min) / 5;
-// }
-
-// int Ordenador::LQ_step(int max, int min) {
-//     return (max - min) / 10;
-// }
-
+    return indexMenorCusto;
+    }
 
 ////////////////////////////////////////////////////////////////////
 // LIMIAR DE QUEBRA ////////////////////////////////////////////////

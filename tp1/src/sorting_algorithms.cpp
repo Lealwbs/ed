@@ -3,6 +3,8 @@
 
 Stats SortingAlgorithms::stats(1, 1, 1);
 
+int SortingAlgorithms::QUICK_SORT_SIZE = 0;
+
 void SortingAlgorithms::swap(int* a, int* b) {
     int temp = *a;
     *a = *b;
@@ -38,25 +40,25 @@ void SortingAlgorithms::_insertionSort(int array[], int left, int right) {
     }
 };
 
-void SortingAlgorithms::_quickSort3Ins(int array[], int left, int right, int minTamParticaoQS) {
+void SortingAlgorithms::_quickSort3Ins(int array[], int left, int right) {
     stats.incCalls(1);
     int start, end;
 
     partition3(array, left, right, &start, &end);
 
     if (left < end) {
-        if (end - left <= minTamParticaoQS) {
+        if (end - left <= QUICK_SORT_SIZE) {
             _insertionSort(array, left, end);
         } else {
-            _quickSort3Ins(array, left, end, minTamParticaoQS);
+            _quickSort3Ins(array, left, end);
         }
     }
 
     if (start < right) {
-        if (right - start <= minTamParticaoQS) {
+        if (right - start <= QUICK_SORT_SIZE) {
             _insertionSort(array, start, right);
         } else {
-            _quickSort3Ins(array, start, right, minTamParticaoQS);
+            _quickSort3Ins(array, start, right);
         }
     }
 };
@@ -94,6 +96,10 @@ void SortingAlgorithms::InsertionSort(int array[], int tam){
     _insertionSort(array, 0, tam - 1);
 };
 
-void SortingAlgorithms::QuickSort(int array[], int tam, int minTamParticaoQS){
-    _quickSort3Ins(array, 0, tam - 1, minTamParticaoQS);
+void SortingAlgorithms::QuickSort(int array[], int tam){
+    _quickSort3Ins(array, 0, tam - 1);
+};
+
+void SortingAlgorithms::setQuickSortSize(int size){
+    QUICK_SORT_SIZE = size;
 };

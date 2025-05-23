@@ -1,4 +1,4 @@
-#ifndef ORDENADOR
+#ifndef ORDENADOR_HPP
 #define ORDENADOR_HPP
 
 #include <vector>
@@ -14,21 +14,18 @@ class Ordenador {
         void OrdenadorUniversal(int vetor[], int tam, int minTamParticao, int limiarQuebras);
         int getNumeroQuebras(int vetor[], int tam);
         
-        void calculaNovaFaixa(int limiarParticao, int minMPS, int maxMPS, int passoMPS, int numMPS);
+        void calculaNovaFaixa(double limParticao, int* minMPS, int* maxMPS, int* passoMPS, int* numMPS, int *minNumMPS, int *maxNumMPS);
+        int getMPS(int minMPS, int passoMPS, int num);
 
         // Limiar de Partição
         Stats LimPart_Stats[10];
-        int LimPart_determinaLimiar(int vetor[], int tam, double limiarCusto);
-        void LimPart_registraEstatisticas(double custo);
-        void LimPart_imprimeEstatisticas(double custo);
-        int LimPart_menorCusto();
+        int LimPart_determinaLimiar(int vetor[], int vetorCopia[], int tam, double limiarCusto);
+        int LimPart_menorCusto(int numMPS);
         
         // Limiar de Quebras
         Stats InsSort_Stats[10];
         Stats QuickSort_Stats[10];
         int LimQueb_determinaLimiar(int vetor[], int tam, double limiarCusto);
-        void LimQueb_registraEstatisticas(double custo);
-        void LimQueb_imprimeEstatisticas(double custo);
         int LimQueb_menorCusto();
 
         

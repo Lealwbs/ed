@@ -16,14 +16,17 @@ Stats::Stats(double a, double b, double c){
     cmp = 0;
     move = 0;
     calls = 0;
+    minTamParticao = 0;
 };
 
 Stats::~Stats(){};
 
 void Stats::resetCounter(){
+    cost = 0; 
     cmp = 0;
     move = 0;
     calls = 0;
+    minTamParticao = 0;
 };
 
 void Stats::calculateCost(){
@@ -49,6 +52,25 @@ void Stats::printStats(){
     std::cout << std::endl;
 };
 
+void Stats::printStats_LimPart(){
+    calculateCost();
+    std::cout << "mps " << minTamParticao << " ";
+    std::cout << "cost " << std::fixed << std::setprecision(9) << cost << " ";
+    std::cout << "cmp " << cmp << " ";
+    std::cout << "move " << move << " ";
+    std::cout << "calls " << calls;
+    std::cout << std::endl;
+};
+
+void Stats::printStats_LimQuebras(){
+    // calculateCost();
+    // std::cout << "cost " << std::fixed << std::setprecision(9) << cost << " ";
+    // std::cout << "cmp " << cmp << " ";
+    // std::cout << "move " << move << " ";
+    // std::cout << "calls " << calls;
+    // std::cout << std::endl;
+};
+
 void Stats::printAtributes(){
     std::cout << "a " << a << " ";
     std::cout << "b " << b << " ";
@@ -62,19 +84,27 @@ void Stats::setAtributes(double a, double b, double c){
     this->c = c;
 };
 
-double Stats::getCmp(){
-    return cmp;
-};
-
-double Stats::getMove(){
-    return move;
-};
-
-double Stats::getCalls(){
-    return calls;
-};
-
 double Stats::getCost(){
     calculateCost();
     return cost;
+};
+
+int Stats::getCmp(){
+    return cmp;
+};
+
+int Stats::getMove(){
+    return move;
+};
+
+int Stats::getCalls(){
+    return calls;
+};
+
+int Stats::getMinTamParticao(){
+    return minTamParticao;
+};
+
+void Stats::setMinTamParticao(int num){
+    minTamParticao = num;
 };

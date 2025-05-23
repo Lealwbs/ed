@@ -49,7 +49,7 @@ void tests(){
     sort.stats.resetCounter();
     vectorManager::initSeed(seed);
     vectorManager::initVector(vector, size);
-    sort.QuickSort(vector, size, 50);
+    sort.QuickSort(vector, size);
     sort.stats.printStats();
 
     // std::cout << "END ################################" << std::endl;
@@ -95,19 +95,20 @@ int main(int argc, char* argv[]) {
     arquivo.close();
 
     Ordenador order = Ordenador();
+    SortingAlgorithms::stats.setAtributes(a, b, c);
 
     std::cout << "size " << tamanhoArray << " ";
     std::cout << "seed " << seed << " ";
     std::cout << "breaks " << order.getNumeroQuebras(array, tamanhoArray);
     std::cout << std::endl << std::endl;
     
-    int limiarParticao = order.LimPart_determinaLimiar(arrayCopy, tamanhoArray, limiarCusto);
+    int limiarParticao = order.LimPart_determinaLimiar(array, arrayCopy, tamanhoArray, limiarCusto);
     
     // SortingAlgorithms::QuickSort(arrayCopy, tamanhoArray, limiarParticao);
     // int limiarQuebras = order.LimQueb_determinaLimiar(arrayCopy, tamanhoArray, limiarCusto);
 
     std::cout << std::endl;
-    std::cout << "Limiar de Partição: " << limiarParticao << std::endl;
+    std::cout << "Limiar de Particao: " << limiarParticao << std::endl;
     // std::cout << "Limiar de Quebras: " << limiarQuebras << std::endl;
 
     delete[] array;

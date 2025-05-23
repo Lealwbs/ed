@@ -12,14 +12,20 @@ class Stats{
         void incCmp(int num);
         void incMove(int num);
         void incCalls(int num);
+
         void printStats();
+        void printStats_LimPart();
+        void printStats_LimQuebras();
+        
         void printAtributes();
         void setAtributes(double a, double b, double c);
-
-        double getCmp();
-        double getMove();
-        double getCalls();
+        
         double getCost();
+        int getCmp();
+        int getMove();
+        int getCalls();
+        int getMinTamParticao();
+        void setMinTamParticao(int num);
 
     private:
         double a;
@@ -30,6 +36,8 @@ class Stats{
         int cmp;
         int move;
         int calls;
+
+        int minTamParticao;
 };
 
 #endif 

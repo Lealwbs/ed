@@ -48,7 +48,7 @@ endif
 all: $(OBJ)
 	$(CC) $(CXXFLAGS) -o $(BIN_FOLDER)/$(TARGET)$(EXEC_EXT) $(OBJ)
 
-$(OBJ_FOLDER)/%.o: $(SRC_FOLDER)/%.cpp
+$(OBJ_FOLDER)/%.o: $(SRC_FOLDER)/%.cpp | obj
 	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE_FOLDER)
 
 run: all

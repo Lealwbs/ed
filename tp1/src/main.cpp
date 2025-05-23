@@ -6,54 +6,54 @@
 #include "../include/vector_manager.hpp" 
 #include "../include/stats.hpp" 
 
-void tests(){
+// void tests(){
 
-    SortingAlgorithms sort;
+//     SortingAlgorithms sort;
 
-    double a = 0.0121560;
-    double b = -0.0063780;
-    double c = 0.0172897;
+//     double a = 0.0121560;
+//     double b = -0.0063780;
+//     double c = 0.0172897;
 
-    sort.stats.setAtributes(a, b, c);
+//     sort.stats.setAtributes(a, b, c);
 
-    int seed = 1;
-    int size = 100;
-    int* vector = new int[size];
+//     int seed = 1;
+//     int size = 100;
+//     int* vector = new int[size];
 
 
 
-    // vectorManager::initSeed(seed);
-    // vectorManager::initVector(vector, size);
-    // vectorManager::printVector(vector, size);
+//     // vectorManager::initSeed(seed);
+//     // vectorManager::initVector(vector, size);
+//     // vectorManager::printVector(vector, size);
     
-    Ordenador ordenador = Ordenador();
+//     Ordenador ordenador = Ordenador();
     
-    // sort.stats.printStats();
+//     // sort.stats.printStats();
 
-    // std::cout << "Universal ################################" << std::endl;
-    vectorManager::initSeed(seed);
-    vectorManager::initVector(vector, size);
-    ordenador.OrdenadorUniversal(vector, size, 50, 90);
-    sort.stats.printStats();
-
-
-    // std::cout << "InsertionSort ################################" << std::endl;
-    sort.stats.resetCounter();
-    vectorManager::initSeed(seed);
-    vectorManager::initVector(vector, size);
-    sort.InsertionSort(vector, size);
-    sort.stats.printStats();
+//     // std::cout << "Universal ################################" << std::endl;
+//     vectorManager::initSeed(seed);
+//     vectorManager::initVector(vector, size);
+//     ordenador.OrdenadorUniversal(vector, size, 50, 90);
+//     sort.stats.printStats();
 
 
-    // std::cout << "QuickSort ################################" << std::endl;
-    sort.stats.resetCounter();
-    vectorManager::initSeed(seed);
-    vectorManager::initVector(vector, size);
-    sort.QuickSort(vector, size);
-    sort.stats.printStats();
+//     // std::cout << "InsertionSort ################################" << std::endl;
+//     sort.stats.resetCounter();
+//     vectorManager::initSeed(seed);
+//     vectorManager::initVector(vector, size);
+//     sort.InsertionSort(vector, size);
+//     sort.stats.printStats();
 
-    // std::cout << "END ################################" << std::endl;
-}
+
+//     // std::cout << "QuickSort ################################" << std::endl;
+//     sort.stats.resetCounter();
+//     vectorManager::initSeed(seed);
+//     vectorManager::initVector(vector, size);
+//     sort.QuickSort(vector, size);
+//     sort.stats.printStats();
+
+//     // std::cout << "END ################################" << std::endl;
+// }
 
 int main(int argc, char* argv[]) {
 

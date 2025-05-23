@@ -108,8 +108,8 @@ int main(int argc, char* argv[]) {
     SortingAlgorithms::QuickSort(array, tamanhoArray);
     int limiarQuebras = order.LimQueb_determinaLimiar(array, seed, tamanhoArray, limiarCusto);
 
-    std::cout << "Limiar de Particao: " << limiarParticao << std::endl;
-    std::cout << "Limiar de Quebras: " << limiarQuebras << std::endl;
+    // std::cout << "Limiar de Particao: " << limiarParticao << std::endl;
+    // std::cout << "Limiar de Quebras: " << limiarQuebras << std::endl;
 
     arquivo.close();
     delete[] array;

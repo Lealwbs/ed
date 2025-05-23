@@ -157,7 +157,7 @@ int Ordenador::LimQueb_determinaLimiar(int vetor[], int seed, int tam, double li
             QuickSort_Stats[numMPS] = SortingAlgorithms::stats;
             SortingAlgorithms::stats.printStats_LimQuebras(QUICK_SORT);
 
-            //vectorManager::initSeed(seed);
+            vectorManager::initSeed(seed);
             vectorManager::shuffleVector(vetor, tam, limiarQuebras);
             SortingAlgorithms::stats.resetCounter();
             SortingAlgorithms::InsertionSort(vetor, tam);   
@@ -186,10 +186,11 @@ int Ordenador::LimQueb_determinaLimiar(int vetor[], int seed, int tam, double li
         std::cout << "limQuebras " << QuickSort_Stats[limiarQuebras].getNumQuebras() << " ";
         std::cout << "lqdiff " << std::fixed << std::setprecision(6) << diffCusto << std::endl << std::endl;
 
-        if (iter++ >= 5) {
-            std::cout << "Max iterations reached. " << std::endl;
-            break;
-        }
+        iter++;
+        // if (iter++ >= 5) {
+        //     std::cout << "Max iterations reached. " << std::endl;
+        //     break;
+        // }
 
     } while ((diffCusto > limiarCusto) && (numMPS >= 5));
 

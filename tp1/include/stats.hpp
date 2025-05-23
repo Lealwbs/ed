@@ -15,7 +15,7 @@ class Stats{
 
         void printStats();
         void printStats_LimPart();
-        void printStats_LimQuebras();
+        void printStats_LimQuebras(int i);
         
         void printAtributes();
         void setAtributes(double a, double b, double c);

@@ -27,7 +27,7 @@ class Ordenador {
         Stats InsSort_Stats[10];
         Stats QuickSort_Stats[10];
         int LimQueb_determinaLimiar(int vetor[], int seed, int tam, double limiarCusto);
-        int LimQueb_menorCusto(int numMPS);
+        int LimQueb_menorCusto(int numMPS, float* menorCustoOutput);
 
         
     private:

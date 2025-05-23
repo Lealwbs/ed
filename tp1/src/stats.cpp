@@ -62,13 +62,18 @@ void Stats::printStats_LimPart(){
     std::cout << std::endl;
 };
 
-void Stats::printStats_LimQuebras(){
-    // calculateCost();
-    // std::cout << "cost " << std::fixed << std::setprecision(9) << cost << " ";
-    // std::cout << "cmp " << cmp << " ";
-    // std::cout << "move " << move << " ";
-    // std::cout << "calls " << calls;
-    // std::cout << std::endl;
+void Stats::printStats_LimQuebras(int i){
+    if(i == 1) std::cout << "qs ";
+    if(i == 2) std::cout << "in ";
+
+    std::cout << "lq " << numQuebras << " ";
+
+    calculateCost();
+    std::cout << "cost " << std::fixed << std::setprecision(9) << cost << " ";
+    std::cout << "cmp " << cmp << " ";
+    std::cout << "move " << move << " ";
+    std::cout << "calls " << calls;
+    std::cout << std::endl;
 };
 
 void Stats::printAtributes(){

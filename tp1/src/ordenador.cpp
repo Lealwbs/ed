@@ -140,6 +140,9 @@ int Ordenador::LimQueb_determinaLimiar(int vetor[], int seed, int tam, double li
     int limiarQuebras;
     int iter = 0;
 
+    #define QUICK_SORT 1
+    #define INSERTION_SORT 2
+
     do {
         std::cout << "iter " << iter << std::endl;
         numMPS = 0;
@@ -148,39 +151,43 @@ int Ordenador::LimQueb_determinaLimiar(int vetor[], int seed, int tam, double li
             vectorManager::initSeed(seed);
             vectorManager::shuffleVector(vetor, tam, limiarQuebras);
             SortingAlgorithms::stats.resetCounter();
-            SortingAlgorithms::QuickSort(vetor, tam);   // QS
+            SortingAlgorithms::QuickSort(vetor, tam); 
             SortingAlgorithms::stats.setNumQuebras(limiarQuebras);
             SortingAlgorithms::stats.calculateCost();
-            InsSort_Stats[numMPS] = SortingAlgorithms::stats;
+            QuickSort_Stats[numMPS] = SortingAlgorithms::stats;
+            SortingAlgorithms::stats.printStats_LimQuebras(QUICK_SORT);
 
-            SortingAlgorithms::stats.printStats_LimPart();
-
-            vectorManager::initSeed(seed);
+            //vectorManager::initSeed(seed);
             vectorManager::shuffleVector(vetor, tam, limiarQuebras);
             SortingAlgorithms::stats.resetCounter();
-            SortingAlgorithms::InsertionSort(vetor, tam);   // QS
+            SortingAlgorithms::InsertionSort(vetor, tam);   
             SortingAlgorithms::stats.setNumQuebras(limiarQuebras);
             SortingAlgorithms::stats.calculateCost();
             InsSort_Stats[numMPS] = SortingAlgorithms::stats;
-
-            SortingAlgorithms::stats.printStats_LimPart();
+            SortingAlgorithms::stats.printStats_LimQuebras(INSERTION_SORT);
 
             numMPS++;
         }
-
-        limiarQuebras = LimQueb_menorCusto(numMPS);
+        
         int posMinMPS, posMaxMPS;
-
+        float tmp;
+        limiarQuebras = LimQueb_menorCusto(numMPS, &tmp);
         calculaNovaFaixa(limiarQuebras, &minMPS, &maxMPS, &passoMPS, &numMPS, &posMinMPS, &posMaxMPS);
+        
+        // std::cout << "nova faixa: <" << minMPS << ", " << maxMPS << "> " << std::endl;
+        // std::cout << "nova posicao: <" << posMinMPS << ", " << posMaxMPS << "> " << std::endl;
+        // std::cout << "In Max Cost: " << InsSort_Stats[posMaxMPS].getCost() << " " << std::endl;
+        // std::cout << "In Max Cost: " << InsSort_Stats[posMinMPS].getCost() << " " << std::endl;
+        // std::cout << "In Max - Min Cost: " << InsSort_Stats[posMaxMPS].getCost() - InsSort_Stats[posMinMPS].getCost() << " " << std::endl;
 
-        diffCusto = std::fabs(InsSort_Stats[posMinMPS].getCost() - QuickSort_Stats[posMaxMPS].getCost());
+        diffCusto = std::fabs(InsSort_Stats[posMaxMPS].getCost() - InsSort_Stats[posMinMPS].getCost());
 
         std::cout << "numlq " << numMPS << " ";
-        std::cout << "limQuebras " << LimPart_Stats[limiarQuebras].getNumQuebras() << " ";
-        std::cout << "lqdiff " << std::fixed << std::setprecision(6) << diffCusto << std::endl;
+        std::cout << "limQuebras " << QuickSort_Stats[limiarQuebras].getNumQuebras() << " ";
+        std::cout << "lqdiff " << std::fixed << std::setprecision(6) << diffCusto << std::endl << std::endl;
 
         if (iter++ >= 5) {
-            std::cout << "Max iterations reached." << std::endl;
+            std::cout << "Max iterations reached. " << std::endl;
             break;
         }
 
@@ -189,23 +196,25 @@ int Ordenador::LimQueb_determinaLimiar(int vetor[], int seed, int tam, double li
     return limiarQuebras;
 }
 
-int Ordenador::LimQueb_menorCusto(int numMPS) {
+int Ordenador::LimQueb_menorCusto(int numMPS, float* menorCustoOutput) {
     int indexMenorCusto;
     double custo, menorCusto;
     double custoQuickSort, custoInsertionSort;
 
     for(int i = 0; i < numMPS; i++){
-        custoQuickSort = fabs(QuickSort_Stats[i].getCost());
-        custoInsertionSort= fabs(InsSort_Stats[i].getCost());
+        custoQuickSort = (QuickSort_Stats[i].getCost());
+        custoInsertionSort = (InsSort_Stats[i].getCost());
+
+        // std::cout << "index: " << "diffCusto " << fabs(custoQuickSort - custoInsertionSort) << " ";
+        // std::cout << std::endl;
 
         custo = fabs(custoQuickSort - custoInsertionSort);
 
-        menorCusto = custo;
-        if(custo < menorCusto && custo > 0){
+        if(i==0 || (custo < menorCusto)){
             menorCusto = custo;
             indexMenorCusto = i;
         }
     }
-
+    *menorCustoOutput = menorCusto;
     return indexMenorCusto;
 }

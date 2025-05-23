@@ -14,7 +14,8 @@ class Ordenador {
         void OrdenadorUniversal(int vetor[], int tam, int minTamParticao, int limiarQuebras);
         int getNumeroQuebras(int vetor[], int tam);
         
-        void calculaNovaFaixa(double limParticao, int* minMPS, int* maxMPS, int* passoMPS, int* numMPS, int *minNumMPS, int *maxNumMPS);
+        void calculaNovaFaixa(double limParticao, int* minMPS, 
+            int* maxMPS, int* passoMPS, int* numMPS, int *minNumMPS, int *maxNumMPS);
         int getMPS(int minMPS, int passoMPS, int num);
 
         // Limiar de Partição

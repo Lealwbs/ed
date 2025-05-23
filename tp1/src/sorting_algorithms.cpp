@@ -47,7 +47,7 @@ void SortingAlgorithms::_quickSort3Ins(int array[], int left, int right) {
     partition3(array, left, right, &start, &end);
 
     if (left < end) {
-        if (end - left <= QUICK_SORT_SIZE) {
+        if (end - left < QUICK_SORT_SIZE) {
             _insertionSort(array, left, end);
         } else {
             _quickSort3Ins(array, left, end);
@@ -55,7 +55,7 @@ void SortingAlgorithms::_quickSort3Ins(int array[], int left, int right) {
     }
 
     if (start < right) {
-        if (right - start <= QUICK_SORT_SIZE) {
+        if (right - start < QUICK_SORT_SIZE) {
             _insertionSort(array, start, right);
         } else {
             _quickSort3Ins(array, start, right);

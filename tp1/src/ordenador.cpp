@@ -117,11 +117,8 @@ int Ordenador::LimPart_menorCusto(int numMPS) {
 
     for(int i = 0; i < numMPS; i++){
         custo = fabs(LimPart_Stats[i].getCost());
-        if(custo < 0){
-        custo *= -1;
-        }
 
-        if(i == 0 || menorCusto > custo){
+        if(i == 0 || (menorCusto > custo && custo > 0)){
             menorCusto = custo;
             indexMenorCusto = i;
         }

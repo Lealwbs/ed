@@ -63,7 +63,6 @@ This project implements and analyzes various sorting algorithms in C++. It is de
 ```
 1 100.0 0.01 -0.005 0.02 100
 5 31 65 96 6 595 652 26 262 21 21 548 1 2 948 4 1 15 165 15 184 81 515 151 2 1 213 3 231 313 131 31 318 41 515 48 6 6 16 19 19 19 91 48 86 86 14 9 76 43 23 64 3 2 3 6 4 7 74 5 6 16 42 85 75 3 46 59 5 84 1 6 15 464 4 51 516 151 65 1 15 15 15 15 65 2 65 1 651 848 2 8 4 2 12 65 78 44 23 56
-
 ```
 - `1`: Seed
 - `100.0`: Cost threshold
@@ -107,7 +106,7 @@ numlq 6 limQuebras 10 lqdiff 6.440000
 
 ## Documentation
 - See `files/TP1 Enunciado.pdf` for the project description.
-- Example documentation and reports are in `files/Exemplo Documentação/`.
+- Example documentation and reports are in `TP1_Documentacao.pdf`.
 
 ## Authors
 - Ítalo Leal Lana Santos

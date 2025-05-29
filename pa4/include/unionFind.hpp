@@ -6,7 +6,7 @@ typedef struct s_edge{
     int v;
     int custo;
 } Aresta;
-
+ 
 typedef struct s_subset{
     int representante;
     int rank;

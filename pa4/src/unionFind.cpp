@@ -1,9 +1,8 @@
 #include "../include/unionFind.hpp"
 
 UnionFind::UnionFind(int quantidade_subconjuntos){
-    subconjuntos = new int[quantidade_subconjuntos];
+    subconjuntos = new Subconjunto[quantidade_subconjuntos];
     tamanho = quantidade_subconjuntos;
-
 };
 UnionFind::~UnionFind(){
     delete[] subconjuntos;

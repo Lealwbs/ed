@@ -1,6 +1,6 @@
 #include "../include/test.hpp"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv) {
 
     // "ENTRADA:"
     // • Data hora da postagem
@@ -15,7 +15,26 @@ int main(int argc, char* argv[]) {
     // • Tempo armazenado
     // • Tempo em trânsito
 
+    // rede/grafo (armazens)
 
+    // rota(id armazens, )
+
+    // armazem
+    //     setor* Head_vetor
+    //     info
+
+    // setor
+    //     pilha_pacote Head_vetor
+    //     setor* NEXT 
+
+    // pilha_pacote
+    //     pacotes Head_vetor
+    //     pilha_pacote* NEXT 
+
+    // pacote
+    //     INFO
+    //     DESTINATION
+    //     pacote* NEXT
 
 
     Test* pTest = new Test();

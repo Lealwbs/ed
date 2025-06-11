@@ -2,21 +2,28 @@
 #include <iostream>
 
 int ListaArranjo::GetItem(int pos) {
-    if (pos < 0 || pos >= tamanho)
+    if (pos < 0 || pos >= tamanho) {
+        throw "ERRO: Posicao Invalida!";
         return -1;
+    };
 
     return itens[pos];
 };
 
 void ListaArranjo::SetItem(int item, int pos) {
-    if (pos < 0 || pos >= tamanho)
+    if (pos < 0 || pos >= tamanho) {
+        throw "ERRO: Posicao Invalida!";
         return;
+    };
+
     itens[pos] = item;
 };
 
 void ListaArranjo::InsereInicio(int item) {
-    if (tamanho >= MAXTAM)
+    if (tamanho >= MAXTAM) {
+        throw "ERRO: Tamanho máximo atingido!";
         return;
+    };
 
     for (int i = tamanho; i > 0; i--) {
         itens[i] = itens[i - 1];
@@ -27,16 +34,20 @@ void ListaArranjo::InsereInicio(int item) {
 };
 
 void ListaArranjo::InsereFinal(int item) {
-    if (tamanho >= MAXTAM)
+    if (tamanho >= MAXTAM) {
+        throw "ERRO: Tamanho máximo atingido!";
         return;
+    };
 
     itens[tamanho] = item;
     tamanho++;
 };
 
 void ListaArranjo::InserePosicao(int item, int pos) {
-    if (pos < 0 || pos > tamanho || tamanho >= MAXTAM)
+    if (pos < 0 || pos > tamanho || tamanho >= MAXTAM) {
+        throw "ERRO: Posicao Invalida!";
         return;
+    };
 
     for (int i = tamanho; i > pos; i--) {
         itens[i] = itens[i - 1];
@@ -47,8 +58,10 @@ void ListaArranjo::InserePosicao(int item, int pos) {
 };
 
 int ListaArranjo::RemoveInicio() {
-    if (tamanho == 0)
+    if (tamanho == 0){
+        throw "ERRO: Lista vazia!";
         return -1;
+    };
 
     int aux = itens[0];
     for (int i = 0; i < tamanho - 1; i++) {
@@ -59,8 +72,10 @@ int ListaArranjo::RemoveInicio() {
 };
 
 int ListaArranjo::RemoveFinal() {
-    if (tamanho == 0)
+    if (tamanho == 0){
+        throw "ERRO: Lista vazia!";
         return -1;
+    };
 
     int aux = itens[tamanho - 1];
     tamanho--;
@@ -68,8 +83,10 @@ int ListaArranjo::RemoveFinal() {
 };
 
 int ListaArranjo::RemovePosicao(int pos) {
-    if (pos < 0 || pos >= tamanho || tamanho == 0)
-        return -1;
+    if (pos < 0 || pos >= tamanho || tamanho == 0){
+        throw "ERRO: Posição inválida OU Lista vazia!";
+        return -1;        
+    }
 
     int aux = itens[pos];
 

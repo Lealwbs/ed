@@ -1,9 +1,8 @@
-#include "../include/linked_list.hpp"
 #include "../include/array_list.hpp"
+#include "../include/linked_list.hpp"
 #include <iostream>
 
-int main(){
-
+void test_array_list() {
     ListaArranjo vetor = ListaArranjo();
 
     vetor.InsereInicio(5);
@@ -34,7 +33,6 @@ int main(){
 
     std::cout << "#####" << std::endl << std::endl;
 
-    
     std::cout << "Tamanho: " << vetor.GetTamanho() << std::endl;
     vetor.Imprime();
 
@@ -55,18 +53,25 @@ int main(){
 
     std::cout << "#####" << std::endl << std::endl;
 
-    for(int i=0; i<100; i++){
+    for (int i = 0; i < 100; i++) {
         vetor.InsereFinal(i);
     };
 
     vetor.Imprime();
 
     std::cout << vetor.RemovePosicao(99) << std::endl << std::endl;
-    
 
     vetor.Imprime();
+};
 
+void test_linked_list(){
+    ListaEncadeada vetor = ListaEncadeada();
+};
 
+int main() {
+
+    // test_array_list();
+    test_linked_list();
 
     return 0;
-}
+};

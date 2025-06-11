@@ -5,3 +5,4 @@ IndentAccessModifiers: true
 AccessModifierOffset: 0
 SpaceBeforeParens: true
 AllowShortFunctionsOnASingleLine: Empty
+PointerAlignment: Left

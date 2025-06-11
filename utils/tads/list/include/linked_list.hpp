@@ -3,6 +3,11 @@
 #ifndef LINKED_LIST_HPP
 #define LINKED_LIST_HPP
 
+typedef struct Node_t{
+    int valor;
+    struct Node_t* prox;
+} Node;
+
 class ListaEncadeada : public Lista {
     public:
         ListaEncadeada();
@@ -20,9 +25,9 @@ class ListaEncadeada : public Lista {
         void Limpa();
 
     private:
-        int* primeiro;
-        int* ultimo;
-        int* Posiciona(int pos, bool antes);
+        Node* primeiro;
+        Node* ultimo;
+        Node* Posiciona(int pos, bool antes);
 };
 
 #endif

@@ -38,11 +38,19 @@ void ListaEncadeada::SetItem(int item, int pos) {
 };
 
 void ListaEncadeada::InsereInicio(int item) {
-
+    Node* aux = new Node;
+    aux->valor = item;
+    aux->prox = primeiro;
+    primeiro = aux;
 };
 
 void ListaEncadeada::InsereFinal(int item) {
-
+    Node* aux = new Node;
+    aux->valor = item;
+    aux->prox = nullptr;
+    
+    ultimo->prox = aux;
+    ultimo = aux;
 };
 
 void ListaEncadeada::InserePosicao(int item, int pos) {

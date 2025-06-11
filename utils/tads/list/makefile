@@ -43,12 +43,12 @@ dirs:
 	$(CREATE_DIR) $(BIN_FOLDER) mkdir $(BIN_FOLDER)
 	$(CREATE_DIR) $(OBJ_FOLDER) mkdir $(OBJ_FOLDER)
 
-# Regra para compilar e executar o programa com um único comando
+# Compilar e executar o programa com um único comando
 run: all
 	$(CLEAR)
 	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV)
 
-# Regra para limpar os arquivos compilados e apagar os diretórios
+# Limpar os arquivos compilados e apagar os diretórios
 clean:
 	-$(DEL_COMMAND) $(OBJ_FOLDER)$(/)* $(BIN_FOLDER)$(/)*
 	$(DELETE_DIR1) 

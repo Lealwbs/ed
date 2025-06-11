@@ -1,6 +1,7 @@
 .vscode/*
 .vscode/
-/*/.json
-.json
+*.json
 /*/bin
 /*/obj
+*.o
+*.exe

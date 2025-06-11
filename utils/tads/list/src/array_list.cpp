@@ -45,7 +45,7 @@ void ListaArranjo::InsereFinal(int item) {
 
 void ListaArranjo::InserePosicao(int item, int pos) {
     if (pos < 0 || pos > tamanho || tamanho >= MAXTAM) {
-        throw "ERRO: Posicao Invalida!";
+        throw "ERRO: Posicao Invalida OU Tamanho máximo atingido!";
         return;
     };
 

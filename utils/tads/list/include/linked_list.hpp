@@ -27,7 +27,7 @@ class ListaEncadeada : public Lista {
     private:
         Node* primeiro;
         Node* ultimo;
-        Node* Posiciona(int pos, bool antes);
+        Node* Posiciona(int pos, bool antes = false);
 };
 
 #endif

@@ -88,51 +88,57 @@ void test_linked_list(){
 
     vetor.Imprime();
 
-    vetor.SetItem(40, 0);
+    vetor.SetItem(40, 1);
 
     vetor.Imprime();
 
-    std::cout << vetor.GetItem(7) << std::endl;
+    std::cout << "Get Item 7: " << vetor.GetItem(7) << std::endl;
 
-    // std::cout << vetor.Pesquisa(100) << std::endl;
+    std::cout <<  "Pesquisa 0: " << vetor.Pesquisa(0) << std::endl;
 
-    // std::cout << "#####" << std::endl << std::endl;
+    std::cout << "#####" << std::endl << std::endl;
 
-    // std::cout << "Tamanho: " << vetor.GetTamanho() << std::endl;
-    // vetor.Imprime();
+    std::cout << "Tamanho: " << vetor.GetTamanho() << std::endl;
+    vetor.Imprime();
 
-    // std::cout << vetor.RemovePosicao(7) << std::endl;
-    // std::cout << "Tamanho: " << vetor.GetTamanho() << std::endl;
-    // vetor.Imprime();
+    std::cout << "Remover Pos 7: " << vetor.RemovePosicao(7) << std::endl;
+    std::cout << "Tamanho: " << vetor.GetTamanho() << std::endl;
+    vetor.Imprime();
 
-    // std::cout << vetor.RemovePosicao(0) << std::endl;
-    // std::cout << "Tamanho: " << vetor.GetTamanho() << std::endl;
-    // vetor.Imprime();
+    std::cout << "Remover Pos 1: " << vetor.RemovePosicao(1) << std::endl;
+    std::cout << "Tamanho: " << vetor.GetTamanho() << std::endl;
+    vetor.Imprime();
 
-    // vetor.RemoveFinal();
-    // vetor.RemoveFinal();
-    // vetor.RemoveInicio();
-    // vetor.Imprime();
-
-    // vetor.Limpa();
-
-    // std::cout << "#####" << std::endl << std::endl;
-
-    // for (int i = 0; i < 100; i++) {
-    //     vetor.InsereFinal(i);
-    // };
+    // std::cout << 1+true << std::endl;
 
     // vetor.Imprime();
 
-    // std::cout << vetor.RemovePosicao(99) << std::endl << std::endl;
+    vetor.RemoveFinal();
+    vetor.RemoveFinal();
+    vetor.RemoveInicio();
+    vetor.Imprime();
+    std::cout << "Tamanho: " << vetor.GetTamanho() << std::endl;
+    
+    vetor.Limpa();
+    std::cout << "Tamanho: " << vetor.GetTamanho() << std::endl;
 
-    // vetor.Imprime();
+    std::cout << "#####" << std::endl << std::endl;
+
+    for (int i = 0; i < 100; i++) {
+        vetor.InsereFinal(i);
+    };
+
+    vetor.Imprime();
+
+    std::cout << vetor.RemovePosicao(100) << std::endl << std::endl;
+
+    vetor.Imprime();
 
 };
 
 int main() {
 
-    // test_array_list();
+    test_array_list();
     test_linked_list();
 
     return 0;

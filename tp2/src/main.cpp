@@ -3,6 +3,9 @@
 #include <string>
 
 #include "../include/pacote.hpp"
+#include "../include/armazem.hpp"
+#include "../include/transporte.hpp"
+#include "../include/escalonador.hpp"
 
 int main(int argc, char* argv[]) {
 
@@ -32,19 +35,19 @@ int main(int argc, char* argv[]) {
     // LEITURA DO NÚMERO DE PACOTES	(ÚLTIMO PARÂMETRO)
     arquivo >> numeropacotes;
 
-    // PRINTANDO OS PARÂMETROS
-    std::cout << "Capacidade de transporte: " << capacidadetransporte << std::endl;
-    std::cout << "Latencia de transporte:   " << latenciatransporte << std::endl;
-    std::cout << "Intervalo de transporte:  " << intervalotransportes << std::endl;
-    std::cout << "Custo de remocao:         " << custoremocao << std::endl;
-    std::cout << "Numero de armazens:       " << numeroarmazens << std::endl;
-    std::cout << "Matriz de adjacencia:     ";
-    for (int i = 0; i < numeroarmazens; i++) {
-        if (i) std::cout << "                          ";
-        for (int j = 0; j < numeroarmazens; j++) {std::cout << matriz[i][j] << " ";};
-        std::cout << std::endl;
-    };
-    std::cout << numeropacotes << " Pacotes:" << std::endl;
+    // // PRINTANDO OS PARÂMETROS
+    // std::cout << "Capacidade de transporte: " << capacidadetransporte << std::endl;
+    // std::cout << "Latencia de transporte:   " << latenciatransporte << std::endl;
+    // std::cout << "Intervalo de transporte:  " << intervalotransportes << std::endl;
+    // std::cout << "Custo de remocao:         " << custoremocao << std::endl;
+    // std::cout << "Numero de armazens:       " << numeroarmazens << std::endl;
+    // std::cout << "Matriz de adjacencia:     ";
+    // for (int i = 0; i < numeroarmazens; i++) {
+    //     if (i) std::cout << "                          ";
+    //     for (int j = 0; j < numeroarmazens; j++) {std::cout << matriz[i][j] << " ";};
+    //     std::cout << std::endl;
+    // };
+    // std::cout << numeropacotes << " Pacotes:" << std::endl;
 
     // LEITURA DOS PACOTES
     int tempochegada, idpacote, armazeminicial, armazemfinal;
@@ -54,7 +57,7 @@ int main(int argc, char* argv[]) {
         arquivo >> tempochegada >> trash >> idpacote >> trash >> armazeminicial >> trash >> armazemfinal;
 
         Pacote pacote = Pacote( tempochegada, idpacote, armazeminicial, armazemfinal);
-        pacote.PrintInfo();
+        //pacote.PrintInfo();
         //armazem.addPacote(pacote);  
     };
 

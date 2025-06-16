@@ -4,6 +4,8 @@
 #include <iostream>
 
 class Pacote {
+    friend class Evento; // Permite que a classe Evento acesse os membros privados de Pacote
+
     public:
         enum Estado_Pacote { 
             Nao_Postado,         // 1. Não foi postado

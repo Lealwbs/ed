@@ -2,10 +2,14 @@
 #include <iostream>
 #include <string>
 
-#include "../include/pacote.hpp"
 #include "../include/armazem.hpp"
+#include "../include/evento.hpp"
+#include "../include/grafo_rede.hpp"
+#include "../include/heap_escalonador.hpp"
+#include "../include/outros_tads.hpp"
+#include "../include/pacote.hpp"
+#include "../include/pilha_secao.hpp"
 #include "../include/transporte.hpp"
-#include "../include/escalonador.hpp"
 
 int main(int argc, char* argv[]) {
 

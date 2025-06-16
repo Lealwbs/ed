@@ -5,69 +5,62 @@
 #include <cstring>
 
 // ------------------
-// LISTA DE INTEIROS
+// LISTA DE INTEIROS/STRINGS
 // ------------------
-struct NodeListaInt {
+enum TipoDado {
+    tipo_inteiro,
+    tipo_string
+};
+
+struct NodeLista {
+    TipoDado tipo;
     int valor;
-    NodeListaInt* proximo;
+    std::string texto;
+    NodeLista* proximo;
 };
 
-class ListaInt {
+class Lista {
 public:
-    ListaInt();
-    ~ListaInt();
+    Lista();
+    ~Lista();
 
-    void Adicionar(int valor);
-    bool Vazia() const;
-    void Imprimir() const;
+    void AdicionarInt(int valor);
+    void AdicionarTexto(std::string texto);
+
+    void RemoverInicio();
+
+    NodeLista* GetHead();
+    bool Vazia();
+
+    void Imprimir();
+    void ImprimirRota();
 
 private:
-    NodeListaInt* inicio;
-    NodeListaInt* fim;
+    NodeLista* head;
+    NodeLista* tail;
 };
 
-// ------------------
-// LISTA DE STRINGS
-// ------------------
-struct NodeListaString {
-    char* texto;
-    NodeListaString* proximo;
-};
-
-class ListaString {
-public:
-    ListaString();
-    ~ListaString();
-
-    void Adicionar(const char* texto);
-    bool Vazia() const;
-    void Imprimir() const;
-
-private:
-    NodeListaString* inicio;
-    NodeListaString* fim;
-};
 
 // -------------
 // FILA DE INT
 // -------------
-struct NodeFilaInt {
+struct NodeFila {
     int valor;
-    NodeFilaInt* proximo;
+    NodeFila* proximo;
 };
 
-class FilaInt {
+class Fila {
 public:
-    FilaInt();
-    ~FilaInt();
+    Fila();
+    ~Fila();
 
     void Enfileirar(int valor);
     int Desenfileirar();
     bool Vazia() const;
 
 private:
-    NodeFilaInt* frente;
-    NodeFilaInt* tras;
+    NodeFila* frente;
+    NodeFila* tras;
 };
 
 #endif

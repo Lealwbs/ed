@@ -1,130 +1,152 @@
 #include "../include/outros_tads.hpp"
-#include <iostream>
-#include <cstring>
 
 // ------------------
-// LISTA DE INTEIROS
+// IMPLEMENTAÇÃO - LISTA
 // ------------------
 
-ListaInt::ListaInt() : inicio(nullptr), fim(nullptr) {}
+Lista::Lista(){
+    head = nullptr;
+    tail = nullptr;
+};
 
-ListaInt::~ListaInt() {
-    NodeListaInt* atual = inicio;
+Lista::~Lista() {
+    NodeLista* atual = head;
     while (atual != nullptr) {
-        NodeListaInt* proximo = atual->proximo;
+        NodeLista* proximo = atual->proximo;
         delete atual;
         atual = proximo;
-    }
-}
+    };
+};
 
-void ListaInt::Adicionar(int valor) {
-    NodeListaInt* novo = new NodeListaInt{valor, nullptr};
-    if (Vazia()) {
-        inicio = fim = novo;
-    } else {
-        fim->proximo = novo;
-        fim = novo;
-    }
-}
-
-bool ListaInt::Vazia() const {
-    return inicio == nullptr;
-}
-
-void ListaInt::Imprimir() const {
-    NodeListaInt* atual = inicio;
-    while (atual != nullptr) {
-        std::cout << atual->valor << " ";
-        atual = atual->proximo;
-    }
-    std::cout << std::endl;
-}
-
-// ------------------
-// LISTA DE STRINGS
-// ------------------
-
-ListaString::ListaString() : inicio(nullptr), fim(nullptr) {}
-
-ListaString::~ListaString() {
-    NodeListaString* atual = inicio;
-    while (atual != nullptr) {
-        NodeListaString* proximo = atual->proximo;
-        delete[] atual->texto;
-        delete atual;
-        atual = proximo;
-    }
-}
-
-void ListaString::Adicionar(const char* texto) {
-    NodeListaString* novo = new NodeListaString;
-    if (texto) {
-        novo->texto = new char[strlen(texto) + 1];
-        strcpy(novo->texto, texto);
-    } else {
-        novo->texto = nullptr;
-    }
+void Lista::AdicionarInt(int valor) {
+    NodeLista* novo = new NodeLista;
+    novo->tipo = tipo_inteiro;
+    novo->valor = valor;
+    novo->texto = "";
     novo->proximo = nullptr;
 
     if (Vazia()) {
-        inicio = fim = novo;
+        head = tail = novo;
     } else {
-        fim->proximo = novo;
-        fim = novo;
-    }
-}
+        tail->proximo = novo;
+        tail = novo;
+    };
+};
 
-bool ListaString::Vazia() const {
-    return inicio == nullptr;
-}
+void Lista::AdicionarTexto(std::string texto) {
+    NodeLista* novo = new NodeLista;
+    novo->tipo = tipo_string;
+    novo->valor = 0;
+    novo->texto = texto;
+    novo->proximo = nullptr;
 
-void ListaString::Imprimir() const {
-    NodeListaString* atual = inicio;
+    if (Vazia()) {
+        head = tail = novo;
+    } else {
+        tail->proximo = novo;
+        tail = novo;
+    };
+};
+
+void Lista::RemoverInicio() {
+    if (head == nullptr) return;
+    NodeLista* temp = head;
+    head = head->proximo;
+    delete temp;
+    if (head == nullptr) tail = nullptr;
+};
+
+NodeLista* Lista::GetHead() {
+    return head;
+};
+
+bool Lista::Vazia() {
+    return head == nullptr;
+};
+
+void Lista::Imprimir() {
+    NodeLista* atual = head;
     while (atual != nullptr) {
-        if (atual->texto) {
+        if (atual->tipo == tipo_inteiro) {
+            std::cout << atual->valor << " ";
+        } else if (atual->tipo == tipo_string) {
             std::cout << atual->texto << std::endl;
-        }
+        };
         atual = atual->proximo;
-    }
-}
+    };
 
-// -------------
-// FILA DE INT
-// -------------
+    if (head != nullptr && head->tipo == tipo_inteiro) {
+        std::cout << std::endl;
+    };
+};
 
-FilaInt::FilaInt() : frente(nullptr), tras(nullptr) {}
+void Lista::ImprimirRota() {
+    if (Vazia()) {
+        std::cout << "Rota vazia!" << std::endl;
+        return;
+    };
 
-FilaInt::~FilaInt() {
+    NodeLista* atual = head;
+    while (atual != nullptr) {
+        if (atual->tipo == tipo_inteiro) {
+            std::cout << atual->valor;
+            if (atual->proximo != nullptr) {
+                std::cout << " -> ";
+            };
+        };
+        atual = atual->proximo;
+    };
+    std::cout << std::endl;
+};
+
+
+
+
+
+// ------------------
+// FILA
+// ------------------
+
+Fila::Fila() {
+    frente = nullptr;
+    tras = nullptr;
+};
+
+Fila::~Fila() {
     while (!Vazia()) {
         Desenfileirar();
-    }
-}
+    };
+};
 
-void FilaInt::Enfileirar(int valor) {
-    NodeFilaInt* novo = new NodeFilaInt{valor, nullptr};
-    if (tras) {
+void Fila::Enfileirar(int valor) {
+    NodeFila* novo = new NodeFila{valor, nullptr};
+
+    if (tras != nullptr) {
         tras->proximo = novo;
     } else {
         frente = novo;
-    }
+    };
+
     tras = novo;
-}
+};
 
-int FilaInt::Desenfileirar() {
-    if (Vazia()) return -1;
+int Fila::Desenfileirar() {
+    if (Vazia()) {
+        return -1;
+    };
 
-    NodeFilaInt* temp = frente;
+    NodeFila* temp = frente;
     int valor = temp->valor;
     frente = frente->proximo;
 
     if (frente == nullptr) {
         tras = nullptr;
-    }
+    };
 
     delete temp;
     return valor;
-}
+};
 
-bool FilaInt::Vazia() const {
+bool Fila::Vazia() const {
     return frente == nullptr;
-}
+};

@@ -27,30 +27,24 @@ void Pacote::SetTempoArmazenado(double tempo){ tempo_armazenado = tempo; };
 void Pacote::SetTempoTransito(double tempo){ tempo_transito = tempo; };
 
 // ROTA
-Lista* GetRota(){ return rota; };
+Lista* Pacote::GetRota(){ return rota; };
 
-void SetRota(Lista* rota){
-    if (this->rota != nullptr) {
-        delete this->rota;
-    }
-    this->rota = rota;
+void Pacote::SetRota(Lista* rota){
+    if (this->rota != nullptr) { delete this->rota; }; // Se já existe uma rota, apaga ela 
+    this->rota = rota; // Seta a nova rota
 };
 
-void AvancarRota(){ // Remove o nó atual da rota
-
+void Pacote::AvancarRota(){ // Remove o nó atual da rota
+    if (rota != nullptr && !rota->Vazia()) {
+        rota->RemoverInicio();
+    }
 } 
 
-int GetProximoSalto(){
-    if (rota->Vazia() || rota == nullptr || rota->GetInicio()->proximo == nullptr) {
-        // Se a rota não existe, está vazia, ou só tem um elemento (o destino final),
-        // não há próximo salto.
-        return -1; 
-    }
-    // O próximo salto é o segundo elemento da lista.
-    return rota->GetInicio()->proximo->valorInteiro;
+// O próximo salto é o 2º elemento da lista "rota", caso não tenha segundo elemento, ou seja vazio/nulo, retorna -1 (não possui)
+int Pacote::GetProximoSalto(){
+    if (rota->Vazia() || rota == nullptr || rota->GetHead()->proximo == nullptr) return -1; 
+    return rota->GetHead()->proximo->valor;
 };
-
-
 
 // OUTROS MÉTODOS
 void Pacote::PrintInfo() {

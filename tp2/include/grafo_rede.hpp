@@ -12,15 +12,15 @@ class GrafoRede {
         int GetNumeroArmazens();
         
         void AdicionarAresta(int armazem_1, int armazem_2); // Conexão entre 2 armazéns
-        ListaInt* GetVizinhos(int v);
+        Lista* GetVizinhos(int v);
 
         void Print();
 
-        ListaInt* GetRota(const GrafoRede& rede, int armazem_origem, int armazem_destino); // Pegar a rota com menos saltos entre 2 armazens, usando busca em largura
+        Lista* GetRota(GrafoRede& rede, int armazem_origem, int armazem_destino); // Pegar a rota com menos saltos entre 2 armazens, usando busca em largura
 
     private:
         int numero_armazens;
-        ListaInt** matriz_adjacencia; // Matriz de adjacência para representar as conexões entre os armazéns
+        Lista** matriz_adjacencia; // Matriz de adjacência para representar as conexões entre os armazéns
 
 };
 

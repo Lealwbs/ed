@@ -2,28 +2,27 @@
 #define ARMAZEM_HPP
 
 #include "../include/evento.hpp"
+#include "../include/pilha_secao.hpp"
 
-class Armazem {
+
+class Armazem { // Um armazém contem várias seções
     public:
+        Armazem(int id_armazem, int numero_total_destinos_possiveis);
+        ~Armazem();
+        
+        void SetIdArmazem(int id_armazem);
+        int GetIdArmazem();
 
+        void AddPacote(Pacote* pacote); // Adiciona um pacote numa seção com base no seu próximo destino
+
+        Secao* GetSecaoByDestino(int id_destino); // Retorna a seção correspondente a um destino específico
+
+        void PrintAllPacotes(); //Printa todos os pacotes de todas as seções do armazém (DEBUG)
+
+    private:
+        int id_armazem; // Identificador do armazém
+        int numero_secoes; // Número de seções criadas
+        Secao* secoes;  // Vetor array de seções do armazém
 };
-
-
-// O escalonador é um elemento central da simulação de eventos discretos. 
-// Ele é implementado como uma fila de prioridade que recupera o próximo evento 
-// (ou seja o evento de
-// menor data-hora que está na fila). 
-// Sugere-se implementar a fila de prioridade utilizando
-// um minheap.
-
-// As operações a serem implementadas incluem:
-// 1. Inicializa
-// 2. InsereEvento
-// 3. RetiraProximoEvento
-// 4. Finaliza
-
-// Para fins de escalonamento, você pode converter as várias data-hora para o número de horas, 
-// incluindo frações, a partir de uma data de referência. 
-// As estatísticas de escalonamento devem ser geradas quando finalizar.
 
 #endif

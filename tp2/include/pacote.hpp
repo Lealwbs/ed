@@ -1,6 +1,8 @@
 #ifndef PACOTE_HPP
 #define PACOTE_HPP
 
+#include "../include/outros_tads.hpp"
+
 #include <iostream>
 
 class Pacote {
@@ -24,7 +26,6 @@ class Pacote {
         int GetArmazemInicial();
         int GetArmazemFinal();
         Estado_Pacote GetEstado();
-        // Lista* GetRota(); 
         double GetTempoArmazenado();
         double GetTempoTransito();
 
@@ -32,6 +33,12 @@ class Pacote {
         void SetEstado(Estado_Pacote novo_estado);
         void SetTempoArmazenado(double tempo);
         void SetTempoTransito(double tempo);
+
+        // ROTA
+        Lista* GetRota();
+        void SetRota(Lista* rota);
+        void AvancarRota(); // Remove o nó atual da rota
+        int GetProximoSalto();
 
         // OUTROS MÉTODOS
         void PrintInfo();
@@ -44,7 +51,7 @@ class Pacote {
         int armazem_final;    // Armazém final do pacote
 
         Estado_Pacote estado;
-        //Lista* rota; 
+        Lista* rota; 
 
         double tempo_armazenado;
         double tempo_transito;   // Tempo sendo transportado

@@ -25,7 +25,7 @@ class Simulacao {
         ~Simulacao();
         
         // MAIN METHOD
-        void PrepararSimulacao();
+
         void ExecutarSimulacao();
         void AdicionarPacote(double tempo_chegada, int id_pacote, int armazem_inicial, int armazem_final);
     
@@ -45,6 +45,7 @@ class Simulacao {
         
         // CONTROLE DA SIMULAÇÃO
         double tempo_atual;
+        double tempo_primeiro_pacote;
         int pacotes_pendentes;
         Lista* historico_eventos;
         
@@ -52,6 +53,7 @@ class Simulacao {
         Pacote** todos_pacotes;
         
         // INICIALIZACAO
+        void PrepararSimulacao();
         void IniciarTransportes(double tempo_inicial);
         
         // PROCESSAMENTO DE EVENTOS
@@ -59,8 +61,8 @@ class Simulacao {
         void ProcessarEventoTransporte(EventoTransporte* evento);
         
         // LOG
-        void RegistrarEvento(double tempo, int id_pacote, std::string descricao);
-        void ImprimirHistoricoEventos();
+        void RegistrarLog(double tempo, int id_pacote, std::string descricao);
+        void ImprimirLog();
         std::string FormatarIdentificadorString(int id, int tamanho);
         
         /// LIMPEZA DE MEMÓRIA

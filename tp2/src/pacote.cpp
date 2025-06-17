@@ -34,16 +34,23 @@ void Pacote::SetRota(Lista* rota){
     this->rota = rota; // Seta a nova rota
 };
 
-void Pacote::AvancarRota(){ // Remove o nó atual da rota
-    if (rota != nullptr && !rota->Vazia()) {
-        rota->RemoverInicio();
+void Pacote::AvancarRota() {
+    if (rota == nullptr || rota->Vazia()) return;
+
+    // Cria uma nova lista excluindo o primeiro nó
+    Lista* novaRota = new Lista();
+    NodeLista* atual = rota->GetHead()->proximo;
+    while(atual != nullptr){
+        novaRota->AdicionarInt(atual->valor);
+        atual = atual->proximo;
     }
-} 
+    SetRota(novaRota);
+}
 
 // O próximo salto é o 2º elemento da lista "rota", caso não tenha segundo elemento, ou seja vazio/nulo, retorna -1 (não possui)
-int Pacote::GetProximoSalto(){
-    if (rota == nullptr || rota->Vazia()) return -1;
-    return rota->GetHead()->valor;
+int Pacote::GetProximoSalto() {
+    if (rota == nullptr || rota->Vazia() || rota->GetHead()->proximo == nullptr) return -1;
+    return rota->GetHead()->proximo->valor;
 }
 
 

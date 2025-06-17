@@ -51,6 +51,7 @@ int main(int argc, char* argv[]) {
     int tempochegada, idpacote, armazeminicial, armazemfinal; std::string trash;
     for (int i = 0; i < numeropacotes; ++i) {
         arquivo >> tempochegada >> trash >> idpacote >> trash >> armazeminicial >> trash >> armazemfinal;
+        idpacote = i; // O ID do pacote é o índice do loop (000, 001, 002, ...)
         simulacao.AdicionarPacote(tempochegada, idpacote, armazeminicial, armazemfinal);
     };
     arquivo.close();
@@ -58,7 +59,6 @@ int main(int argc, char* argv[]) {
     std::cout << "Check Antes Simulacao" << std::endl;
     
     // APÓS INSERÇÃO DOS PACOTES, EXECUTA A SIMULAÇÃO
-    simulacao.PrepararSimulacao();
     simulacao.ExecutarSimulacao();
 
     std::cout << "Check Depois Simulacao" << std::endl;

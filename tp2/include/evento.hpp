@@ -11,7 +11,7 @@ class Evento {
         };
 
         Evento();
-        ~Evento();
+        virtual ~Evento();  // IMPORTANTE: Destrutor virtual para polimorfismo
 
         // MÉTODOS SET
         void SetTempo(double tempo);
@@ -34,6 +34,7 @@ class Evento {
 class EventoTransporte : public Evento {
     public:
         EventoTransporte(double tempo, int armazem_origem, int armazem_destino);
+        virtual ~EventoTransporte();  // Destrutor virtual
 
         // MÉTODOS SET
         void SetArmazemOrigem(int armazem_origem);
@@ -56,6 +57,7 @@ class EventoTransporte : public Evento {
 class EventoChegada : public Evento {
     public:
         EventoChegada(double tempo, Pacote* pacote, int armazem_chegada);
+        virtual ~EventoChegada();  // Destrutor virtual
 
         // MÉTODOS SET
         void SetPacote(Pacote* pacote);

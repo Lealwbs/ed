@@ -7,6 +7,7 @@
 Evento::Evento() {};
 Evento::~Evento() {};
 
+
 double Evento::GetTempo() { return tempo; }
 long long Evento::GetPrioridade() { return prioridade; }
 Evento::TipoEvento Evento::GetTipo() { return tipo; }
@@ -27,6 +28,8 @@ EventoTransporte::EventoTransporte(double tempo, int armazem_origem, int armazem
     this->prioridade = 0;
     UpdatePrioridadeTransporte(armazem_origem, armazem_destino);
 }
+
+EventoTransporte::~EventoTransporte(){};
 
 int EventoTransporte::GetArmazemOrigem() { return armazem_origem; }
 int EventoTransporte::GetArmazemDestino() { return armazem_destino; }
@@ -57,6 +60,8 @@ EventoChegada::EventoChegada(double tempo, Pacote* pacote, int armazem_chegada){
     this->prioridade = 0;
     UpdatePrioridadeChegada(pacote);
 }
+
+EventoChegada::~EventoChegada(){};
 
 Pacote* EventoChegada::GetPacote() { return pacote; }
 int EventoChegada::GetArmazemChegada() { return armazem_chegada; }

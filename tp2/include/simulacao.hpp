@@ -1,13 +1,17 @@
 #ifndef SIMULACAO_HPP
 #define SIMULACAO_HPP
 
-#include "armazem.hpp"
-#include "evento.hpp"
-#include "grafo_rede.hpp"
-#include "heap_escalonador.hpp"
-#include "outros_tads.hpp"
-#include "pacote.hpp"
-#include "transporte.hpp"
+#include "../include/armazem.hpp"
+#include "../include/evento.hpp"
+#include "../include/grafo_rede.hpp"
+#include "../include/heap_escalonador.hpp"
+#include "../include/outros_tads.hpp"
+#include "../include/pacote.hpp"
+#include "../include/transporte.hpp"
+
+#include <string>
+#include <exception>
+#include <iostream>
 
 class Simulacao {
 private:
@@ -37,14 +41,22 @@ private:
     void IniciarTransportesAutomaticos(double tempo_inicial);
     void CalcularRotasPacotes();
     
-    // Métodos privados de processamento
+    // Métodos privados de processamento de eventos
     void ProcessarEventoChegada(Evento* evento);
     void ProcessarEventoTransporte(Evento* evento);
     void ExecutarTransferenciaArmazem(int origem, int destino, double momento);
     
-    // Métodos privados de logging
+    // Métodos privados de validação e segurança
+    bool ValidarArmazem(int id_armazem) const;
+    bool ValidarPacote(const Pacote* pacote) const;
+    bool ValidarEvento(const Evento* evento) const;
+    
+    // Métodos privados de logging e formatação
     void RegistrarEvento(double tempo, int id_pacote, const std::string& descricao);
     std::string FormatarIdentificadorString(int id, int tamanho);
+    
+    // Métodos privados de limpeza de memória
+    void LimparMemoria();
 
 public:
     // Construtor e destrutor
@@ -55,12 +67,25 @@ public:
     // Método principal de execução
     void ExecutarSimulacao();
     
-    // Métodos para adicionar pacotes
+    // Métodos para configuração de pacotes
     void AdicionarPacote(Pacote* novo_pacote);
     void FinalizarConfiguracao();
     
     // Método para exibir resultados
     void ExibirResultados();
+    
+    // Métodos públicos para depuração (opcionais)
+    void ExibirStatusSimulacao() const;
+    void ExibirEstatisticas() const;
+    
+    // Getters para depuração (opcionais)
+    double GetTempoAtual() const { return tempo_atual; }
+    int GetPacotesPendentes() const { return pacotes_pendentes; }
+    int GetTotalPacotes() const { return total_pacotes; }
+    int GetNumeroArmazens() const { return numero_armazens; }
+    
+    // Método para verificar integridade (opcional)
+    bool VerificarIntegridade() const;
 };
 
 #endif

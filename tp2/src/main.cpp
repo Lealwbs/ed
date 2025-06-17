@@ -29,19 +29,19 @@ int main(int argc, char* argv[]) {
     // LEITURA DO NÚMERO DE PACOTES	(ÚLTIMO PARÂMETRO)
     arquivo >> numeropacotes;
 
-    // PRINTANDO OS PARÂMETROS (DEBUG)
-    std::cout << "Capacidade de transporte: " << capacidadetransporte << std::endl;
-    std::cout << "Latencia de transporte:   " << latenciatransporte << std::endl;
-    std::cout << "Intervalo de transporte:  " << intervalotransportes << std::endl;
-    std::cout << "Custo de remocao:         " << custoremocao << std::endl;
-    std::cout << "Numero de armazens:       " << numeroarmazens << std::endl;
-    std::cout << "Matriz de adjacencia:     ";
-    for (int i = 0; i < numeroarmazens; i++) {
-        if (i) std::cout << "                          ";
-        for (int j = 0; j < numeroarmazens; j++) {std::cout << matriz_adjacencia[i][j] << " ";};
-        std::cout << std::endl;
-    };
-    std::cout << numeropacotes << " Pacotes" << std::endl;
+    // // PRINTANDO OS PARÂMETROS (DEBUG)
+    // std::cout << "Capacidade de transporte: " << capacidadetransporte << std::endl;
+    // std::cout << "Latencia de transporte:   " << latenciatransporte << std::endl;
+    // std::cout << "Intervalo de transporte:  " << intervalotransportes << std::endl;
+    // std::cout << "Custo de remocao:         " << custoremocao << std::endl;
+    // std::cout << "Numero de armazens:       " << numeroarmazens << std::endl;
+    // std::cout << "Matriz de adjacencia:     ";
+    // for (int i = 0; i < numeroarmazens; i++) {
+    //     if (i) std::cout << "                          ";
+    //     for (int j = 0; j < numeroarmazens; j++) {std::cout << matriz_adjacencia[i][j] << " ";};
+    //     std::cout << std::endl;
+    // };
+    // std::cout << numeropacotes << " Pacotes" << std::endl;
 
     // CRIAÇÃO DA SIMULAÇÃO
     Simulacao simulacao = Simulacao( capacidadetransporte, latenciatransporte, 
@@ -49,25 +49,25 @@ int main(int argc, char* argv[]) {
         
      // LEITURA E ADIÇÃO DOS PACOTES À SIMULAÇÃO
     int tempochegada, idpacote, armazeminicial, armazemfinal; std::string trash;
-     for (int i = 0; i < numeropacotes; ++i) {
+    for (int i = 0; i < numeropacotes; ++i) {
         arquivo >> tempochegada >> trash >> idpacote >> trash >> armazeminicial >> trash >> armazemfinal;
         simulacao.AdicionarPacote(tempochegada, idpacote, armazeminicial, armazemfinal);
-        std::cout << "OK pacote" << std::endl;
     };
     arquivo.close();
-
-    std::cout << "OK Antes Simulacao" << std::endl;
+    
+    std::cout << "Check Antes Simulacao" << std::endl;
     
     // APÓS INSERÇÃO DOS PACOTES, EXECUTA A SIMULAÇÃO
+    simulacao.PrepararSimulacao();
     simulacao.ExecutarSimulacao();
 
-    std::cout << "OK Depois Simulacao" << std::endl;
+    std::cout << "Check Depois Simulacao" << std::endl;
 
     // LIMPA A MEMÓRIA ALLOCADA
     for (int i = 0; i < numeroarmazens; ++i) { delete[] matriz_adjacencia[i]; }
     delete[] matriz_adjacencia;
 
-    std::cout << "OK FINAL" << std::endl;
+    std::cout << "Check FINAL" << std::endl;
 
     return 0;
 };

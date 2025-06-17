@@ -52,7 +52,6 @@ class Simulacao {
         Pacote** todos_pacotes;
         
         // INICIALIZACAO
-        void InicializarDados();
         void IniciarTransportes(double tempo_inicial);
         
         // PROCESSAMENTO DE EVENTOS

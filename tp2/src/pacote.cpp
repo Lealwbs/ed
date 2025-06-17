@@ -42,9 +42,10 @@ void Pacote::AvancarRota(){ // Remove o nó atual da rota
 
 // O próximo salto é o 2º elemento da lista "rota", caso não tenha segundo elemento, ou seja vazio/nulo, retorna -1 (não possui)
 int Pacote::GetProximoSalto(){
-    if (rota->Vazia() || rota == nullptr || rota->GetHead()->proximo == nullptr) return -1; 
-    return rota->GetHead()->proximo->valor;
-};
+    if (rota == nullptr || rota->Vazia()) return -1;
+    return rota->GetHead()->valor;
+}
+
 
 // OUTROS MÉTODOS
 void Pacote::PrintInfo() {

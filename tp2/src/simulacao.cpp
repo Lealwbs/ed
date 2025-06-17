@@ -45,18 +45,12 @@ Simulacao::Simulacao(int capacidade_transporte,
     this->tempo_atual = 0.0;
     this->pacotes_pendentes = 0;
     
-    InicializarDados();
+    std::cout << "SUCCESS: Simulacao construtor" << std::endl;
 }
 
 // Destrutor - libera toda a memória alocada
 Simulacao::~Simulacao() {
     LimparMemoria();
-}
-
-// Inicializa estruturas de dados básicas
-void Simulacao::InicializarDados() {
-    // Inicialização básica já feita no construtor
-    // Este método pode ser expandido se necessário
 }
 
 // Adiciona um pacote à simulação
@@ -76,32 +70,42 @@ void Simulacao::AdicionarPacote(double tempo_chegada, int id_pacote, int armazem
     // Cria evento de chegada inicial
     EventoChegada* evento_chegada = new EventoChegada(tempo_chegada, novo_pacote, armazem_inicial);
     escalonador_eventos->InserirEvento(evento_chegada);
+    std::cout << "SUCCESS: Pacote adicionado" << std::endl;
 }
 
 // Prepara a simulação (inicializa transportes)
 void Simulacao::PrepararSimulacao() {
+
+    std::cout << "Preparando Simulacao..." << std::endl;
     // Encontra o tempo do primeiro evento para iniciar os transportes
     double tempo_inicial = 0.0;
     if (!escalonador_eventos->Vazio()) {
-        // Como não temos método para "espiar" o próximo evento sem removê-lo,
+        // Como não temos method para "espiar" o próximo evento sem removê-lo,
         // vamos usar o tempo do primeiro pacote adicionado
         if (pacotes_pendentes > 0) {
             tempo_inicial = todos_pacotes[0]->GetTempoChegada();
         }
     }
     
+    std::cout << "SUCCESS: Preparar Simulacao" << std::endl;
     IniciarTransportes(tempo_inicial);
+    std::cout << "SUCCESS: Transportes Iniciados" << std::endl;
 }
+
 
 // Executa a simulação principal
 void Simulacao::ExecutarSimulacao() {
     bool primeiro_pacote_processado = false;
-    
+
+    std::cout << "SUCCESS: ExecutarSimulacao v0" << std::endl;
+
     // Loop principal da simulação
     while (!escalonador_eventos->Vazio() && pacotes_pendentes > 0) {
         // Remove o próximo evento
         Evento* proximo_evento = escalonador_eventos->ExtrairEvento();
         
+        std::cout << "SUCCESS: Qtde pacotes pendentes: " << pacotes_pendentes << std::endl;
+
         // Lógica para inicializar os transportes a partir do tempo do primeiro evento de pacote
         if (!primeiro_pacote_processado && proximo_evento->GetTipo() == Evento::Chegada) {
             double tempo_primeiro_pacote = proximo_evento->GetTempo();
@@ -182,67 +186,79 @@ void Simulacao::ProcessarEventoChegada(EventoChegada* evento) {
     }
 }
 
-// Processa evento de transporte
 void Simulacao::ProcessarEventoTransporte(EventoTransporte* evento) {
+    if (pacotes_pendentes == 0) return;
     int origem_id = evento->GetArmazemOrigem();
     int destino_id = evento->GetArmazemDestino();
-    
+
     // Agenda o próximo transporte nesta rota
     EventoTransporte* proximo_transporte = new EventoTransporte(
         tempo_atual + intervalo_transportes, origem_id, destino_id);
     escalonador_eventos->InserirEvento(proximo_transporte);
-    
+
     // Obtém a seção correspondente ao destino
     Secao* secao = lista_armazens[origem_id]->GetSecaoByDestino(destino_id);
     if (secao == nullptr || secao->Vazia()) {
         return; // Nenhum pacote para transportar
     }
-    
+
     int num_pacotes_secao = secao->GetTamanho();
-    
-    // Determina quantos pacotes transportar
     int pacotes_a_transportar = std::min(num_pacotes_secao, capacidade_transporte);
-    
+
     // Obtem todos os pacotes da seção em um array
     Pacote** pacotes_na_secao = new Pacote*[num_pacotes_secao];
     for (int i = 0; i < num_pacotes_secao; i++) {
-        pacotes_na_secao[i] = secao->DesempilharPacote();  // Remove temporariamente
+        pacotes_na_secao[i] = secao->DesempilharPacote();
     }
-    
-    // Seleciona pacotes FIFO (do fundo do array, que eram o fundo da pilha)
+
+    // Seleciona pacotes FIFO (do fundo do array)
     Pacote** pacotes_selecionados = new Pacote*[pacotes_a_transportar];
     for (int i = 0; i < pacotes_a_transportar; i++) {
         pacotes_selecionados[i] = pacotes_na_secao[num_pacotes_secao - 1 - i];
     }
-    
+
     double tempo_operacao = tempo_atual;
-    
-    // FASE 1: Registra remoção de todos os pacotes
+
+    // FASE 1: Registrar remoção de todos os pacotes
     for (int i = 0; i < num_pacotes_secao; i++) {
+        Pacote* pacote = pacotes_na_secao[i];
+
+        if (pacote->GetEstado() == Pacote::Entregue) {
+            continue; // Pula pacotes já entregues
+        }
+
         tempo_operacao += custo_remocao;
-        
-        std::string mensagem = "removido de " + FormatarIdentificadorString(origem_id, 3) + 
-                              " na secao " + FormatarIdentificadorString(destino_id, 3);
-        RegistrarEvento(tempo_operacao, pacotes_na_secao[i]->GetIdPacote(), mensagem);
+        std::string mensagem = "removido de " + FormatarIdentificadorString(origem_id, 3) +
+                            " na secao " + FormatarIdentificadorString(destino_id, 3);
+        RegistrarEvento(tempo_operacao, pacote->GetIdPacote(), mensagem);
     }
-    
-    // FASE 2: Processa pacotes selecionados para transporte
+
+    // FASE 2: Processar pacotes selecionados para transporte
     for (int i = 0; i < pacotes_a_transportar; i++) {
         Pacote* pacote = pacotes_selecionados[i];
+
+        // Verifica se há próximo salto antes de avançar
+        if (pacote->GetProximoSalto() == -1) {
+            std::cerr << "[ERRO] Pacote " << pacote->GetIdPacote()
+                      << " não possui próximo salto antes de transporte. Ignorado." << std::endl;
+            continue;
+        }
+
+        // Avança a rota
         pacote->AvancarRota();
-        pacote->SetEstado(Pacote::Chegada_Escalonada); // Em trânsito para chegada escalonada
-        
-        std::string mensagem = "em transito de " + FormatarIdentificadorString(origem_id, 3) + 
-                              " para " + FormatarIdentificadorString(destino_id, 3);
+        pacote->SetEstado(Pacote::Chegada_Escalonada);
+
+        std::string mensagem = "em transito de " + FormatarIdentificadorString(origem_id, 3) +
+                               " para " + FormatarIdentificadorString(destino_id, 3);
         RegistrarEvento(tempo_operacao, pacote->GetIdPacote(), mensagem);
-        
+
         // Agenda chegada no destino
         EventoChegada* evento_chegada = new EventoChegada(
             tempo_operacao + latencia_transporte, pacote, destino_id);
         escalonador_eventos->InserirEvento(evento_chegada);
     }
-    
-    // FASE 3: Reempilha pacotes não transportados
+
+    // FASE 3: Reempilhar os pacotes não transportados
     for (int i = 0; i < num_pacotes_secao; i++) {
         bool foi_transportado = false;
         for (int j = 0; j < pacotes_a_transportar; j++) {
@@ -251,20 +267,20 @@ void Simulacao::ProcessarEventoTransporte(EventoTransporte* evento) {
                 break;
             }
         }
-        
+
         if (!foi_transportado) {
             secao->EmpilharPacote(pacotes_na_secao[i]);
-            
-            std::string mensagem = "rearmazenado em " + FormatarIdentificadorString(origem_id, 3) + 
-                                  " na secao " + FormatarIdentificadorString(destino_id, 3);
+            std::string mensagem = "rearmazenado em " + FormatarIdentificadorString(origem_id, 3) +
+                                   " na secao " + FormatarIdentificadorString(destino_id, 3);
             RegistrarEvento(tempo_operacao, pacotes_na_secao[i]->GetIdPacote(), mensagem);
         }
     }
-    
+
     // Libera memória
     delete[] pacotes_na_secao;
     delete[] pacotes_selecionados;
 }
+
 
 // Registra um evento no histórico
 void Simulacao::RegistrarEvento(double tempo, int id_pacote, std::string descricao) {

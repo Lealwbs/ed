@@ -165,128 +165,116 @@ void Simulacao::IniciarTransportes(double tempo_inicial) {
 
 // Processa evento de chegada de pacote
 void Simulacao::ProcessarEventoChegada(EventoChegada* evento) {
+
+// void Simulador::processarChegadaPacote(ChegadaPacoteEvento* evento) {
     Pacote* pacote = evento->GetPacote();
-    int armazem_id = evento->GetArmazemChegada();
+    int armazemId = evento->GetArmazemChegada();
+    
+    char msgBuffer[100];
+    std::string idBuffer;
 
-    // Verifica se chegou ao destino final
-    if (armazem_id == pacote->GetArmazemFinal()) {
+    // Verifica se o armazém atual é o destino final do pacote.
+    if (armazemId == pacote->GetArmazemFinal()) {
         pacote->SetEstado(Pacote::Entregue);
-        pacotes_pendentes--;
-
-        std::string mensagem = "entregue em " + FormatarIdentificadorString(armazem_id, 3);
-        RegistrarLog(evento->GetTempo(), pacote->GetIdPacote(), mensagem);
+        idBuffer = FormatarIdentificadorString(armazemId, 3);
+        sprintf(msgBuffer, "entregue em %s", idBuffer.c_str());
+        RegistrarLog(evento->GetTempo(), pacote->GetIdPacote(), msgBuffer);
+        pacotes_pendentes--; // Decrementa o contador de pacotes ativos.
+    
     } else {
-        // Armazena o pacote na seção apropriada
-        lista_armazens[armazem_id]->AddPacote(pacote);
-        pacote->SetEstado(Pacote::Armazenado);
-
-        int proximo_salto = pacote->GetProximoSalto();
-        std::string mensagem = "armazenado em " + FormatarIdentificadorString(armazem_id, 3);
-        if (proximo_salto != -1) {
-            mensagem += " na secao " + FormatarIdentificadorString(proximo_salto, 3);
-        }
-        RegistrarLog(evento->GetTempo(), pacote->GetIdPacote(), mensagem);
+        // Se não for o destino, armazena o pacote na seção correta.
+        lista_armazens[armazemId]->AddPacote(pacote);
+        idBuffer = FormatarIdentificadorString(armazemId, 3);
+        std::string idBufferProx = FormatarIdentificadorString(pacote->GetProximoSalto(), 3);
+        sprintf(msgBuffer, "armazenado em %s na secao %s", idBuffer.c_str(), idBufferProx.c_str());
+        RegistrarLog(evento->GetTempo(), pacote->GetIdPacote(), msgBuffer);
     }
-
-    // Só avança a rota DEPOIS da chegada
-    pacote->AvancarRota();
 }
 
 // Processa evento de transporte de pacotes
 void Simulacao::ProcessarEventoTransporte(EventoTransporte* evento) {
-    if (pacotes_pendentes == 0) return;
-    int origem_id = evento->GetArmazemOrigem();
-    int destino_id = evento->GetArmazemDestino();
 
-    // Agenda o próximo transporte nesta rota
-    EventoTransporte* proximo_transporte = new EventoTransporte(
-        tempo_atual + intervalo_transportes, origem_id, destino_id);
-    escalonador_eventos->InserirEvento(proximo_transporte);
+    int origemId = evento->GetArmazemOrigem();
+    int destinoId = evento->GetArmazemDestino();
 
-    // Obtém a seção correspondente ao destino
-    Secao* secao = lista_armazens[origem_id]->GetSecaoByDestino(destino_id);
+    // Reagenda o próximo evento de transporte para esta rota, mantendo o ciclo.
+    Evento* proximoTransporte = new EventoTransporte(tempo_atual + intervalo_transportes, origemId, destinoId);
+    escalonador_eventos->InserirEvento(proximoTransporte);
+
+    Secao* secao = lista_armazens[origemId]->getSecaoPorDestino(destinoId);
     if (secao == nullptr || secao->Vazia()) {
-        return; // Nenhum pacote para transportar
+        return; // Nenhum pacote para transportar.
     }
 
-    int num_pacotes_secao = secao->GetTamanho();
-    int pacotes_a_transportar = std::min(num_pacotes_secao, capacidade_transporte);
+    PilhaPacotes* pilha = secao->pilha_pacotes();
+    int numPacotesNaSecao = pilha->getTamanho();
+    Pacote** pacotesNaSecaoLIFO = pilha->getPacotes();
 
-    // Obtem todos os pacotes da seção em um array
-    Pacote** pacotes_na_secao = new Pacote*[num_pacotes_secao];
-    for (int i = 0; i < num_pacotes_secao; i++) {
-        pacotes_na_secao[i] = secao->DesempilharPacote();
+    // Determina quantos pacotes transportar, limitado pela capacidade do veículo.
+    int pacotesATransportarCount = (numPacotesNaSecao < capacidadeTransporte) ? numPacotesNaSecao : capacidadeTransporte;
+    
+    // Simula uma seleção FIFO (primeiro a entrar, primeiro a sair) a partir da pilha LIFO.
+    // Os pacotes que chegaram primeiro estão no fundo da pilha (final do array).
+    Pacote** pacotesSelecionados = new Pacote*[pacotesATransportarCount];
+    for (int i = 0; i < pacotesATransportarCount; ++i) {
+        pacotesSelecionados[i] = pacotesNaSecaoLIFO[numPacotesNaSecao - 1 - i];
     }
+    
+    double tempoDaOperacao = relogio;
+    PilhaPacotes pilhaTemporaria;
+    
+    char msgBuffer[100];
+    char idOrigemBuffer[4], idDestinoBuffer[4];
+    formatarId(origemId, 3, idOrigemBuffer);
+    formatarId(destinoId, 3, idDestinoBuffer);
 
-    // Seleciona pacotes FIFO (do fundo do array)
-    Pacote** pacotes_selecionados = new Pacote*[pacotes_a_transportar];
-    for (int i = 0; i < pacotes_a_transportar; i++) {
-        pacotes_selecionados[i] = pacotes_na_secao[num_pacotes_secao - 1 - i];
-    }
-
-    double tempo_operacao = tempo_atual;
-
-    // FASE 1: Registrar remoção de todos os pacotes
-    for (int i = 0; i < num_pacotes_secao; i++) {
-        Pacote* pacote = pacotes_na_secao[i];
-
-        if (pacote->GetEstado() == Pacote::Entregue) {
-            continue; // Pula pacotes já entregues
-        }
-
-        tempo_operacao += custo_remocao;
-        std::string mensagem = "removido de " + FormatarIdentificadorString(origem_id, 3) +
-                            " na secao " + FormatarIdentificadorString(destino_id, 3);
-        RegistrarLog(tempo_operacao, pacote->GetIdPacote(), mensagem);
-    }
-
-    // FASE 2: Processar pacotes selecionados para transporte
-    for (int i = 0; i < pacotes_a_transportar; i++) {
-        Pacote* pacote = pacotes_selecionados[i];
-
-        // Verifica se há próximo salto antes de avançar
-        if (pacote->GetProximoSalto() == -1) {
-            std::cerr << "[ERRO] Pacote " << pacote->GetIdPacote()
-                      << " não possui próximo salto antes de transporte. Ignorado." << std::endl;
-            continue;
-        }
-
-        // Avança a rota
-        // pacote->AvancarRota();
-        pacote->SetEstado(Pacote::Chegada_Escalonada);
-
-        std::string mensagem = "em transito de " + FormatarIdentificadorString(origem_id, 3) +
-                               " para " + FormatarIdentificadorString(destino_id, 3);
-        RegistrarLog(tempo_operacao, pacote->GetIdPacote(), mensagem);
-
-        // Agenda chegada no destino
-        EventoChegada* evento_chegada = new EventoChegada(
-            tempo_operacao + latencia_transporte, pacote, destino_id);
-        escalonador_eventos->InserirEvento(evento_chegada);
-    }
-
-    // FASE 3: Reempilhar os pacotes não transportados
-    for (int i = 0; i < num_pacotes_secao; i++) {
-        bool foi_transportado = false;
-        for (int j = 0; j < pacotes_a_transportar; j++) {
-            if (pacotes_na_secao[i] == pacotes_selecionados[j]) {
-                foi_transportado = true;
+    // FASE 1: Desempilha todos os pacotes, separando os que serão transportados.
+    while (!pilha->vazia()) {
+        Pacote* pacoteDoTopo = pilha->desempilhar();
+        tempoDaOperacao += custoRemocao; // Adiciona custo de remoção.
+        
+        sprintf(msgBuffer, "removido de %s na secao %s", idOrigemBuffer, idDestinoBuffer);
+        registrarLog(tempoDaOperacao, pacoteDoTopo->getId(), msgBuffer);
+        
+        bool transportarEste = false;
+        for (int i = 0; i < pacotesATransportarCount; ++i) {
+            if (pacotesSelecionados[i] == pacoteDoTopo) {
+                transportarEste = true;
                 break;
             }
         }
 
-        if (!foi_transportado) {
-            secao->EmpilharPacote(pacotes_na_secao[i]);
-            std::string mensagem = "rearmazenado em " + FormatarIdentificadorString(origem_id, 3) +
-                                   " na secao " + FormatarIdentificadorString(destino_id, 3);
-            RegistrarLog(tempo_operacao, pacotes_na_secao[i]->GetIdPacote(), mensagem);
+        if (!transportarEste) {
+            pilhaTemporaria.empilhar(pacoteDoTopo); // Guarda para reempilhar depois.
         }
     }
+    
+    // FASE 2: Processa os pacotes selecionados, agendando sua chegada ao destino.
+    for (int i = 0; i < pacotesATransportarCount; ++i) {
+        Pacote* pacote = pacotesSelecionados[i];
+        pacote->avancarRota();
+        pacote->setEstado(Pacote::EM_TRANSITO);
 
-    // Libera memória
-    delete[] pacotes_na_secao;
-    delete[] pacotes_selecionados;
+        sprintf(msgBuffer, "em transito de %s para %s", idOrigemBuffer, idDestinoBuffer);
+        registrarLog(tempoDaOperacao, pacote->getId(), msgBuffer);
+
+        Evento* chegadaEv = new ChegadaPacoteEvento(tempoDaOperacao + latenciaTransporte, pacote, destinoId);
+        escalonador.Inserir(chegadaEv);
+    }
+
+    // FASE 3: Reempilha os pacotes que não foram transportados de volta na seção.
+    while (!pilhaTemporaria.vazia()) {
+        Pacote* pacoteParaRearmazenar = pilhaTemporaria.desempilhar();
+        pilha->empilhar(pacoteParaRearmazenar);
+        sprintf(msgBuffer, "rearmazenado em %s na secao %s", idOrigemBuffer, idDestinoBuffer);
+        registrarLog(tempoDaOperacao, pacoteParaRearmazenar->getId(), msgBuffer);
+    }
+    
+    // Libera a memória dos arrays temporários.
+    delete[] pacotesNaSecaoLIFO;
+    delete[] pacotesSelecionados;
 }
+
 
 // Registra um evento no histórico
 void Simulacao::RegistrarLog(double tempo, int id_pacote, std::string descricao) {

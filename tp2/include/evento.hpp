@@ -13,6 +13,11 @@ class Evento {
         Evento();
         ~Evento();
 
+        // MÉTODOS SET
+        void SetTempo(double tempo);
+        void SetPrioridade(long long prioridade);
+        void SetTipo(TipoEvento tipo);
+
         // MÉTODOS GET
         double GetTempo();
         long long GetPrioridade();
@@ -29,6 +34,10 @@ class Evento {
 class EventoTransporte : public Evento {
     public:
         EventoTransporte(double tempo, int armazem_origem, int armazem_destino);
+
+        // MÉTODOS SET
+        void SetArmazemOrigem(int armazem_origem);
+        void SetArmazemDestino(int armazem_destino);
 
         // MÉTODOS GET
         int GetArmazemOrigem();
@@ -47,6 +56,10 @@ class EventoTransporte : public Evento {
 class EventoChegada : public Evento {
     public:
         EventoChegada(double tempo, Pacote* pacote, int armazem_chegada);
+
+        // MÉTODOS SET
+        void SetPacote(Pacote* pacote);
+        void SetArmazemChegada(int armazem_chegada);
 
         // MÉTODOS GET
         Pacote* GetPacote();

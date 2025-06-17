@@ -11,7 +11,9 @@ double Evento::GetTempo() { return tempo; }
 long long Evento::GetPrioridade() { return prioridade; }
 Evento::TipoEvento Evento::GetTipo() { return tipo; }
 
-
+void Evento::SetTempo(double tempo) { this->tempo = tempo; }
+void Evento::SetPrioridade(long long prioridade) { this->prioridade = prioridade; }
+void Evento::SetTipo(TipoEvento tipo) { this->tipo = tipo; }
 
 // ###################
 // EVENTO TRANSPORTE
@@ -36,6 +38,10 @@ void EventoTransporte::UpdatePrioridadeTransporte(int armazem_origem, int armaze
 
     prioridade = tempo_inteiro * 1000000000LL + dados_evento * 10LL + peso_tipo;
 }
+
+
+void EventoTransporte::SetArmazemOrigem(int armazem_origem){ this->armazem_origem = armazem_origem; };
+void EventoTransporte::SetArmazemDestino(int armazem_destino){ this->armazem_destino = armazem_destino; };
 
 
 
@@ -63,3 +69,6 @@ void EventoChegada::UpdatePrioridadeChegada(Pacote* pacote) {
     // Estrutura de prioridade: tempo mais significativo, depois pacote_id, depois tipo
     prioridade = tempo_inteiro * 1000000000LL + pacote_id * 10LL + peso_tipo;
 }
+
+void EventoChegada::SetPacote(Pacote* pacote) { this->pacote = pacote; }
+void EventoChegada::SetArmazemChegada(int armazem_chegada) { this->armazem_chegada = armazem_chegada; }

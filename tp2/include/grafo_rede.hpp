@@ -1,5 +1,5 @@
-#ifndef GRAFO_REDE_H
-#define GRAFO_REDE_H
+#ifndef GRAFO_REDE_HPP
+#define GRAFO_REDE_HPP
 
 #include "../include/armazem.hpp"
 #include "../include/outros_tads.hpp"

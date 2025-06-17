@@ -52,60 +52,60 @@ int main(int argc, char* argv[]) {
                                          intervalotransportes, custoremocao, 
                                          numeroarmazens, matriz);
 
-    // // LEITURA E ADIÇÃO DOS PACOTES À SIMULAÇÃO
-    // int tempochegada, idpacote, armazeminicial, armazemfinal;
-    // std::string trash;
+    // LEITURA E ADIÇÃO DOS PACOTES À SIMULAÇÃO
+    int tempochegada, idpacote, armazeminicial, armazemfinal;
+    std::string trash;
 
-    // for (int i = 0; i < numeropacotes; ++i) {
-    //     if (!(arquivo >> tempochegada >> trash >> idpacote >> trash >> armazeminicial >> trash >> armazemfinal)) {
-    //         std::cerr << "Erro ao ler dados do pacote " << (i + 1) << std::endl;
-    //         delete simulacao;
-    //         for (int j = 0; j < numeroarmazens; ++j) {
-    //             delete[] matriz[j];
-    //         }
-    //         delete[] matriz;
-    //         arquivo.close();
-    //         return 1;
-    //     }
+    for (int i = 0; i < numeropacotes; ++i) {
+        if (!(arquivo >> tempochegada >> trash >> idpacote >> trash >> armazeminicial >> trash >> armazemfinal)) {
+            std::cerr << "Erro ao ler dados do pacote " << (i + 1) << std::endl;
+            delete simulacao;
+            for (int j = 0; j < numeroarmazens; ++j) {
+                delete[] matriz[j];
+            }
+            delete[] matriz;
+            arquivo.close();
+            return 1;
+        }
 
-    //     // Validação básica dos dados do pacote
-    //     if (armazeminicial < 0 || armazeminicial >= numeroarmazens || 
-    //         armazemfinal < 0 || armazemfinal >= numeroarmazens) {
-    //         std::cerr << "Erro: Armazém inválido no pacote " << idpacote << std::endl;
-    //         delete simulacao;
-    //         for (int j = 0; j < numeroarmazens; ++j) {
-    //             delete[] matriz[j];
-    //         }
-    //         delete[] matriz;
-    //         arquivo.close();
-    //         return 1;
-    //     }
+        // Validação básica dos dados do pacote
+        if (armazeminicial < 0 || armazeminicial >= numeroarmazens || 
+            armazemfinal < 0 || armazemfinal >= numeroarmazens) {
+            std::cerr << "Erro: Armazém inválido no pacote " << idpacote << std::endl;
+            delete simulacao;
+            for (int j = 0; j < numeroarmazens; ++j) {
+                delete[] matriz[j];
+            }
+            delete[] matriz;
+            arquivo.close();
+            return 1;
+        }
 
-    //     // Cria pacote usando o ID lido do arquivo
-    //     Pacote* pacote = new Pacote(tempochegada, idpacote, armazeminicial, armazemfinal);
-    //     simulacao->AdicionarPacote(pacote);
-    // }
+        // Cria pacote usando o ID lido do arquivo
+        Pacote* pacote = new Pacote(tempochegada, idpacote, armazeminicial, armazemfinal);
+        simulacao->AdicionarPacote(pacote);
+    }
 
 
-    // arquivo.close();
+    arquivo.close();
 
-    // // FINALIZA CONFIGURAÇÃO E EXECUTA SIMULAÇÃO
-    // try {
-    //     simulacao->FinalizarConfiguracao();
-    //     std::cout << "OK3" << std::endl;
-    //     simulacao->ExecutarSimulacao();
-    //     std::cout << "OK4" << std::endl;
-    //     simulacao->ExibirResultados();
-    //     std::cout << "OK5" << std::endl;
-    // } catch (const std::exception& e) {
-    //     std::cerr << "Erro durante a simulação: " << e.what() << std::endl;
-    //     delete simulacao;
-    //     for (int i = 0; i < numeroarmazens; ++i) {
-    //         delete[] matriz[i];
-    //     }
-    //     delete[] matriz;
-    //     return 1;
-    // }
+    // FINALIZA CONFIGURAÇÃO E EXECUTA SIMULAÇÃO
+    try {
+        simulacao->FinalizarConfiguracao();
+        std::cout << "OK3" << std::endl;
+        simulacao->ExecutarSimulacao();
+        std::cout << "OK4" << std::endl;
+        simulacao->ExibirResultados();
+        std::cout << "OK5" << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Erro durante a simulação: " << e.what() << std::endl;
+        delete simulacao;
+        for (int i = 0; i < numeroarmazens; ++i) {
+            delete[] matriz[i];
+        }
+        delete[] matriz;
+        return 1;
+    }
 
        std::cout << "OK6" << std::endl;
 

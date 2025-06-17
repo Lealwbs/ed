@@ -9,9 +9,9 @@
 #include "../include/pacote.hpp"
 #include "../include/transporte.hpp"
 
+#include <iostream>
 #include <string>
 #include <exception>
-#include <iostream>
 
 class Simulacao {
 private:

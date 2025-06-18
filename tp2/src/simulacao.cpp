@@ -149,13 +149,13 @@ void Simulacao::ProcessarEventoChegada(EventoChegada* evento) {
     char msgBuffer[100];
     std::string idBuffer;
 
-    if (armazemId == pacote->GetArmazemFinal()) {
+    if (armazemId == pacote->GetArmazemFinal()) { // Se for o armazem final, ele conclui a entrega
         pacote->SetEstado(Pacote::Entregue);
         idBuffer = FormatarIdentificadorString(armazemId, 3);
         sprintf(msgBuffer, "entregue em %s", idBuffer.c_str());
         RegistrarLog(evento->GetTempo(), pacote->GetIdPacote(), msgBuffer);
         pacotes_pendentes--;
-    } else {
+    } else { // Se não for o armazém final, armazena o pacote na seção correta
         lista_armazens[armazemId]->AddPacote(pacote);
         std::string idBufferProx = FormatarIdentificadorString(pacote->GetProximoSalto(), 3);
         idBuffer = FormatarIdentificadorString(armazemId, 3);

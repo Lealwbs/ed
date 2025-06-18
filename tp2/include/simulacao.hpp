@@ -24,8 +24,7 @@ class Simulacao {
 
         ~Simulacao();
         
-        // MAIN METHOD
-
+        // MÉTODO PRINCIPAL
         void ExecutarSimulacao();
         void AdicionarPacote(double tempo_chegada, int id_pacote, int armazem_inicial, int armazem_final);
     

@@ -56,6 +56,7 @@ Lista* GrafoRede::GetRota(GrafoRede& rede, int armazem_origem, int armazem_desti
         return rota;
     }
 
+    // Vetores auxiliares para controle da visitação e reconstrução do caminho
     bool* visitado = new bool[n]{};
     int* anterior = new int[n];
 
@@ -63,12 +64,14 @@ Lista* GrafoRede::GetRota(GrafoRede& rede, int armazem_origem, int armazem_desti
         anterior[i] = -1;
     }
 
+    // Fila usada na BFS para explorar os armazéns vizinhos
     Fila fila;
     fila.Enfileirar(armazem_origem);
     visitado[armazem_origem] = true;
 
     bool encontrou = false;
 
+    // Algoritmo de busca em largura (BFS)
     while (!fila.Vazia() && !encontrou) {
         int atual = fila.Desenfileirar();
 
@@ -80,6 +83,7 @@ Lista* GrafoRede::GetRota(GrafoRede& rede, int armazem_origem, int armazem_desti
             if (viz->tipo == tipo_inteiro) {
                 int idVizinho = viz->valor;
 
+                // Marca o vizinho como visitado e armazena o caminho
                 if (!visitado[idVizinho]) {
                     visitado[idVizinho] = true;
                     anterior[idVizinho] = atual;

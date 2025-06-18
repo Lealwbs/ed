@@ -56,18 +56,12 @@ int main(int argc, char* argv[]) {
 
     arquivo.close();
     
-    std::cout << "Check Antes Simulacao" << std::endl;
-    
     // APÓS INSERÇÃO DOS PACOTES, EXECUTA A SIMULAÇÃO
     simulacao.ExecutarSimulacao();
-
-    std::cout << "Check Depois Simulacao" << std::endl;
 
     // LIMPA A MEMÓRIA ALLOCADA
     for (int i = 0; i < numeroarmazens; ++i) { delete[] matriz_adjacencia[i]; }
     delete[] matriz_adjacencia;
-
-    std::cout << "Check FINAL" << std::endl;
 
     return 0;
 };

@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
     // LEITURA DO NÚMERO DE PACOTES	(ÚLTIMO PARÂMETRO)
     arquivo >> numeropacotes;
 
-    // // PRINTANDO OS PARÂMETROS (DEBUG)
+    // PRINTANDO OS PARÂMETROS (DEBUG)
     // std::cout << "Capacidade de transporte: " << capacidadetransporte << std::endl;
     // std::cout << "Latencia de transporte:   " << latenciatransporte << std::endl;
     // std::cout << "Intervalo de transporte:  " << intervalotransportes << std::endl;
@@ -47,13 +47,13 @@ int main(int argc, char* argv[]) {
     Simulacao simulacao = Simulacao( capacidadetransporte, latenciatransporte, 
         intervalotransportes, custoremocao, numeroarmazens, matriz_adjacencia, numeropacotes);
         
-     // LEITURA E ADIÇÃO DOS PACOTES À SIMULAÇÃO
-    int tempochegada, idpacote, armazeminicial, armazemfinal; std::string trash;
+    // LEITURA E ADIÇÃO DOS PACOTES À SIMULAÇÃO
+    int tempochegada, armazeminicial, armazemfinal; std::string trash;
     for (int i = 0; i < numeropacotes; ++i) {
-        arquivo >> tempochegada >> trash >> idpacote >> trash >> armazeminicial >> trash >> armazemfinal;
-        idpacote = i; // O ID do pacote é o índice do loop (000, 001, 002, ...)
-        simulacao.AdicionarPacote(tempochegada, idpacote, armazeminicial, armazemfinal);
+        arquivo >> tempochegada >> trash >> trash >> trash >> armazeminicial >> trash >> armazemfinal;
+        simulacao.AdicionarPacote(tempochegada, i, armazeminicial, armazemfinal);
     };
+
     arquivo.close();
     
     std::cout << "Check Antes Simulacao" << std::endl;

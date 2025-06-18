@@ -41,7 +41,9 @@ class Secao {
 
         int GetArmazemDestino();
         void SetArmazemDestino(int armazem_destino);
-        
+
+        PilhaPacotes* GetPilhaPacotes();
+
         bool Vazia();
         int GetTamanho();
         void Print();

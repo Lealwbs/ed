@@ -95,6 +95,10 @@ Pacote* Secao::DesempilharPacote() {
     return pilha_pacotes->Desempilhar();
 }
 
+PilhaPacotes* Secao::GetPilhaPacotes() {
+    return pilha_pacotes;
+}
+
 int Secao::GetArmazemDestino() {
     return armazem_destino;
 }

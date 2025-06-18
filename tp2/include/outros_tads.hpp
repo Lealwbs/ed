@@ -27,6 +27,7 @@ public:
     void AdicionarInt(int valor);
     void AdicionarTexto(std::string texto);
 
+    void AdicionarNoInicio(int valor);
     void RemoverInicio();
 
     NodeLista* GetHead();

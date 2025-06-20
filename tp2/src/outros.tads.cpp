@@ -48,6 +48,18 @@ void Lista::AdicionarTexto(std::string texto) {
     };
 };
 
+void Lista::AdicionarNoInicio(int valor) {
+    NodeLista* novo = new NodeLista;
+    novo->tipo = tipo_inteiro;
+    novo->valor = valor;
+    novo->texto = "";
+    novo->proximo = head;
+    head = novo;
+    if (tail == nullptr) {
+        tail = novo;
+    }
+};
+
 void Lista::RemoverInicio() {
     if (head == nullptr) return;
     NodeLista* temp = head;

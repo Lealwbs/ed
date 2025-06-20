@@ -1,4 +1,5 @@
 #include "../include/grafo_rede.hpp"
+#include <iostream> // Adicionado para usar std::cout
 
 // Construtor: aloca vetor de ponteiros para listas de adjacência
 GrafoRede::GrafoRede(int numero_armazens) : numero_armazens(numero_armazens) {
@@ -46,6 +47,7 @@ void GrafoRede::Print() {
 
 // Busca em largura BFS para encontrar a rota com menos saltos entre dois armazéns
 Lista* GrafoRede::GetRota(GrafoRede& rede, int armazem_origem, int armazem_destino) {
+
     int n = rede.GetNumeroArmazens();
     Lista* rota = new Lista();
 
@@ -54,6 +56,7 @@ Lista* GrafoRede::GetRota(GrafoRede& rede, int armazem_origem, int armazem_desti
         return rota;
     }
 
+    // Vetores auxiliares para controle da visitação e reconstrução do caminho
     bool* visitado = new bool[n]{};
     int* anterior = new int[n];
 
@@ -61,21 +64,26 @@ Lista* GrafoRede::GetRota(GrafoRede& rede, int armazem_origem, int armazem_desti
         anterior[i] = -1;
     }
 
+    // Fila usada na BFS para explorar os armazéns vizinhos
     Fila fila;
     fila.Enfileirar(armazem_origem);
     visitado[armazem_origem] = true;
 
     bool encontrou = false;
 
+    // Algoritmo de busca em largura (BFS)
     while (!fila.Vazia() && !encontrou) {
         int atual = fila.Desenfileirar();
+
         Lista* vizinhos = rede.GetVizinhos(atual);
+        if (vizinhos == nullptr) continue; // Adicionado para segurança
 
         NodeLista* viz = vizinhos->GetHead();
         while (viz != nullptr) {
             if (viz->tipo == tipo_inteiro) {
                 int idVizinho = viz->valor;
 
+                // Marca o vizinho como visitado e armazena o caminho
                 if (!visitado[idVizinho]) {
                     visitado[idVizinho] = true;
                     anterior[idVizinho] = atual;
@@ -93,27 +101,15 @@ Lista* GrafoRede::GetRota(GrafoRede& rede, int armazem_origem, int armazem_desti
 
     // Reconstruir a rota se o destino foi alcançado
     if (visitado[armazem_destino]) {
-        Lista* reversa = new Lista();
+        // 'rota' já foi criada no início da função.
+        // Vamos preenchê-la na ordem correta.
         for (int atual = armazem_destino; atual != -1; atual = anterior[atual]) {
-            reversa->AdicionarInt(atual);
+            // Adiciona cada passo no INÍCIO da lista para inverter a ordem naturalmente.
+            rota->AdicionarNoInicio(atual);
         }
-
-        // Inverter a rota para ordem correta
-        NodeLista* no = reversa->GetHead();
-        Lista* rota_certa = new Lista();
-        while (no != nullptr) {
-            rota_certa->AdicionarInt(no->valor);
-            no = no->proximo;
-        }
-
-        delete reversa;
-        delete[] visitado;
-        delete[] anterior;
-        delete rota;
-        return rota_certa;
     }
 
-    // Se não encontrou caminho, libera memória e retorna rota vazia
+    // Libera a memória e retorna a rota (correta ou vazia se não houver caminho).
     delete[] visitado;
     delete[] anterior;
     return rota;

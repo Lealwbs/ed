@@ -1,5 +1,5 @@
-#ifndef PILHA_SECAO_H
-#define PILHA_SECAO_H
+#ifndef PILHA_SECAO_HPP
+#define PILHA_SECAO_HPP
 
 #include "../include/pacote.hpp"
 
@@ -41,7 +41,9 @@ class Secao {
 
         int GetArmazemDestino();
         void SetArmazemDestino(int armazem_destino);
-        
+
+        PilhaPacotes* GetPilhaPacotes();
+
         bool Vazia();
         int GetTamanho();
         void Print();

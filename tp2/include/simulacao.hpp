@@ -9,83 +9,62 @@
 #include "../include/pacote.hpp"
 #include "../include/transporte.hpp"
 
-#include <string>
-#include <exception>
 #include <iostream>
+#include <string>
 
 class Simulacao {
-private:
-    // Parâmetros da simulação
-    int capacidade_transporte;
-    int latencia_transporte;
-    int intervalo_transportes;
-    int custo_remocao;
-    int numero_armazens;
-    
-    // Estruturas principais
-    GrafoRede* rede_armazens;
-    Armazem** lista_armazens;
-    HeapEscalonador* escalonador_eventos;
-    
-    // Controle da simulação
-    double tempo_atual;
-    int pacotes_pendentes;
-    Lista* historico_eventos;
-    
-    // Armazenamento de pacotes
-    Pacote** todos_pacotes;
-    int total_pacotes;
-    
-    // Métodos privados de inicialização
-    void CriarArmazens();
-    void IniciarTransportesAutomaticos(double tempo_inicial);
-    void CalcularRotasPacotes();
-    
-    // Métodos privados de processamento de eventos
-    void ProcessarEventoChegada(Evento* evento);
-    void ProcessarEventoTransporte(Evento* evento);
-    void ExecutarTransferenciaArmazem(int origem, int destino, double momento);
-    
-    // Métodos privados de validação e segurança
-    bool ValidarArmazem(int id_armazem) const;
-    bool ValidarPacote(const Pacote* pacote) const;
-    bool ValidarEvento(const Evento* evento) const;
-    
-    // Métodos privados de logging e formatação
-    void RegistrarEvento(double tempo, int id_pacote, const std::string& descricao);
-    std::string FormatarIdentificadorString(int id, int tamanho);
-    
-    // Métodos privados de limpeza de memória
-    void LimparMemoria();
+    public:
+        Simulacao(int capacidade_transporte, 
+                  int latencia_transporte, 
+                  int intervalo_transportes, 
+                  int custo_remocao, 
+                  int numero_armazens, 
+                  int** matriz_adjacencia,
+                  int numero_pacotes);
 
-public:
-    // Construtor e destrutor
-    Simulacao(int cap_transporte, int lat_transporte, int int_transportes, 
-              int cst_remocao, int num_armazens, int** matriz_adjacencia);
-    ~Simulacao();
+        ~Simulacao();
+        
+        // MÉTODO PRINCIPAL
+        void ExecutarSimulacao();
+        void AdicionarPacote(double tempo_chegada, int id_pacote, int armazem_inicial, int armazem_final);
     
-    // Método principal de execução
-    void ExecutarSimulacao();
-    
-    // Métodos para configuração de pacotes
-    void AdicionarPacote(Pacote* novo_pacote);
-    void FinalizarConfiguracao();
-    
-    // Método para exibir resultados
-    void ExibirResultados();
-    
-    // Métodos públicos para depuração (opcionais)
-    void ExibirStatusSimulacao() const;
-    void ExibirEstatisticas() const;
-    
-    // Getters para depuração (opcionais)
-    double GetTempoAtual() const { return tempo_atual; }
-    int GetPacotesPendentes() const { return pacotes_pendentes; }
-    int GetTotalPacotes() const { return total_pacotes; }
-    int GetNumeroArmazens() const { return numero_armazens; }
-    
-    // Método para verificar integridade (opcional)
-    bool VerificarIntegridade() const;
+    private:
+        // PARÂMETROS DA SIMULAÇÃO
+        int capacidade_transporte;
+        int latencia_transporte;
+        int intervalo_transportes;
+        int custo_remocao;
+        int numero_armazens;
+        GrafoRede* rede_armazens; // Matriz de adjacência
+        int numero_pacotes;
+        
+        // ESTRUTURAS PRINCIPAIS
+        Armazem** lista_armazens;
+        HeapEscalonador* escalonador_eventos;
+        
+        // CONTROLE DA SIMULAÇÃO
+        double tempo_atual;
+        double tempo_primeiro_pacote;
+        int pacotes_pendentes;
+        Lista* historico_eventos;
+        
+        // ARMAZENAMENTO DOS PACOTES
+        Pacote** todos_pacotes;
+        
+        // INICIALIZACAO
+        void IniciarTransportes(double tempo_inicial);
+        
+        // PROCESSAMENTO DE EVENTOS
+        void ProcessarEventoChegada(EventoChegada* evento);
+        void ProcessarEventoTransporte(EventoTransporte* evento);
+        
+        // LOG
+        void RegistrarLog(double tempo, int id_pacote, std::string descricao);
+        void ImprimirLog();
+        std::string FormatarIdentificadorString(int id, int tamanho);
+        
+        /// LIMPEZA DE MEMÓRIA
+        void LimparMemoria();
 };
 
 #endif

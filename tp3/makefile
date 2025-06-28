@@ -11,7 +11,9 @@ OBJ_FOLDER = obj
 TARGET = tp3
 SRC = $(wildcard $(SRC_FOLDER)/*.cpp)
 OBJ = $(patsubst $(SRC_FOLDER)/%.cpp, $(OBJ_FOLDER)/%.o, $(SRC))
-# INPUT_ARGV = .\files\inputs\input_1.txt
+INPUT_ARGV_1 = .\files\inputs\input_1.txt
+INPUT_ARGV_2 = .\files\inputs\input_2.txt
+INPUT_ARGV_3 = .\files\inputs\input_3.txt
 
 # Detectar sistema operacional
 ifeq ($(OS),Windows_NT)
@@ -30,6 +32,7 @@ else
 	/ = /
 endif
 
+# Compilar o programa completo
 all: dirs $(BIN_FOLDER)/$(TARGET)$(EXEC_EXT)
 
 $(BIN_FOLDER)/$(TARGET)$(EXEC_EXT): $(OBJ)
@@ -44,9 +47,26 @@ dirs:
 	$(CREATE_DIR) $(OBJ_FOLDER) mkdir $(OBJ_FOLDER)
 
 # Compilar e executar o programa com um único comando
+run1: all
+	$(CLEAR)
+	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV_1)
+
+run2: all
+	$(CLEAR)
+	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV_2)
+
+run3: all
+	$(CLEAR)
+	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV_3)
+
+SIZE_SPACES = 3
 run: all
 	$(CLEAR)
-	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV)
+	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV_1)
+	@for /l %%i in (1, 1, $(SIZE_SPACES)) do @echo.
+	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV_2)
+	@for /l %%i in (1, 1, $(SIZE_SPACES)) do @echo.
+	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV_3)
 
 # Limpar os arquivos compilados e apagar os diretórios
 clean:

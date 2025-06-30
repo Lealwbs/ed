@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Gráfico SVG</title>
+</head>
+<body>
+
+<!-- Aqui está a imagem SVG sendo exibida diretamente -->
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Eixos -->
+  <line x1="50" y1="350" x2="550" y2="350" stroke="black" stroke-width="2"/>
+  <line x1="50" y1="50" x2="50" y2="350" stroke="black" stroke-width="2"/>
+
+  <!-- Labels -->
+  <text x="300" y="380" text-anchor="middle" font-family="Arial" font-size="12">Densidade de Conexões (%)</text>
+  <text x="20" y="200" text-anchor="middle" font-family="Arial" font-size="12" transform="rotate(-90 20 200)">Tempo de Execução (ms)</text>
+
+  <!-- Pontos do gráfico -->
+  <circle cx="100" cy="300" r="4" fill="blue"/>
+  <circle cx="167" cy="280" r="4" fill="blue"/>
+  <circle cx="234" cy="240" r="4" fill="blue"/>
+  <circle cx="301" cy="180" r="4" fill="blue"/>
+  <circle cx="368" cy="120" r="4" fill="blue"/>
+  <circle cx="435" cy="80" r="4" fill="blue"/>
+
+  <!-- Linha conectando os pontos -->
+  <polyline points="100,300 167,280 234,240 301,180 368,120 435,80" fill="none" stroke="blue" stroke-width="2"/>
+
+  <!-- Marcações dos eixos -->
+  <text x="100" y="365" text-anchor="middle" font-family="Arial" font-size="10">25</text>
+  <text x="234" y="365" text-anchor="middle" font-family="Arial" font-size="10">55</text>
+  <text x="435" y="365" text-anchor="middle" font-family="Arial" font-size="10">100</text>
+
+  <text x="45" y="300" text-anchor="end" font-family="Arial" font-size="10">50</text>
+  <text x="45" y="180" text-anchor="end" font-family="Arial" font-size="10">150</text>
+  <text x="45" y="80" text-anchor="end" font-family="Arial" font-size="10">250</text>
+
+  <text x="300" y="30" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Impacto da Densidade no Desempenho</text>
+</svg>
+
+</body>
+</html>

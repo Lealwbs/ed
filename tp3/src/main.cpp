@@ -8,8 +8,6 @@
 
 int main(int argc, char** argv) {
 
-    Test::printThing();
-
     // ABERTURA DO ARQUIVO DE ENTRADA
     std::ifstream arquivo(argv[1]);
     if (!arquivo.is_open()) {

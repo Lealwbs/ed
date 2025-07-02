@@ -2,6 +2,8 @@
 #define EVENTOS_HPP
 
 #include <string>
+#include <sstream> // Para std::stringstream
+#include <iomanip> // Para std::setw e std::setfill
 
 enum TipoEvento {
     RG, // Pacote ainda não foi postado (apenas registrado no sistema)
@@ -12,111 +14,113 @@ enum TipoEvento {
     EN  // Pacote entregue
 };
 
-class EventoBase{
-    public:
-        // SETTERS  
-        void setTipoEvento(TipoEvento tipo_evento);
-        void setDataHora(int data_hora);
-        void setIdPacote(int id_pacote);
-        // GETTERS
-        TipoEvento getTipoEvento() const;
-        int getDataHora() const;
-        int getIdPacote() const;
-
-    protected:
-        TipoEvento tipo_evento;
-        int data_hora;
-        int id_pacote;
+std::string tipoEventoToString(TipoEvento tipo) {
+    switch (tipo){
+        case RG: return "RG";
+        case AR: return "AR";
+        case RM: return "RM";
+        case UR: return "UR";
+        case TR: return "TR";
+        case EN: return "EN";
+        default: return "UNKNOWN";
+    };
 };
 
-class EventoRG{
+
+std::string intToString(int num, int width = 3) {
+    int strLen = std::to_string(num).length();
+    if (num < 0 || strLen > width ) 
+        return "ERROR_INT_TO_STRING";
+
+    std::stringstream result;
+    result << std::setw(width) << std::setfill('0') << num;
+    
+    return result.str();
+};
+
+
+class Evento {
     public:
-        // SETTERS
-        void setRemetente(std::string remetente);
-        void setDestinatario(std::string destinatario);
-        void setArmazemOrigem(int armazem_origem);
-        void setArmazemDestino(int armazem_destino);
+        Evento(
+            TipoEvento tipo, 
+            int dataHora, 
+            int idPacote, 
+            int armazemOrigem = -1, 
+            int armazemDestino = -1, 
+            int secaoDestino = -1,
+            const std::string& remetente = "", 
+            const std::string& destinatario = ""
+        ): 
+            tipoEvento(tipo), 
+            dataHora(dataHora), 
+            idPacote(idPacote),
+            armazemOrigem(armazemOrigem), 
+            armazemDestino(armazemDestino),
+            secaoDestino(secaoDestino),
+            remetente(remetente), 
+            destinatario(destinatario) {};
+
+        ~Evento() = default;
+
+
         // GETTERS
-        std::string getRemetente() const;
-        std::string getDestinatario() const;
-        int getArmazemOrigem() const;
-        int getArmazemDestino() const;
+        TipoEvento getTipoEvento()      const { return tipoEvento; };
+        int getDataHora()               const { return dataHora; };
+        int getIdPacote()               const { return idPacote; };
+        int getArmazemOrigem()          const { return armazemOrigem; };
+        int getArmazemDestino()         const { return armazemDestino; };
+        int getSecaoDestino()           const { return secaoDestino; };
+        std::string getRemetente()      const { return remetente; };
+        std::string getDestinatario()   const { return destinatario; };
+
+
+        // SETTERS
+        void setTipoEvento(TipoEvento tipo)                     { tipoEvento = tipo; };
+        void setDataHora(int dataHora)                          { this->dataHora = dataHora; };
+        void setIdPacote(int idPacote)                          { this->idPacote = idPacote; };
+        void setArmazemOrigem(int armazemOrigem)                { this->armazemOrigem = armazemOrigem; };
+        void setArmazemDestino(int armazemDestino)              { this->armazemDestino = armazemDestino; };
+        void setSecaoDestino(int secaoDestino)                  { this->secaoDestino = secaoDestino; };
+        void setRemetente(const std::string& remetente)         { this->remetente = remetente; };
+        void setDestinatario(const std::string& destinatario)   { this->destinatario = destinatario; };
+
+
+        // OUTROS MÉTODOS
+        std::string getInfo() const {
+            std::string result = "";
+
+            result += intToString(dataHora, 7) + " ";
+            result += tipoEventoToString(tipoEvento) + " ";
+            result += intToString(idPacote, 3) + " ";
+
+            if (!remetente.empty())      
+                result += remetente + " ";
+
+            if (!destinatario.empty()) 
+                result += destinatario + " ";
+
+            if (armazemOrigem != -1)
+                result += intToString(armazemOrigem, 3) + " ";
+
+            if (armazemDestino != -1)
+                result += intToString(armazemDestino, 3) + " ";
+
+            if (secaoDestino != -1)
+                result += intToString(secaoDestino, 3) + " ";
+
+            return result;
+        };
+
 
     private:
-        std::string remetente;
-        std::string destinatario;
-        int armazem_origem;
-        int armazem_destino;
+        TipoEvento tipoEvento; // Tipo do evento
+        int dataHora; // Data e hora do evento
+        int idPacote; // Identificador do pacote
+        int armazemOrigem; // Armazém de origem (apenas para RG e TR)
+        int armazemDestino; // Armazém de destino (para TODOS)
+        int secaoDestino; // Seção de destino (apenas para AR, RM, UR)
+        std::string remetente; // Nome do remetente (apenas para RG)
+        std::string destinatario; // Nome do destinatário (apenas para RG)
 };
-
-class EventoAR{
-    public:
-        // SETTERS
-        void setArmazemDestino(int armazem_destino);
-        void setSecaoDestino(int secao_destino);
-        // GETTERS
-        int getArmazemDestino() const;
-        int getSecaoDestino() const;
-
-    private:
-        int armazem_destino;
-        int secao_destino;
-};
-
-class EventoRM{
-    public:
-        // SETTERS
-        void setArmazemDestino(int armazem_destino);
-        void setSecaoDestino(int secao_destino);
-        // GETTERS
-        int getArmazemDestino() const;
-        int getSecaoDestino() const;
-
-    private:
-        int armazem_destino;
-        int secao_destino;
-};
-
-class EventoUR{
-    public:
-        // SETTERS
-        void setArmazemDestino(int armazem_destino);
-        void setSecaoDestino(int secao_destino);
-        // GETTERS
-        int getArmazemDestino() const;
-        int getSecaoDestino() const;
-
-    private:
-        int armazem_destino;
-        int secao_destino;
-};
-
-class EventoTR{
-    public:
-        // SETTERS
-        void setArmazemOrigem(int armazem_origem);
-        void setArmazemDestino(int armazem_destino);
-        // GETTERS
-        int getArmazemOrigem() const;
-        int getArmazemDestino() const;
-
-    private:
-        int armazem_origem;
-        int armazem_destino;
-};
-
-class EventoEN{
-    public:
-        // SETTERS
-        void setArmazemDestino(int armazem_destino);
-        // GETTERS
-        int getArmazemDestino() const;
-
-    private:
-        int armazem_destino;
-};
-
-// OBS: Fazer os trem tudo aqui, sem precisar do .hpp (OU NÃO)
-
-
+ 
 #endif

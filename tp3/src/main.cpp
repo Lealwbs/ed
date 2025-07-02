@@ -2,9 +2,11 @@
 #include <fstream>
 #include <string>
 
-#include "../include/test.hpp"
-#include "../include/eventos.hpp"
-#include "../include/arvore_balanceada.hpp"
+#include "../include/ArvoreALV.hpp"
+#include "../include/Comandos.hpp"
+#include "../include/Eventos.hpp"
+#include "../include/SistemaLogistico.hpp"
+#include "../include/Vetor.hpp"
 
 int main(int argc, char** argv) {
 
@@ -14,37 +16,80 @@ int main(int argc, char** argv) {
         std::cerr << "Erro ao abrir o arquivo." << std::endl;
         return 1;
     };
-    
-    // std::string linha;
-    // while(arquivo >> linha){
-    //     std::cout << linha << std::endl;
-    // };
+
+    // VARIÁVEIS PARA LEITURA DOS DADOS
+    std::string strComando, strTipoEvento, remetente, destinatario, nomeCliente;
+    int dataHora, idPacote, armazemOrigem, armazemDestino, secaoDestino;
+    Evento* novoEvento;
+
+    // PRIMEIRA LEITURA REFERENTE À DATA_HORA E AO TIPO DO COMANDO (EV, PC, CL).     
+    while(arquivo >> dataHora >> strComando) {  
+        
+        int comando = stringToTipoComando(strComando); // STRING TO INT
+
+        if(comando == TipoComando::EV) {
+
+            // LEITURA E CONVERSÃO DO TIPO DE EVENTO
+            arquivo >> strTipoEvento;
+            TipoEvento tipoEvento = stringToTipoEvento(strTipoEvento);
+  
+            // LER A DEPENDER DO TIPO DE EVENTO E ARMAZENAR OS DADOS DO EVENTO NO VETOR DE EVENTOS
+            switch(tipoEvento){
+                case TipoEvento::RG:
+                    arquivo >> idPacote >> remetente >> destinatario >> armazemOrigem >> armazemDestino;
+                    novoEvento = new Evento(tipoEvento, dataHora, idPacote, armazemOrigem, armazemDestino, -1, remetente, destinatario);
+                    std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
+                    break;
+
+                case TipoEvento::TR:
+                    arquivo >> idPacote >> armazemOrigem >> armazemDestino;
+                    novoEvento = new Evento(tipoEvento, dataHora, idPacote, armazemOrigem, armazemDestino, -1, "", "");
+                    std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
+                    break;
+
+                case TipoEvento::EN:
+                    arquivo >> idPacote >> armazemDestino; 
+                    novoEvento = new Evento(tipoEvento, dataHora, idPacote, -1, armazemDestino, -1, "", "");
+                    std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
+                    break;
+
+                default: // AR ou RM ou UR, caso não seja nenhuma desses, ele crasha o programa.
+                    if (tipoEvento != TipoEvento::AR && tipoEvento != TipoEvento::RM && tipoEvento != TipoEvento::UR) return -1;
+                    arquivo >> idPacote >> armazemDestino >> secaoDestino;
+                    novoEvento = new Evento(tipoEvento, dataHora, idPacote, -1, armazemDestino, secaoDestino, "", "");
+                    std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
+                    break;
+            };
+
+            delete novoEvento; 
+            continue;
+        }
 
 
 
+        if(comando == TipoComando::PC) {
+            arquivo >> idPacote;
+
+            std::cout << "opa PC | " << idPacote << std::endl;
+            // <dh> PC <identificador pacote>: Histórico do pacote <identificador pacote>.
+            continue;
+        }
 
 
 
+        if(comando == TipoComando::CL) {
+            arquivo >> nomeCliente;
+
+            std::cout << "opa CL | " << nomeCliente << std::endl;
+            // <dh> CL <nome cliente>: Histórico dos pacotes associados a <nome cliente>.
+            continue;
+        }
+        
 
 
-
-// <dh> CL <nome cliente>: Histórico dos pacotes associados a <nome cliente>.
-// <dh> PC <identificador pacote>: Histórico do pacote <identificador pacote>.
-// <dh> EV <identificador pacote> <tipo evento> <dados evento>: Evento associado à tramitação de um pacote nos Armazéns Hanoi.
+    }
 
 
-// • Clientes: Permite acesso rápido a todos os eventos dos clientes.
-// • Pacotes: Permite acesso rápido a todos os eventos associados a um pacote.
-// • Eventos: Permite acesso rápido a um identificador de evento.
-
-
-
-// RG: data_hora EV tipo_evento id_pacote remetente destinatario armazem_origem armazem_destino
-// AR: data_hora EV tipo_evento id_pacote armazem_destino secao_destino
-// RM: data_hora EV tipo_evento id_pacote armazem_destino secao_destino
-// UR: data_hora EV tipo_evento id_pacote armazem_destino secao_destino
-// TR: data_hora EV tipo_evento id_pacote armazem_origem armazem_destino
-// EN: data_hora EV tipo_evento id_pacote armazem_destino
 
 
 // <consulta 1>
@@ -95,7 +140,7 @@ int main(int argc, char** argv) {
 // 0000222 EV AR 002 002 003
 
 
-
+    //TODO: dar dele nos pacotes dentro do vetor de pacotes;
 
     arquivo.close();
     return 0;

@@ -14,6 +14,15 @@ enum TipoEvento {
     EN  // Pacote entregue
 };
 
+
+// RG: data_hora EV tipo_evento id_pacote remetente destinatario armazem_origem armazem_destino
+// AR: data_hora EV tipo_evento id_pacote armazem_destino secao_destino
+// RM: data_hora EV tipo_evento id_pacote armazem_destino secao_destino
+// UR: data_hora EV tipo_evento id_pacote armazem_destino secao_destino
+// TR: data_hora EV tipo_evento id_pacote armazem_origem armazem_destino
+// EN: data_hora EV tipo_evento id_pacote armazem_destino
+
+
 std::string tipoEventoToString(TipoEvento tipo) {
     switch (tipo){
         case RG: return "RG";
@@ -24,6 +33,17 @@ std::string tipoEventoToString(TipoEvento tipo) {
         case EN: return "EN";
         default: return "UNKNOWN";
     };
+};
+
+
+TipoEvento stringToTipoEvento(const std::string& str) {
+    if (str == "RG") return RG;
+    if (str == "AR") return AR;
+    if (str == "RM") return RM;
+    if (str == "UR") return UR;
+    if (str == "TR") return TR;
+    if (str == "EN") return EN;
+    throw std::invalid_argument("Tipo de evento inválido: " + str);
 };
 
 
@@ -123,4 +143,5 @@ class Evento {
         std::string destinatario; // Nome do destinatário (apenas para RG)
 };
  
+
 #endif

@@ -14,7 +14,7 @@ enum TipoEvento {
     EN  // Pacote entregue
 };
 
-
+// ATRIBUTOS DE CADA EVENTO:
 // RG: data_hora EV tipo_evento id_pacote remetente destinatario armazem_origem armazem_destino
 // AR: data_hora EV tipo_evento id_pacote armazem_destino secao_destino
 // RM: data_hora EV tipo_evento id_pacote armazem_destino secao_destino
@@ -105,28 +105,19 @@ class Evento {
         void setDestinatario(const std::string& destinatario)   { this->destinatario = destinatario; };
 
 
-        // OUTROS MÉTODOS
+        // GET_INFO: Se a informação existir, inclui ela na string de retorno.
         std::string getInfo() const {
             std::string result = "";
 
             result += intToString(dataHora, 7) + " ";
             result += tipoEventoToString(tipoEvento) + " ";
             result += intToString(idPacote, 3) + " ";
-
-            if (!remetente.empty())      
-                result += remetente + " ";
-
-            if (!destinatario.empty()) 
-                result += destinatario + " ";
-
-            if (armazemOrigem != -1)
-                result += intToString(armazemOrigem, 3) + " ";
-
-            if (armazemDestino != -1)
-                result += intToString(armazemDestino, 3) + " ";
-
-            if (secaoDestino != -1)
-                result += intToString(secaoDestino, 3) + " ";
+            
+            if (!remetente.empty())     result += remetente + " ";
+            if (!destinatario.empty())  result += destinatario + " ";
+            if (armazemOrigem != -1)    result += intToString(armazemOrigem, 3) + " ";
+            if (armazemDestino != -1)   result += intToString(armazemDestino, 3) + " ";
+            if (secaoDestino != -1)     result += intToString(secaoDestino, 3) + " ";
 
             return result;
         };

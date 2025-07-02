@@ -7,11 +7,10 @@ enum TipoComando {
     CL  // CONSULTA CLIENTE
 };
 
-int stringToTipoComando(const std::string& comando) {
-    if (comando == "EV") return TipoComando::EV; // 0
-    if (comando == "PC") return TipoComando::PC; // 1
-    if (comando == "CL") return TipoComando::CL; // 2
-    return -1; // COMANDO INVÁLIDO
+TipoComando stringToTipoComando(const std::string& comando) {
+    if (comando == "EV") return EV; // 0
+    if (comando == "PC") return PC; // 1
+    if (comando == "CL") return CL; // 2
 };
 
 #endif

@@ -1,21 +1,23 @@
-// #ifndef SISTEMALOGISTICO_HPP
-// #define SISTEMALOGISTICO_HPP
+#ifndef SISTEMALOGISTICO_HPP
+#define SISTEMALOGISTICO_HPP
 
-// class SistemaLogistico {
-//     public:
-//         SistemaLogistico();
-//         ~SistemaLogistico();
+#include "../include/VetorEventos.hpp"
 
-//         void processarEvento(const Evento& evento);
-//         void consultarPacote(int idPacote);
-//         void consultarCliente(const std::string& nomeCliente);
+class SistemaLogistico {
+    public:
+        SistemaLogistico();
+        ~SistemaLogistico();
 
-//     private:
-//         VetorEventos eventos; // Vetor de eventos
+        void processarEvento(const Evento* evento);
+        void consultarPacote(int idPacote);
+        void consultarCliente(const std::string& nomeCliente);
 
-
-
-// };
+    private:
+        VetorEventos eventos; // Vetor de eventos
 
 
-// #endif
+
+};
+
+
+#endif

@@ -20,6 +20,9 @@ int main(int argc, char** argv) {
     int dataHora, idPacote, armazemOrigem, armazemDestino, secaoDestino;
     Evento* novoEvento;
 
+    // SISTEMA LOGÍSTICO
+    SistemaLogistico sistema;
+
     // PRIMEIRA LEITURA REFERENTE À DATA_HORA E AO TIPO DO COMANDO (EV, PC, CL).     
     while(arquivo >> dataHora >> strComando) {  
         
@@ -36,26 +39,30 @@ int main(int argc, char** argv) {
                 case TipoEvento::RG:
                     arquivo >> idPacote >> remetente >> destinatario >> armazemOrigem >> armazemDestino;
                     novoEvento = new Evento(tipoEvento, dataHora, idPacote, armazemOrigem, armazemDestino, -1, remetente, destinatario);
-                    std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
+                    sistema.processarEvento(novoEvento);
+                    // std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
                     break;
 
                 case TipoEvento::TR:
                     arquivo >> idPacote >> armazemOrigem >> armazemDestino;
                     novoEvento = new Evento(tipoEvento, dataHora, idPacote, armazemOrigem, armazemDestino, -1, "", "");
-                    std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
+                    sistema.processarEvento(novoEvento);
+                    // std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
                     break;
 
                 case TipoEvento::EN:
                     arquivo >> idPacote >> armazemDestino; 
                     novoEvento = new Evento(tipoEvento, dataHora, idPacote, -1, armazemDestino, -1, "", "");
-                    std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
+                    sistema.processarEvento(novoEvento);
+                    // std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
                     break;
 
                 default: // AR ou RM ou UR, caso não seja nenhuma desses, ele crasha o programa.
                     if (tipoEvento != TipoEvento::AR && tipoEvento != TipoEvento::RM && tipoEvento != TipoEvento::UR) return -1;
                     arquivo >> idPacote >> armazemDestino >> secaoDestino;
                     novoEvento = new Evento(tipoEvento, dataHora, idPacote, -1, armazemDestino, secaoDestino, "", "");
-                    std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
+                    sistema.processarEvento(novoEvento);
+                    // std::cout << "Criado evento: " << novoEvento->getInfo() << std::endl;
                     break;
             };
 

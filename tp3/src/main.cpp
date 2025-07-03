@@ -3,10 +3,8 @@
 #include <string>
 
 #include "../include/ArvoreALV.hpp"
-#include "../include/Comandos.hpp"
-#include "../include/Eventos.hpp"
+#include "../include/VetorEventos.hpp"
 #include "../include/SistemaLogistico.hpp"
-#include "../include/Vetor.hpp"
 
 int main(int argc, char** argv) {
 
@@ -25,13 +23,13 @@ int main(int argc, char** argv) {
     // PRIMEIRA LEITURA REFERENTE À DATA_HORA E AO TIPO DO COMANDO (EV, PC, CL).     
     while(arquivo >> dataHora >> strComando) {  
         
-        int comando = stringToTipoComando(strComando); // STRING TO INT
+        int comando = Utils::stringToTipoComando(strComando); // STRING TO INT
 
         if(comando == TipoComando::EV) {
 
             // LEITURA E CONVERSÃO DO TIPO DE EVENTO
             arquivo >> strTipoEvento;
-            TipoEvento tipoEvento = stringToTipoEvento(strTipoEvento);
+            TipoEvento tipoEvento = Utils::stringToTipoEvento(strTipoEvento);
   
             // LER A DEPENDER DO TIPO DE EVENTO E ARMAZENAR OS DADOS DO EVENTO NO VETOR DE EVENTOS
             switch(tipoEvento){

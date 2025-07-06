@@ -1,6 +1,6 @@
-#include "../include/VetorEventos.hpp"
+#include "../include/EventosVetor.hpp"
 
-VetorEventos::VetorEventos() {
+EventosVetor::EventosVetor() {
     primeiro = new Node;
     primeiro->evento = nullptr; // Nó cabeça sem evento
     primeiro->prox = nullptr;
@@ -8,12 +8,12 @@ VetorEventos::VetorEventos() {
     tamanho = 0;
 };
 
-VetorEventos::~VetorEventos() {
+EventosVetor::~EventosVetor() {
     Limpa();
     delete primeiro;
 };
 
-Evento* VetorEventos::GetItem(int pos) {
+Evento* EventosVetor::GetItem(int pos) {
     if (pos <= 0 || pos > tamanho)
         throw std::runtime_error("ERRO: Posicao invalida!");
 
@@ -21,7 +21,7 @@ Evento* VetorEventos::GetItem(int pos) {
     return aux->evento;
 };
 
-void VetorEventos::SetItem(Evento evento, int pos) {
+void EventosVetor::SetItem(Evento evento, int pos) {
     if (pos <= 0 || pos > tamanho)
         throw std::runtime_error("ERRO: Posicao invalida!");
 
@@ -32,7 +32,7 @@ void VetorEventos::SetItem(Evento evento, int pos) {
     aux->evento = new Evento(evento);
 };
 
-void VetorEventos::InsereInicio(Evento evento) {
+void EventosVetor::InsereInicio(Evento evento) {
     Node* novo = new Node;
     novo->evento = new Evento(evento);
     novo->prox = primeiro->prox;
@@ -44,7 +44,7 @@ void VetorEventos::InsereInicio(Evento evento) {
     tamanho++;
 };
 
-void VetorEventos::InsereFinal(Evento evento) {
+void EventosVetor::InsereFinal(Evento evento) {
     Node* novo = new Node;
     novo->evento = new Evento(evento);
     novo->prox = nullptr;
@@ -55,7 +55,7 @@ void VetorEventos::InsereFinal(Evento evento) {
     tamanho++;
 };
 
-void VetorEventos::InserePosicao(Evento evento, int pos) {
+void EventosVetor::InserePosicao(Evento evento, int pos) {
     if (pos <= 0 || pos > tamanho + 1)
         throw std::runtime_error("ERRO: Posicao invalida!");
 
@@ -73,7 +73,7 @@ void VetorEventos::InserePosicao(Evento evento, int pos) {
     tamanho++;
 };
 
-Evento* VetorEventos::RemoveInicio() {
+Evento* EventosVetor::RemoveInicio() {
     if (tamanho == 0)
         throw std::runtime_error("ERRO: Lista vazia!");
 
@@ -91,7 +91,7 @@ Evento* VetorEventos::RemoveInicio() {
     return aux;
 };
 
-Evento* VetorEventos::RemoveFinal() {
+Evento* EventosVetor::RemoveFinal() {
     if (tamanho == 0)
         throw std::runtime_error("ERRO: Lista vazia!");
 
@@ -108,7 +108,7 @@ Evento* VetorEventos::RemoveFinal() {
     return aux;
 };
 
-Evento* VetorEventos::RemovePosicao(int pos) {
+Evento* EventosVetor::RemovePosicao(int pos) {
     if (pos <= 0 || pos > tamanho)
         throw std::runtime_error("ERRO: Posicao invalida ou Lista Vazia!");
 
@@ -127,7 +127,7 @@ Evento* VetorEventos::RemovePosicao(int pos) {
     return aux;
 };
 
-Evento* VetorEventos::Pesquisa(int idPacote) {
+Evento* EventosVetor::Pesquisa(int idPacote) {
     if (tamanho == 0)
         throw std::runtime_error("ERRO: Lista vazia!");
 
@@ -141,7 +141,7 @@ Evento* VetorEventos::Pesquisa(int idPacote) {
     return nullptr; // Retorna nullptr se não encontrar
 };
 
-void VetorEventos::Imprime() {
+void EventosVetor::Imprime() {
     Node* aux = primeiro->prox;
     for (int i = 0; i < tamanho; i++) {
         if (aux->evento != nullptr) {
@@ -151,7 +151,7 @@ void VetorEventos::Imprime() {
     };
 };
 
-void VetorEventos::Limpa() {
+void EventosVetor::Limpa() {
     if (tamanho == 0)
         return;
 
@@ -169,7 +169,7 @@ void VetorEventos::Limpa() {
     ultimo = primeiro;
 };
 
-Node* VetorEventos::Posiciona(int pos, bool antes) {
+Node* EventosVetor::Posiciona(int pos, bool antes) {
     if (pos <= 0 || pos > tamanho || tamanho == 0)
         throw std::runtime_error("ERRO: Posicao invalida ou Lista Vazia!");
 

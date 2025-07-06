@@ -1,7 +1,7 @@
-#ifndef VETOREVENTOS_HPP
-#define VETOREVENTOS_HPP
+#ifndef EVENTOSVETOR_HPP
+#define EVENTOSVETOR_HPP
 
-#include "../include/Eventos.hpp"
+#include "../include/Evento.hpp"
 #include <iostream>
 
 class Node {
@@ -10,10 +10,10 @@ class Node {
         Node* prox;
 };
 
-class VetorEventos {
+class EventosVetor {
     public:
-        VetorEventos();
-        ~VetorEventos();
+        EventosVetor();
+        ~EventosVetor();
         Evento* GetItem(int pos);
         void SetItem(Evento evento, int pos);
         void InsereInicio(Evento evento);

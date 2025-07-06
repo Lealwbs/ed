@@ -8,9 +8,12 @@ class SistemaLogistico {
         SistemaLogistico();
         ~SistemaLogistico();
 
-        void processarEvento(const Evento* evento);
+        void processarEvento(const Evento evento);
         void consultarPacote(int idPacote);
         void consultarCliente(const std::string& nomeCliente);
+
+        // Depuração
+        void imprimirEventos();
 
     private:
         VetorEventos eventos; // Vetor de eventos

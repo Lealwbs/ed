@@ -9,16 +9,17 @@ Evento::Evento(
     int secaoDestino,
     const std::string& remetente,
     const std::string& destinatario
-    ):
-    tipoEvento(tipoEvento),
-    dataHora(dataHora),
-    idPacote(idPacote),
-    armazemOrigem(armazemOrigem),
-    armazemDestino(armazemDestino),
-    secaoDestino(secaoDestino),
-    remetente(remetente),
-    destinatario(destinatario) {}
-
+    ){
+        this->tipoEvento = tipoEvento;
+        this->dataHora = dataHora;
+        this->idPacote = idPacote;
+        this->armazemOrigem = armazemOrigem;
+        this->armazemDestino = armazemDestino;
+        this->secaoDestino = secaoDestino;
+        this->remetente = remetente;
+        this->destinatario = destinatario;
+    };
+ 
 
 // GETTERS
 TipoEvento Evento::getTipoEvento()      const { return tipoEvento; };

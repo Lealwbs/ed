@@ -6,6 +6,9 @@
 class Evento {
     friend class VetorEventos;
     public:
+
+        Evento() = default;
+        
         Evento(
             TipoEvento tipoEvento,
             int dataHora,

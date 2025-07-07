@@ -13,6 +13,10 @@ EventosVetor::~EventosVetor() {
     delete primeiro;
 };
 
+int EventosVetor::GetTamanho() const {
+    return tamanho;
+};
+
 Evento* EventosVetor::GetItem(int pos) {
     if (pos <= 0 || pos > tamanho)
         throw std::runtime_error("ERRO: Posicao invalida!");

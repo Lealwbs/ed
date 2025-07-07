@@ -14,6 +14,7 @@ class EventosVetor {
     public:
         EventosVetor();
         ~EventosVetor();
+        int GetTamanho() const;
         Evento* GetItem(int pos);
         void SetItem(Evento evento, int pos);
         void InsereInicio(Evento evento);

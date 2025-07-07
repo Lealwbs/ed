@@ -7,8 +7,8 @@
 
 class SistemaLogistico {
     public:
-        SistemaLogistico() = default;
-        ~SistemaLogistico() = default;
+        SistemaLogistico();
+        ~SistemaLogistico();
 
         // PROCESSAMENTO E CONSULTAS
         void processarEvento(const Evento evento);              // Processa e armazena um novo evento no sistema
@@ -21,10 +21,11 @@ class SistemaLogistico {
         void imprimirClientes();
 
     private:
-        ArvoreAVL<Pacote*, int> pacotes;
         ArvoreAVL<Evento*, int> eventos;
+        ArvoreAVL<Pacote*, int> pacotes;
         ArvoreAVL<Cliente*, std::string> clientes;
-        
+        int proximoIdEvento;
+
         // GET/CREATE PACOTE E CLIENTE
         Pacote* obterOuCriarPacote(int idPacote);
         Cliente* obterOuCriarCliente(const std::string& nome);

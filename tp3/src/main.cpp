@@ -71,10 +71,10 @@ int main(int argc, char** argv) {
     };
 
     // DEPURAÇÃO
-    std::cout << std::endl << "Fim do processamento dos eventos." << std::endl << std::endl;
-    sistema.imprimirEventos();
-    sistema.imprimirPacotes();
-    sistema.imprimirClientes();
+    // std::cout << std::endl << "Fim do processamento dos eventos." << std::endl << std::endl;
+    // sistema.imprimirEventos();
+    // sistema.imprimirPacotes();
+    // sistema.imprimirClientes();
 
     arquivo.close();
     return 0;

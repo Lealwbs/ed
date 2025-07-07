@@ -2,7 +2,7 @@
 #define CONSULTA_HPP
 
 #include "../include/Vetor.hpp"
-#include "../include/Evento.hpp"
+#include "../include/EventosVetor.hpp"
 
 #include <string>
 
@@ -31,23 +31,22 @@ class Cliente{
 
 class Pacote {
     public:
-        Pacote(int id) : id(id), primeiroEvento(nullptr), ultimoEvento(nullptr) {}
+        Pacote(int id) : id(id) {}
         ~Pacote() = default;
 
         // SETTERS
         void setId(int novoId){ this->id = novoId;}
-        void setPrimeiroEvento(Evento* evento) { this->primeiroEvento = evento; }
-        void setUltimoEvento(Evento* evento) { this->ultimoEvento = evento; }
 
         // GETTERS
         int getId() const { return id; }
-        Evento* getPrimeiroEvento() const { return primeiroEvento; }
-        Evento* getUltimoEvento() const { return ultimoEvento; }
+
+        // OUTROS ME´TODOS
+        void adicionarEvento(const Evento& evento) { historicoEventos.InsereFinal(evento);}
+        EventosVetor& getHistoricoEventos() { return historicoEventos;}
 
     private:
         int id;
-        Evento* primeiroEvento;
-        Evento* ultimoEvento;
+        EventosVetor historicoEventos;
     };
 
 #endif

@@ -16,17 +16,17 @@ class Cliente{
 
         // GETTERS
         std::string getNome() { return nome; };
-        Vetor& getPacotesRemetente() { return pacotesRemetente; };
-        Vetor& getPacotesDestinatario() { return pacotesDestinatario; };
+        Vetor& getpacotesComoRemetente() { return pacotesComoRemetente; };
+        Vetor& getpacotesComoDestinatario() { return pacotesComoDestinatario; };
 
         // ADD PACOTES
-        void addPacoteRemetente(int idPacote) { pacotesDestinatario.InsereFinal(idPacote); };
-        void addPacoteDestinatario(int idPacote) { pacotesRemetente.InsereFinal(idPacote); };
+        void addPacoteRemetente(int idPacote) { pacotesComoDestinatario.InsereFinal(idPacote); };
+        void addPacoteDestinatario(int idPacote) { pacotesComoRemetente.InsereFinal(idPacote); };
 
     private:
         std::string nome;
-        Vetor pacotesRemetente; 
-        Vetor pacotesDestinatario; 
+        Vetor pacotesComoRemetente; 
+        Vetor pacotesComoDestinatario; 
 };
 
 class Pacote {

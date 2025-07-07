@@ -2,8 +2,6 @@
 #include <fstream>
 #include <string>
 
-#include "../include/ArvoreAVL.hpp"
-#include "../include/EventosVetor.hpp"
 #include "../include/SistemaLogistico.hpp"
 
 int main(int argc, char** argv) {
@@ -75,6 +73,8 @@ int main(int argc, char** argv) {
     // DEPURAÇÃO
     std::cout << std::endl << "Fim do processamento dos eventos." << std::endl << std::endl;
     sistema.imprimirEventos();
+    // sistema.imprimirPacotes();
+    // sistema.imprimirClientes();
 
     arquivo.close();
     return 0;

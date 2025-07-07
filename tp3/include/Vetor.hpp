@@ -1,10 +1,10 @@
 #ifndef VETOR_HPP
 #define VETOR_HPP
 
-typedef struct Node_t {
+typedef struct NodeVetor_t {
     int valor;
-    struct Node_t* prox;
-} Node;
+    struct NodeVetor_t* prox;
+} NodeVetor;
 
 class Vetor {
     public:
@@ -34,9 +34,9 @@ class Vetor {
         
     private:
         int tamanho;
-        Node* primeiro;
-        Node* ultimo;    
-        Node* Posiciona(int pos, bool antes = false);
+        NodeVetor* primeiro;
+        NodeVetor* ultimo;    
+        NodeVetor* Posiciona(int pos, bool antes = false);
 };
 
 #endif

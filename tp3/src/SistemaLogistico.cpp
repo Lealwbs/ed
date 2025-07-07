@@ -1,120 +1,52 @@
-// #include "../include/SistemaLogistico.hpp"
+#include "../include/SistemaLogistico.hpp"
 
-// // Funções auxiliares para extração de chaves das estruturas AVL
-// int obterChavePacote(Pacote* p) {
-//     return p->getId();
-// };
+// Funções auxiliares para extração de chaves das estruturas AVL
+int obterChavePacote(Pacote* p) {
+    return p->getId();
+};
 
-// std::string obterChaveCliente(Cliente* c) {
-//     return c->getNome();
-// };
+std::string obterChaveCliente(Cliente* c) {
+    return c->getNome();
+};
 
-// int obterChaveEvento(Evento* e) {
-//     // Cria uma chave única baseada em timestamp, ID do pacote e tipo do evento
-//     std::stringstream ss;
-//     ss << e->getDataHora() 
-//        << std::setw(3) << std::setfill('0') << e->getIdPacote() 
-//        << static_cast<int>(e->getTipoEvento());
+int obterChaveEvento(Evento* e) {
+    // Cria uma chave única baseada em timestamp, ID do pacote e tipo do evento
+    std::stringstream ss;
+    ss << e->getDataHora() 
+       << std::setw(3) << std::setfill('0') << e->getIdPacote() 
+       << static_cast<int>(e->getTipoEvento());
     
-//     std::string keyStr = ss.str();
-//     return std::stoi(keyStr);
-// };
+    std::string keyStr = ss.str();
+    return std::stoi(keyStr);
+};
 
-// SistemaLogistico::SistemaLogistico():
-//     pacotes(obterChavePacote),
-//     clientes(obterChaveCliente),
-//     eventos(obterChaveEvento) {};
+SistemaLogistico::SistemaLogistico():
+    pacotes(obterChavePacote),
+    clientes(obterChaveCliente),
+    eventos(obterChaveEvento) {};
 
-// SistemaLogistico::~SistemaLogistico(){};
+SistemaLogistico::~SistemaLogistico(){};
 
-// void SistemaLogistico::processarEvento(const Evento evento) {
-//     // 1. Armazenamento do Evento (lógica inalterada)
-//     Evento* novoEvento = new Evento(evento);
-//     this->eventos.inserir(novoEvento);
+void SistemaLogistico::processarEvento(const Evento evento) {
+    std::cout << evento.getInfo() << std::endl;
+};
 
-//     // 2. Obtenção do Pacote usando o getter getIdPacote()
-//     Pacote* pacote = obterOuCriarPacote(novoEvento->getIdPacote());
+void SistemaLogistico::consultarPacote(int idPacote){
+    // std::cout << "opa PC | " << idPacote << std::endl;
+    // <dh> PC <identificador pacote>: Histórico do pacote <identificador pacote>.
+};
 
-//     // 3. Vínculo Evento-Pacote
-//     // RECOMENDAÇÃO: Armazenar o ponteiro do evento no pacote é mais flexível.
-//     // SUPOSIÇÃO: A classe Pacote tem um `std::vector<Evento*> historicoEventos;`
-//     pacote->historicoEventos.push_back(novoEvento);
+void SistemaLogistico::consultarCliente(const std::string& nomeCliente){
+    // std::cout << "opa CL | " << nomeCliente << std::endl;
+    // <dh> CL <nome cliente>: Histórico dos pacotes associados a <nome cliente>.
+};
 
-//     // 4. Processamento baseado no TipoEvento (usando o getter)
-//     TipoEvento tipo = novoEvento->getTipoEvento();
-
-//     if (tipo == TipoEvento::RG) {
-//         // Para o evento de Registro Global, vinculamos os clientes
-        
-//         // Obter nomes usando os getters getRemetente() e getDestinatario()
-//         Cliente* remetente = obterOuCriarCliente(novoEvento->getRemetente());
-//         Cliente* destinatario = obterOuCriarCliente(novoEvento->getDestinatario());
-
-//         // Atualiza as informações do pacote
-//         pacote->nomeClienteRemetente = remetente->nome;
-//         pacote->nomeClienteDestino = destinatario->nome;
-//         pacote->idArmazemAtual = novoEvento->getArmazemDestino(); // Pacote começa no destino do RG
-
-//         // Vincula o ID do pacote ao histórico de cada cliente
-//         remetente->pacotesEnviados.push_back(pacote->id);
-//         destinatario->pacotesRecebidos.push_back(pacote->id);
-
-//     } else if (tipo == TipoEvento::TR) {
-//         // Para um evento de Transferência, atualizamos a localização do pacote
-//         // SUPOSIÇÃO: A classe Pacote tem um membro `int idArmazemAtual;`
-//         pacote->idArmazemAtual = novoEvento->getArmazemDestino();
-
-//     } else if (tipo == TipoEvento::AR || tipo == TipoEvento::RM || tipo == TipoEvento::UR) {
-//         // Para eventos de armazenagem/seção, atualizamos a localização mais específica
-//         // SUPOSIÇÃO: A classe Pacote tem membros `int idArmazemAtual;` e `int idSecaoAtual;`
-//         pacote->idArmazemAtual = novoEvento->getArmazemDestino();
-//         pacote->idSecaoAtual = novoEvento->getSecaoDestino();
-//     }
-// }
+void SistemaLogistico::imprimirEventos(){};
+void SistemaLogistico::imprimirPacotes(){};
+void SistemaLogistico::imprimirClientes(){};
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-// void SistemaLogistico::consultarPacote(int idPacote){
-//     // std::cout << "opa PC | " << idPacote << std::endl;
-//     // <dh> PC <identificador pacote>: Histórico do pacote <identificador pacote>.
-// };
-
-// void SistemaLogistico::consultarCliente(const std::string& nomeCliente){
-//     // std::cout << "opa CL | " << nomeCliente << std::endl;
-//     // <dh> CL <nome cliente>: Histórico dos pacotes associados a <nome cliente>.
-// };
-
-
-
-
-
-
-
-
-// void SistemaLogistico::imprimirEventos() {
-//     std::cout << "\n--- Imprimindo Todos os Eventos (ordenados por ID do evento) ---\n" << std::endl;
-//     // Define uma função lambda para ser usada como callback pelo método percorrerEmOrdem.
-//     // Esta função será chamada para cada Evento* na árvore.
-//     auto imprimirDetalhesEvento = [](Evento* ev) {
-//         if (ev){
-//             std::cout << ev->getInfo() << std::endl;
-//         };
-//     };
-//     // Usa o método da árvore para percorrer todos os nós e aplicar a função de impressão.
-//     this->eventos.percorrerEmOrdem(imprimirDetalhesEvento);
-//     std::cout << "\n--- Fim da Lista de Eventos ---\n" << std::endl;
-// }
 
 
 // // 0000200 PC 003 <consulta 2>

@@ -1,7 +1,7 @@
 #ifndef SISTEMALOGISTICO_HPP
 #define SISTEMALOGISTICO_HPP
 
-#include "../include/VetorEventos.hpp"
+#include "../include/EventosVetor.hpp"
 
 class SistemaLogistico {
     public:
@@ -16,7 +16,7 @@ class SistemaLogistico {
         void imprimirEventos();
 
     private:
-        VetorEventos eventos; // Vetor de eventos
+        EventosVetor eventos; // Vetor de eventos
 
 
 

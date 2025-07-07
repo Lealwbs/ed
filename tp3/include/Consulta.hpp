@@ -2,6 +2,7 @@
 #define CONSULTA_HPP
 
 #include "../include/Vetor.hpp"
+#include "../include/Evento.hpp"
 
 #include <string>
 
@@ -14,21 +15,19 @@ class Cliente{
         void setNome(const std::string& nome) { this->nome = nome; };
 
         // GETTERS
-        std::string getNome() const { return nome; };
-        Vetor& getPacotesRemetente() const { return pacotesRemetente; };
-        Vetor& getPacotesDestinatario() const { return pacotesDestinatario; };
+        std::string getNome() { return nome; };
+        Vetor& getPacotesRemetente() { return pacotesRemetente; };
+        Vetor& getPacotesDestinatario() { return pacotesDestinatario; };
 
         // ADD PACOTES
-        void addPacoteRemetente(int idPacote) { pacotesDestinatario.insereFinal(idPacote); };
-        void addPacoteDestinatario(int idPacote) { pacotesRemetente.insereFinal(idPacote); };
+        void addPacoteRemetente(int idPacote) { pacotesDestinatario.InsereFinal(idPacote); };
+        void addPacoteDestinatario(int idPacote) { pacotesRemetente.InsereFinal(idPacote); };
 
     private:
         std::string nome;
         Vetor pacotesRemetente; 
         Vetor pacotesDestinatario; 
 };
-
-#endif
 
 class Pacote {
     public:

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-#include "../include/ArvoreALV.hpp"
+#include "../include/ArvoreAVL.hpp"
 #include "../include/EventosVetor.hpp"
 #include "../include/SistemaLogistico.hpp"
 

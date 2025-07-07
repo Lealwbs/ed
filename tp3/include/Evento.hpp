@@ -4,7 +4,7 @@
 #include "../include/Utils.hpp"
 
 class Evento {
-    friend class VetorEventos;
+    friend class EventosVetor;
     public:
 
         Evento() = default;

@@ -7,20 +7,20 @@
 
 class Cliente{
     public:
-        Cliente(std::string nome);
+        Cliente(std::string nome) : nome(nome) {};
         ~Cliente() = default;
 
         // SETTERS
-        void setNome(const std::string& nome);
+        void setNome(const std::string& nome) { this->nome = nome; };
 
         // GETTERS
-        std::string getNome() const;
-        Vetor& getPacotesDestinatario() const; 
-        Vetor& getPacotesRemetente() const; 
+        std::string getNome() const { return nome; };
+        Vetor& getPacotesRemetente() const { return pacotesRemetente; };
+        Vetor& getPacotesDestinatario() const { return pacotesDestinatario; };
 
         // ADD PACOTES
-        void addPacoteRemetente(int idPacote);
-        void addPacoteDestinatario(int idPacote);
+        void addPacoteRemetente(int idPacote) { pacotesDestinatario.insereFinal(idPacote); };
+        void addPacoteDestinatario(int idPacote) { pacotesRemetente.insereFinal(idPacote); };
 
     private:
         std::string nome;
@@ -28,26 +28,27 @@ class Cliente{
         Vetor pacotesDestinatario; 
 };
 
+#endif
 
-class Pacote{
+class Pacote {
     public:
-        Pacote(int id);
+        Pacote(int id) : id(id), primeiroEvento(nullptr), ultimoEvento(nullptr) {}
         ~Pacote() = default;
 
         // SETTERS
-        void setId(int id);
-        void setPrimeiroEvento(Evento* evento);
-        void setUltimoEvento(Evento* evento);
-        
+        void setId(int novoId){ this->id = novoId;}
+        void setPrimeiroEvento(Evento* evento) { this->primeiroEvento = evento; }
+        void setUltimoEvento(Evento* evento) { this->ultimoEvento = evento; }
+
         // GETTERS
-        int getIdPacote() const;
-        Evento* getPrimeiroEvento() const;
-        Evento* getUltimoEvento() const;
-        
+        int getId() const { return id; }
+        Evento* getPrimeiroEvento() const { return primeiroEvento; }
+        Evento* getUltimoEvento() const { return ultimoEvento; }
+
     private:
         int id;
         Evento* primeiroEvento;
         Evento* ultimoEvento;
-};
+    };
 
 #endif

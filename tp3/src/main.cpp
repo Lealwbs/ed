@@ -75,7 +75,6 @@ int main(int argc, char** argv) {
     // DEPURAÇÃO
     std::cout << std::endl << "Fim do processamento dos eventos." << std::endl << std::endl;
     sistema.imprimirEventos();
-    // DEPURAÇÃO
 
     arquivo.close();
     return 0;

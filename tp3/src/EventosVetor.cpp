@@ -211,6 +211,13 @@ void EventosVetor::OrdenaPorDataHora() {
                 Evento* temp = atual->evento;
                 atual->evento = proximo->evento;
                 proximo->evento = temp;
+            } else if (proximo != nullptr && atual->evento->getDataHora() == proximo->evento->getDataHora()) {
+                // Caso a datahora seja a mesma, ordenar pelo Id do Pacote
+                if (atual->evento->getIdPacote() > proximo->evento->getIdPacote()) {
+                    Evento* temp = atual->evento;
+                    atual->evento = proximo->evento;
+                    proximo->evento = temp;
+                }
             }
             proximo = proximo->prox;
         }

@@ -141,16 +141,19 @@ void SistemaLogistico::consultarCliente(const std::string& nomeCliente) {
     processarPacotes(cliente->getpacotesComoRemetente());
     processarPacotes(cliente->getpacotesComoDestinatario());
 
-    // 3. Imprime a saída no formato exato da especificação
+    // 3. Ordena as duas listas de eventos pela data/hora.
+    eventosDeRegistro.OrdenaPorDataHora();
+    ultimosEventosDosPacotes.OrdenaPorDataHora();
+
+    // 4. Imprime a saída no formato exato da especificação.
     int totalLinhas = eventosDeRegistro.GetTamanho() + ultimosEventosDosPacotes.GetTamanho();
     std::cout << totalLinhas << std::endl;
 
-    // Imprime primeiro todos os eventos de registro
+    // Imprime primeiro todos os eventos de registro (agora ordenados)
     eventosDeRegistro.Imprime();
-    // Depois, imprime todos os últimos eventos
+    // Depois, imprime todos os últimos eventos de cada pacote (agora ordenados)
     ultimosEventosDosPacotes.Imprime();
 }
-
 
 // --- Funções de Depuração ---
 

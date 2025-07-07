@@ -104,38 +104,53 @@ void SistemaLogistico::consultarCliente(const std::string& nomeCliente) {
     if (cliente == nullptr) {
         std::cout << "ERRO: Cliente " << nomeCliente << " nao encontrado." << std::endl;
         return;
+    }
+
+    // 1. Usa dois vetores temporários para armazenar os eventos a serem impressos.
+    EventosVetor eventosDeRegistro;
+    EventosVetor ultimosEventosDosPacotes;
+    Vetor pacotesJaProcessados; // Para evitar processar o mesmo pacote duas vezes
+
+    // Função auxiliar para encontrar e armazenar os eventos de uma lista de pacotes
+    auto processarPacotes = [&](Vetor& idsDosPacotes) {
+        for (int i = 0; i < idsDosPacotes.GetTamanho(); ++i) {
+            int idPacote = idsDosPacotes.GetItem(i);
+
+            // Se já processamos este pacote, pulamos para o próximo
+            if (pacotesJaProcessados.Pesquisa(idPacote) != -1) {
+                continue;
+            }
+
+            Pacote* pacote = pacotes.buscar(idPacote);
+            if (pacote) {
+                EventosVetor& historico = pacote->getHistoricoEventos();
+                if (historico.GetTamanho() > 0) {
+                    // O evento de registro (RG) é sempre o primeiro
+                    eventosDeRegistro.InsereFinal(*historico.GetItem(1));
+
+                    // O último evento é obtido pelo método do pacote
+                    ultimosEventosDosPacotes.InsereFinal(*pacote->getUltimoEvento());
+                }
+            }
+            // Marca o pacote como processado
+            pacotesJaProcessados.InsereFinal(idPacote);
+        }
     };
 
-    // std::cout << "Pacotes associados a " << nomeCliente << ":" << std::endl;
-    Vetor& pacotesRemetidos = cliente->getpacotesComoRemetente();
-    Vetor& pacotesRecebidos = cliente->getpacotesComoDestinatario();
-    int qtdeTotalPacotes = pacotesRemetidos.GetTamanho() + pacotesRecebidos.GetTamanho();
+    // 2. Processa os pacotes onde o cliente é remetente e destinatário
+    processarPacotes(cliente->getpacotesComoRemetente());
+    processarPacotes(cliente->getpacotesComoDestinatario());
 
-    // Para cada evento que o cliente participou, será impresso o Evento e o último evento do pacote associado.
-    std::cout << qtdeTotalPacotes*2 << std::endl; 
+    // 3. Imprime a saída no formato exato da especificação
+    int totalLinhas = eventosDeRegistro.GetTamanho() + ultimosEventosDosPacotes.GetTamanho();
+    std::cout << totalLinhas << std::endl;
 
-    Vetor temp;
-
-    for (int i = 0; i < pacotesRemetidos.GetTamanho(); ++i) {
-        int idPacote = pacotesRemetidos.GetItem(i);
-        std::cout << Utils::intToString(idPacote, 3) << " (remetente)" << std::endl;
-        temp.InsereFinal(idPacote);
-        //consultarUltimoEvento(idPacote);
-    };
-    
-    for (int i = 0; i < pacotesRecebidos.GetTamanho(); ++i) {
-        int idPacote = pacotesRecebidos.GetItem(i);
-        std::cout << Utils::intToString(idPacote, 3) << " (destinatario)" << std::endl;
-        temp.InsereFinal(idPacote);
-        //consultarUltimoEvento(idPacote);
-    };
-
-    for(int i = 0; i < temp.GetTamanho(); i++) {
-        consultarUltimoEvento(temp.GetItem(i));
-    };
-
-    //std::cout << std::endl;
+    // Imprime primeiro todos os eventos de registro
+    eventosDeRegistro.Imprime();
+    // Depois, imprime todos os últimos eventos
+    ultimosEventosDosPacotes.Imprime();
 }
+
 
 // --- Funções de Depuração ---
 

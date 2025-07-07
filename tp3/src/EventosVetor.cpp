@@ -155,6 +155,20 @@ void EventosVetor::Imprime() {
     };
 };
 
+void EventosVetor::ImprimeUltimo() {
+    if (tamanho == 0) {
+        std::cout << "Nenhum evento registrado." << std::endl;
+        return;
+    }
+
+    Node* aux = ultimo;
+    if (aux->evento != nullptr) {
+        std::cout << aux->evento->getInfo() << std::endl;
+    } else {
+        std::cout << "Último evento não disponível." << std::endl;
+    }
+};
+
 void EventosVetor::Limpa() {
     if (tamanho == 0)
         return;
@@ -182,4 +196,23 @@ Node* EventosVetor::Posiciona(int pos, bool antes) {
         aux = aux->prox;
     };
     return aux;
+};
+
+void EventosVetor::OrdenaPorDataHora() {
+    if (tamanho < 2) return; // Não há necessidade de ordenar se a lista tiver 0 ou 1 elemento
+
+    for (int i = 0; i < tamanho - 1; i++) {
+        Node* atual = Posiciona(i + 1);
+        Node* proximo = atual->prox;
+
+        for (int j = i + 1; j < tamanho; j++) {
+            if (proximo != nullptr && atual->evento->getDataHora() > proximo->evento->getDataHora()) {
+                // Troca os eventos
+                Evento* temp = atual->evento;
+                atual->evento = proximo->evento;
+                proximo->evento = temp;
+            }
+            proximo = proximo->prox;
+        }
+    }
 };

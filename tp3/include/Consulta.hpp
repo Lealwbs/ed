@@ -20,8 +20,8 @@ class Cliente{
         Vetor& getpacotesComoDestinatario() { return pacotesComoDestinatario; };
 
         // ADD PACOTES
-        void addPacoteRemetente(int idPacote) { pacotesComoDestinatario.InsereFinal(idPacote); };
-        void addPacoteDestinatario(int idPacote) { pacotesComoRemetente.InsereFinal(idPacote); };
+        void addPacoteRemetente(int idPacote) { pacotesComoRemetente.InsereFinal(idPacote); };
+        void addPacoteDestinatario(int idPacote) { pacotesComoDestinatario.InsereFinal(idPacote); };
     
     private:
         std::string nome;
@@ -41,7 +41,7 @@ class Pacote {
         int getId() const { return id; }
         Evento* getUltimoEvento() {
             if (historicoEventos.GetTamanho() > 0) {
-                return historicoEventos.GetItem(historicoEventos.GetTamanho() - 1);
+                return historicoEventos.GetItem(historicoEventos.GetTamanho());
             };
             return nullptr; // Retorna nullptr se não houver eventos
         };

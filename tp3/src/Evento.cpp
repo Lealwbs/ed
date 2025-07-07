@@ -47,6 +47,7 @@ void Evento::setDestinatario(const std::string& destinatario)   { this->destinat
 std::string Evento::getInfo() const {
     std::string result;
     result += Utils::intToString(dataHora, 7) + " ";
+    result += "EV ";
     result += Utils::tipoEventoToString(tipoEvento) + " ";
     result += Utils::intToString(idPacote, 3) + " ";
 

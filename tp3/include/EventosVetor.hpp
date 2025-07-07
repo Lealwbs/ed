@@ -25,7 +25,9 @@ class EventosVetor {
         Evento* RemovePosicao(int pos);
         Evento* Pesquisa(int c);
         void Imprime();
+        void ImprimeUltimo();
         void Limpa();
+        void OrdenaPorDataHora();
 
     private:
         Node* primeiro;

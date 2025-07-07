@@ -38,6 +38,9 @@ class Utils {
 
         // COMANDOS
         static TipoComando stringToTipoComando(const std::string& comando);
+
+        // OUTRAS FUNÇÕES
+        static int getMax(int a, int b);
 };
 
 #endif

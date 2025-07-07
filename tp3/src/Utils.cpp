@@ -42,3 +42,7 @@ TipoComando Utils::stringToTipoComando(const std::string& comando) {
     if (comando == "CL") return CL; // 2
     throw std::invalid_argument("Comando inválido: " + comando);
 };
+
+int Utils::getMax(int a, int b) {
+    return (a > b) ? a : b;
+};

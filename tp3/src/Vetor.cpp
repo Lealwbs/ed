@@ -19,7 +19,7 @@ int Vetor::GetItem(int pos) {
         throw std::out_of_range("Posição inválida");
     }
     
-    Node* no = Posiciona(pos);
+    NodeVetor* no = Posiciona(pos);
     return no->valor;
 };
 
@@ -28,7 +28,7 @@ void Vetor::SetItem(int item, int pos) {
         throw std::out_of_range("Posição inválida");
     }
     
-    Node* no = Posiciona(pos);
+    NodeVetor* no = Posiciona(pos);
     no->valor = item;
 };
 
@@ -41,7 +41,7 @@ bool Vetor::Vazio() {
 };
 
 void Vetor::InsereInicio(int item) {
-    Node* novo = new Node;
+    NodeVetor* novo = new NodeVetor;
     novo->valor = item;
     novo->prox = primeiro;
     
@@ -55,7 +55,7 @@ void Vetor::InsereInicio(int item) {
 };
 
 void Vetor::InsereFinal(int item) {
-    Node* novo = new Node;
+    NodeVetor* novo = new NodeVetor;
     novo->valor = item;
     novo->prox = nullptr;
     
@@ -84,8 +84,8 @@ void Vetor::InserePosicao(int item, int pos) {
         return;
     };
     
-    Node* anterior = Posiciona(pos, true);
-    Node* novo = new Node;
+    NodeVetor* anterior = Posiciona(pos, true);
+    NodeVetor* novo = new NodeVetor;
     novo->valor = item;
     novo->prox = anterior->prox;
     anterior->prox = novo;
@@ -99,7 +99,7 @@ int Vetor::RemoveInicio() {
         throw std::runtime_error("Vetor vazio");
     };
     
-    Node* temp = primeiro;
+    NodeVetor* temp = primeiro;
     int valor = temp->valor;
     
     primeiro = primeiro->prox;
@@ -123,8 +123,8 @@ int Vetor::RemoveFinal() {
         return RemoveInicio();
     };
     
-    Node* anterior = Posiciona(tamanho - 1, true);
-    Node* temp = ultimo;
+    NodeVetor* anterior = Posiciona(tamanho - 1, true);
+    NodeVetor* temp = ultimo;
     int valor = temp->valor;
     
     anterior->prox = nullptr;
@@ -149,8 +149,8 @@ int Vetor::RemovePosicao(int pos) {
         return RemoveFinal();
     };
     
-    Node* anterior = Posiciona(pos, true);
-    Node* temp = anterior->prox;
+    NodeVetor* anterior = Posiciona(pos, true);
+    NodeVetor* temp = anterior->prox;
     int valor = temp->valor;
     
     anterior->prox = temp->prox;
@@ -162,7 +162,7 @@ int Vetor::RemovePosicao(int pos) {
 
 // Métodos de busca e utilitários
 int Vetor::Pesquisa(int item) {
-    Node* atual = primeiro;
+    NodeVetor* atual = primeiro;
     int posicao = 0;
     
     while (atual != nullptr) {
@@ -179,7 +179,7 @@ int Vetor::Pesquisa(int item) {
 void Vetor::Imprime() {
     std::cout << "Vetor: [";
     
-    Node* atual = primeiro;
+    NodeVetor* atual = primeiro;
     while (atual != nullptr) {
         std::cout << atual->valor;
         if (atual->prox != nullptr) {
@@ -194,7 +194,7 @@ void Vetor::Imprime() {
 
 void Vetor::Limpa() {
     while (primeiro != nullptr) {
-        Node* temp = primeiro;
+        NodeVetor* temp = primeiro;
         primeiro = primeiro->prox;
         delete temp;
     };
@@ -204,7 +204,7 @@ void Vetor::Limpa() {
 };
 
 // Método privado
-Node* Vetor::Posiciona(int pos, bool antes) {
+NodeVetor* Vetor::Posiciona(int pos, bool antes) {
     if (pos < 0 || pos >= tamanho) {
         throw std::out_of_range("Posição inválida");
     };
@@ -214,7 +214,7 @@ Node* Vetor::Posiciona(int pos, bool antes) {
         return nullptr;
     };
     
-    Node* atual = primeiro;
+    NodeVetor* atual = primeiro;
     int contador = 0;
     
     // Se for para posicionar antes, para uma posição antes

@@ -1,53 +1,65 @@
 #ifndef ARVORE_AVL_HPP
 #define ARVORE_AVL_HPP
 
-template <typename D> // <dado>
+#include <string>
+
+#include "../include/Utils.hpp" // Para função getMax()
+#include "../include/Consulta.hpp"
+#include "../include/Evento.hpp"
+
+
+template <typename TipoDado, typename TipoChave>
 struct NodeAVL {
-    D dado;                 // Dado armazenado no nó
-    NodeAVL* esquerda;      // Ponteiro para o filho da esquerda
-    NodeAVL* direita;       // Ponteiro para o filho da direita
-    int altura;             // Altura do nó para o balanceamento
-    NodeAVL(D novoDado) : dado(novoDado), esquerda(nullptr), direita(nullptr), altura(1) {}
+    TipoDado dado;
+    TipoChave chave;
+    NodeAVL* esquerda;
+    NodeAVL* direita;
+    int altura;
+
+    NodeAVL(TipoDado d, TipoChave c) : dado(d), chave(c), esquerda(nullptr), direita(nullptr), altura(1) {}
 };
 
-template <typename D, typename K> // <dado e key>
+// Declaração da Classe da Árvore AVL
+template <typename TipoDado, typename TipoChave>
 class ArvoreAVL {
-    public:
-        ArvoreAVL(K (*obterChaveFunc)(D));  // Exige uma função para extrair a chave de um objeto do tipo T
-        ~ArvoreAVL();
-        
-        int getTamanho() const;
-        void inserir(D dado);
-        void remover(K chave);
-        D buscar(K chave) const;
+public:
+    // Construtor e Destrutor
+    ArvoreAVL();
+    ~ArvoreAVL();
 
-        // Percorre a árvore em ordem (in-order) e aplica uma função de visita a cada elemento, e em ordem com uma função de callback que aceita um contexto
-        void percorrerEmOrdem(void (*visitar)(D)) const;
-        void percorrerComCallback(void (*visitar)(D, void*), void* contexto) const;
+    // Funções Públicas Principais
+    void inserir(TipoDado dado, TipoChave chave);
+    void remover(TipoChave chave);
+    TipoDado buscar(TipoChave chave); // Retorna o dado associado à chave
 
-    private:
-        NodeAVL<D>* raiz;        // Ponteiro para a raiz da árvore
-        K (*obterChaveFunc)(D);  // Ponteiro para a função que extrai a chave
-        int contador;            // Número de elementos na árvore
+    // Funções Utilitárias Públicas
+    int getTamanho() const;
+    int getAltura() const;
+    bool estaVazia() const;
+    void limpar();
 
-        NodeAVL<D>* _inserir(NodeAVL<D>* node, D dado);        // Insere um nó recursivamente
-        NodeAVL<D>* _remover(NodeAVL<D>* node, K chave);       // Remove um nó recursivamente
-        NodeAVL<D>* _buscar(NodeAVL<D>* node, K chave) const;  // Busca um nó recursivamente
+private:
+    NodeAVL<TipoDado, TipoChave>* raiz;
+    int tamanho;
 
-        // Função recursiva para o percurso em ordem, e em ordem com callback e contexto
-        void _percorrerEmOrdem(NodeAVL<D>* node, void (*visitar)(D)) const;
-        void _percorrerComCallback(NodeAVL<D>* node, void (*visitar)(D, void*), void* contexto) const;
-        
-        int _getAltura(NodeAVL<D>* node) const;               // Retorna a altura de um nó (seguro para nós nulos)
-        void _limpar(NodeAVL<D>* node);                       // Libera a memória da árvore de forma recursiva
-        void _atualizarAltura(NodeAVL<D>* node);              // Atualiza a altura de um nó com base na altura de seus filhos
-        int _getFatorBalanceamento(NodeAVL<D>* node) const;   // Calcula o fator de balanceamento de um nó
-        NodeAVL<D>* _noDeMenorValor(NodeAVL<D>* node) const;  // Encontra o nó com o menor valor na sub-árvore (o mais à esquerda)
-        
-        // ROTAÇÕES E BALANCEAMENTO 
-        NodeAVL<D>* _rotacaoDireita(NodeAVL<D>* y);
-        NodeAVL<D>* _rotacaoEsquerda(NodeAVL<D>* x);
-        NodeAVL<D>* _balancear(NodeAVL<D>* node);
-    };
+    // Métodos Auxiliares Privados (o coração da árvore)
+    int getAlturaNode(NodeAVL<TipoDado, TipoChave>* no) const;
+    int getFatorBalanceamento(NodeAVL<TipoDado, TipoChave>* no);
+    void atualizarAltura(NodeAVL<TipoDado, TipoChave>* no);
+
+    // Funções de Rotação
+    NodeAVL<TipoDado, TipoChave>* rotacionarDireita(NodeAVL<TipoDado, TipoChave>* y);
+    NodeAVL<TipoDado, TipoChave>* rotacionarEsquerda(NodeAVL<TipoDado, TipoChave>* x);
+
+    // Funções Recursivas de Operação
+    NodeAVL<TipoDado, TipoChave>* inserirRecursivo(NodeAVL<TipoDado, TipoChave>* no, TipoDado dado, TipoChave chave);
+    NodeAVL<TipoDado, TipoChave>* removerRecursivo(NodeAVL<TipoDado, TipoChave>* no, TipoChave chave);
+    NodeAVL<TipoDado, TipoChave>* buscarRecursivo(NodeAVL<TipoDado, TipoChave>* no, TipoChave chave);
+    void limparRecursivo(NodeAVL<TipoDado, TipoChave>* no);
+    
+    NodeAVL<TipoDado, TipoChave>* encontrarMinimo(NodeAVL<TipoDado, TipoChave>* no);
+};
+
+
 
 #endif

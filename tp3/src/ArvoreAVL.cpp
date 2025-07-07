@@ -1,248 +1,260 @@
 #include "../include/ArvoreAVL.hpp"
 
-// Função utilitária para obter o máximo entre dois inteiros
-int max(int n1, int n2) {
-    return (n1 >= n2) ? n1 : n2;
+// --- Construtor e Destrutor ---
+
+template <typename TipoDado, typename TipoChave>
+ArvoreAVL<TipoDado, TipoChave>::ArvoreAVL() : raiz(nullptr), tamanho(0) {}
+
+template <typename TipoDado, typename TipoChave>
+ArvoreAVL<TipoDado, TipoChave>::~ArvoreAVL() {
+    limpar();
 }
 
-// Construtor - Inicializa árvore vazia com função de extração de chave
-template <typename D, typename K>
-ArvoreAVL<D, K>::ArvoreAVL(K (*obterChaveFunc)(D)) : 
-    raiz(nullptr), obterChaveFunc(obterChaveFunc), contador(0) {}
+// --- Implementações Públicas ---
 
-// Destrutor - Remove todos os nós recursivamente
-template <typename D, typename K>
-ArvoreAVL<D, K>::~ArvoreAVL() {
-    _limpar(raiz);
+template <typename TipoDado, typename TipoChave>
+void ArvoreAVL<TipoDado, TipoChave>::inserir(TipoDado dado, TipoChave chave) {
+    raiz = inserirRecursivo(raiz, dado, chave);
 }
 
-// Limpa a árvore em pós-ordem
-template <typename D, typename K>
-void ArvoreAVL<D, K>::_limpar(NodeAVL<D>* node) {
-    if (node) {
-        _limpar(node->esquerda);
-        _limpar(node->direita);
-        delete node;
+template <typename TipoDado, typename TipoChave>
+void ArvoreAVL<TipoDado, TipoChave>::remover(TipoChave chave) {
+    raiz = removerRecursivo(raiz, chave);
+}
+
+template <typename TipoDado, typename TipoChave>
+TipoDado ArvoreAVL<TipoDado, TipoChave>::buscar(TipoChave chave) {
+    NodeAVL<TipoDado, TipoChave>* resultado = buscarRecursivo(raiz, chave);
+    if (resultado != nullptr) {
+        return resultado->dado;
+    }
+    // Retorna um valor padrão (nullptr para ponteiros) se não encontrar.
+    return TipoDado(); 
+}
+
+template <typename TipoDado, typename TipoChave>
+int ArvoreAVL<TipoDado, TipoChave>::getTamanho() const {
+    return tamanho;
+}
+
+template <typename TipoDado, typename TipoChave>
+bool ArvoreAVL<TipoDado, TipoChave>::estaVazia() const {
+    return raiz == nullptr;
+}
+
+template <typename TipoDado, typename TipoChave>
+int ArvoreAVL<TipoDado, TipoChave>::getAltura() const{
+    if (raiz == nullptr) return 0;
+    return raiz->altura;
+};
+
+template <typename TipoDado, typename TipoChave>
+void ArvoreAVL<TipoDado, TipoChave>::limpar() {
+    limparRecursivo(raiz);
+    raiz = nullptr;
+    tamanho = 0;
+}
+
+
+// --- Métodos Auxiliares Privados ---
+
+template <typename TipoDado, typename TipoChave>
+int ArvoreAVL<TipoDado, TipoChave>::getAlturaNode(NodeAVL<TipoDado, TipoChave>* no) const {
+    if (no == nullptr) return 0;
+    return no->altura;
+}
+
+template <typename TipoDado, typename TipoChave>
+void ArvoreAVL<TipoDado, TipoChave>::atualizarAltura(NodeAVL<TipoDado, TipoChave>* no) {
+    if (no != nullptr) {
+        no->altura = 1 + Utils::getMax(getAlturaNode(no->esquerda), getAlturaNode(no->direita));
     }
 }
 
-// Retorna altura do nó (0 para nullptr)
-template <typename D, typename K>
-int ArvoreAVL<D, K>::_getAltura(NodeAVL<D>* node) const {
-    return node ? node->altura : 0;
+template <typename TipoDado, typename TipoChave>
+int ArvoreAVL<TipoDado, TipoChave>::getFatorBalanceamento(NodeAVL<TipoDado, TipoChave>* no) {
+    if (no == nullptr) return 0;
+    return getAlturaNode(no->esquerda) - getAlturaNode(no->direita);
 }
 
-// Calcula fator de balanceamento (altura esquerda - altura direita)
-template <typename D, typename K>
-int ArvoreAVL<D, K>::_getFatorBalanceamento(NodeAVL<D>* node) const {
-    return node ? _getAltura(node->esquerda) - _getAltura(node->direita) : 0;
-}
+template <typename TipoDado, typename TipoChave>
+NodeAVL<TipoDado, TipoChave>* ArvoreAVL<TipoDado, TipoChave>::rotacionarDireita(NodeAVL<TipoDado, TipoChave>* y) {
+    NodeAVL<TipoDado, TipoChave>* x = y->esquerda;
+    NodeAVL<TipoDado, TipoChave>* T2 = x->direita;
 
-// Atualiza altura do nó baseado nos filhos
-template <typename D, typename K>
-void ArvoreAVL<D, K>::_atualizarAltura(NodeAVL<D>* node) {
-    node->altura = 1 + max(_getAltura(node->esquerda), _getAltura(node->direita));
-}
-
-// Rotação à direita para caso de desbalanceamento esquerda-esquerda
-template <typename D, typename K>
-NodeAVL<D>* ArvoreAVL<D, K>::_rotacaoDireita(NodeAVL<D>* y) {
-    NodeAVL<D>* x = y->esquerda;
-    NodeAVL<D>* T2 = x->direita;
-
+    // Realiza a rotação
     x->direita = y;
     y->esquerda = T2;
 
-    _atualizarAltura(y);
-    _atualizarAltura(x);
+    // Atualiza alturas
+    atualizarAltura(y);
+    atualizarAltura(x);
 
-    return x;
+    return x; // Nova raiz da sub-árvore
 }
 
-// Rotação à esquerda para caso de desbalanceamento direita-direita
-template <typename D, typename K>
-NodeAVL<D>* ArvoreAVL<D, K>::_rotacaoEsquerda(NodeAVL<D>* x) {
-    NodeAVL<D>* y = x->direita;
-    NodeAVL<D>* T2 = y->esquerda;
+template <typename TipoDado, typename TipoChave>
+NodeAVL<TipoDado, TipoChave>* ArvoreAVL<TipoDado, TipoChave>::rotacionarEsquerda(NodeAVL<TipoDado, TipoChave>* x) {
+    NodeAVL<TipoDado, TipoChave>* y = x->direita;
+    NodeAVL<TipoDado, TipoChave>* T2 = y->esquerda;
 
+    // Realiza a rotação
     y->esquerda = x;
     x->direita = T2;
 
-    _atualizarAltura(x);
-    _atualizarAltura(y);
+    // Atualiza alturas
+    atualizarAltura(x);
+    atualizarAltura(y);
 
-    return y;
+    return y; // Nova raiz da sub-árvore
 }
 
-// Balanceia o nó e retorna nova raiz da subárvore
-template <typename D, typename K>
-NodeAVL<D>* ArvoreAVL<D, K>::_balancear(NodeAVL<D>* node) {
-    _atualizarAltura(node);
-    int balance = _getFatorBalanceamento(node);
-
-    // Casos pesados à esquerda
-    if (balance > 1) {
-        if (_getFatorBalanceamento(node->esquerda) >= 0)  // Caso esquerda-esquerda
-            return _rotacaoDireita(node);
-        else {                                           // Caso esquerda-direita
-            node->esquerda = _rotacaoEsquerda(node->esquerda);
-            return _rotacaoDireita(node);
-        }
-    }
-    
-    // Casos pesados à direita
-    if (balance < -1) {
-        if (_getFatorBalanceamento(node->direita) <= 0) // Caso direita-direita
-            return _rotacaoEsquerda(node);
-        else {                                         // Caso direita-esquerda
-            node->direita = _rotacaoDireita(node->direita);
-            return _rotacaoEsquerda(node);
-        }
+template <typename TipoDado, typename TipoChave>
+NodeAVL<TipoDado, TipoChave>* ArvoreAVL<TipoDado, TipoChave>::inserirRecursivo(NodeAVL<TipoDado, TipoChave>* no, TipoDado dado, TipoChave chave) {
+    // 1. Inserção padrão de Árvore Binária de Busca
+    if (no == nullptr) {
+        tamanho++;
+        return new NodeAVL<TipoDado, TipoChave>(dado, chave);
     }
 
-    return node;
+    if (chave < no->chave) {
+        no->esquerda = inserirRecursivo(no->esquerda, dado, chave);
+    } else if (chave > no->chave) {
+        no->direita = inserirRecursivo(no->direita, dado, chave);
+    } else {
+        // Chaves duplicadas não são permitidas, apenas retorna o nó.
+        // Ou você pode atualizar o dado: no->dado = dado;
+        return no;
+    }
+
+    // 2. Atualiza a altura do nó ancestral
+    atualizarAltura(no);
+
+    // 3. Obtém o fator de balanceamento para verificar se o nó ficou desbalanceado
+    int fb = getFatorBalanceamento(no);
+
+    // 4. Se desbalanceado, existem 4 casos de rotação
+
+    // Caso Esquerda-Esquerda
+    if (fb > 1 && chave < no->esquerda->chave) {
+        return rotacionarDireita(no);
+    }
+
+    // Caso Direita-Direita
+    if (fb < -1 && chave > no->direita->chave) {
+        return rotacionarEsquerda(no);
+    }
+
+    // Caso Esquerda-Direita
+    if (fb > 1 && chave > no->esquerda->chave) {
+        no->esquerda = rotacionarEsquerda(no->esquerda);
+        return rotacionarDireita(no);
+    }
+
+    // Caso Direita-Esquerda
+    if (fb < -1 && chave < no->direita->chave) {
+        no->direita = rotacionarDireita(no->direita);
+        return rotacionarEsquerda(no);
+    }
+
+    // Retorna o ponteiro do nó (sem alterações se já estava balanceado)
+    return no;
 }
 
-// Inserção pública - incrementa contador
-template <typename D, typename K>
-void ArvoreAVL<D, K>::inserir(D dado) {
-    raiz = _inserir(raiz, dado);
-    contador++;
+
+template <typename TipoDado, typename TipoChave>
+NodeAVL<TipoDado, TipoChave>* ArvoreAVL<TipoDado, TipoChave>::encontrarMinimo(NodeAVL<TipoDado, TipoChave>* no) {
+    NodeAVL<TipoDado, TipoChave>* atual = no;
+    while (atual->esquerda != nullptr) {
+        atual = atual->esquerda;
+    }
+    return atual;
 }
 
-// Inserção recursiva com balanceamento automático
-template <typename D, typename K>
-NodeAVL<D>* ArvoreAVL<D, K>::_inserir(NodeAVL<D>* node, D dado) {
-    if (!node) return new NodeAVL<D>(dado);
+template <typename TipoDado, typename TipoChave>
+NodeAVL<TipoDado, TipoChave>* ArvoreAVL<TipoDado, TipoChave>::removerRecursivo(NodeAVL<TipoDado, TipoChave>* no, TipoChave chave) {
+    // 1. Remoção padrão de Árvore Binária de Busca
+    if (no == nullptr) return no;
 
-    K chaveAtual = obterChaveFunc(node->dado);
-    K novaChave = obterChaveFunc(dado);
-
-    if (novaChave < chaveAtual)
-        node->esquerda = _inserir(node->esquerda, dado);
-    else if (novaChave > chaveAtual)
-        node->direita = _inserir(node->direita, dado);
-    else
-        return node; // Chaves duplicadas não são permitidas
-
-    return _balancear(node);
-}
-
-// Busca pública - retorna dado ou D padrão
-template <typename D, typename K>
-D ArvoreAVL<D, K>::buscar(K chave) const {
-    NodeAVL<D>* node = _buscar(raiz, chave);
-    return node ? node->dado : D();
-}
-
-// Busca recursiva por chave
-template <typename D, typename K>
-NodeAVL<D>* ArvoreAVL<D, K>::_buscar(NodeAVL<D>* node, K chave) const {
-    if (!node) return nullptr;
-
-    K chaveAtual = obterChaveFunc(node->dado);
-
-    if (chave == chaveAtual)
-        return node;
-    else if (chave < chaveAtual)
-        return _buscar(node->esquerda, chave);
-    else
-        return _buscar(node->direita, chave);
-}
-
-// Remoção pública - decrementa contador
-template <typename D, typename K>
-void ArvoreAVL<D, K>::remover(K chave) {
-    raiz = _remover(raiz, chave);
-    contador--;
-}
-
-// Remoção recursiva com balanceamento
-template <typename D, typename K>
-NodeAVL<D>* ArvoreAVL<D, K>::_remover(NodeAVL<D>* node, K chave) {
-    if (!node) return nullptr;
-
-    K chaveAtual = obterChaveFunc(node->dado);
-
-    if (chave < chaveAtual)
-        node->esquerda = _remover(node->esquerda, chave);
-    else if (chave > chaveAtual)
-        node->direita = _remover(node->direita, chave);
-    else {
-        // Nó encontrado - trata casos de remoção
-        if (!node->esquerda || !node->direita) {
-            // Caso com um filho
-            NodeAVL<D>* temp = node->esquerda ? node->esquerda : node->direita;
-            if (!temp) {
-                // Sem filhos
-                temp = node;
-                node = nullptr;
-            } else {
-                // Um filho - copia conteúdo
-                *node = *temp;
+    if (chave < no->chave) {
+        no->esquerda = removerRecursivo(no->esquerda, chave);
+    } else if (chave > no->chave) {
+        no->direita = removerRecursivo(no->direita, chave);
+    } else {
+        // Nó a ser removido encontrado
+        tamanho--;
+        if (no->esquerda == nullptr || no->direita == nullptr) {
+            NodeAVL<TipoDado, TipoChave>* temp = no->esquerda ? no->esquerda : no->direita;
+            if (temp == nullptr) { // Sem filhos
+                temp = no;
+                no = nullptr;
+            } else { // Um filho
+                *no = *temp; // Copia o conteúdo
             }
             delete temp;
         } else {
-            // Dois filhos - encontra sucessor in-order
-            NodeAVL<D>* temp = _noDeMenorValor(node->direita);
-            node->dado = temp->dado;
-            node->direita = _remover(node->direita, obterChaveFunc(temp->dado));
+            // Nó com dois filhos: pega o sucessor em ordem (menor da sub-árvore direita)
+            NodeAVL<TipoDado, TipoChave>* temp = encontrarMinimo(no->direita);
+            no->chave = temp->chave;
+            no->dado = temp->dado;
+            no->direita = removerRecursivo(no->direita, temp->chave);
         }
     }
 
-    if (!node) return nullptr;
+    if (no == nullptr) return no; // Se a árvore ficou vazia
 
-    return _balancear(node);
+    // 2. Atualiza altura e balanceia (mesma lógica da inserção)
+    atualizarAltura(no);
+    int fb = getFatorBalanceamento(no);
+
+    // Caso Esquerda-Esquerda
+    if (fb > 1 && getFatorBalanceamento(no->esquerda) >= 0) {
+        return rotacionarDireita(no);
+    }
+
+    // Caso Esquerda-Direita
+    if (fb > 1 && getFatorBalanceamento(no->esquerda) < 0) {
+        no->esquerda = rotacionarEsquerda(no->esquerda);
+        return rotacionarDireita(no);
+    }
+
+    // Caso Direita-Direita
+    if (fb < -1 && getFatorBalanceamento(no->direita) <= 0) {
+        return rotacionarEsquerda(no);
+    }
+
+    // Caso Direita-Esquerda
+    if (fb < -1 && getFatorBalanceamento(no->direita) > 0) {
+        no->direita = rotacionarDireita(no->direita);
+        return rotacionarEsquerda(no);
+    }
+
+    return no;
 }
 
-// Encontra nó mais à esquerda (valor mínimo) da subárvore
-template <typename D, typename K>
-NodeAVL<D>* ArvoreAVL<D, K>::_noDeMenorValor(NodeAVL<D>* node) const {
-    while (node && node->esquerda) node = node->esquerda;
-    return node;
+
+template <typename TipoDado, typename TipoChave>
+NodeAVL<TipoDado, TipoChave>* ArvoreAVL<TipoDado, TipoChave>::buscarRecursivo(NodeAVL<TipoDado, TipoChave>* no, TipoChave chave) {
+    if (no == nullptr || no->chave == chave) {
+        return no;
+    }
+
+    if (chave < no->chave) {
+        return buscarRecursivo(no->esquerda, chave);
+    }
+    
+    return buscarRecursivo(no->direita, chave);
 }
 
-// Retorna o tamanho da árvore
-template <typename D, typename K>
-int ArvoreAVL<D, K>::getTamanho() const {
-    return contador;
-}
-
-// Travessia in-order pública com callback simples
-template <typename D, typename K>
-void ArvoreAVL<D, K>::percorrerEmOrdem(void (*visitar)(D)) const {
-    _percorrerEmOrdem(raiz, visitar);
-}
-
-// Travessia in-order recursiva
-template <typename D, typename K>
-void ArvoreAVL<D, K>::_percorrerEmOrdem(NodeAVL<D>* node, void (*visitar)(D)) const {
-    if (node) {
-        _percorrerEmOrdem(node->esquerda, visitar);
-        visitar(node->dado);
-        _percorrerEmOrdem(node->direita, visitar);
+template <typename TipoDado, typename TipoChave>
+void ArvoreAVL<TipoDado, TipoChave>::limparRecursivo(NodeAVL<TipoDado, TipoChave>* no) {
+    if (no != nullptr) {
+        limparRecursivo(no->esquerda);
+        limparRecursivo(no->direita);
+        delete no;
     }
 }
-
-// Travessia in-order pública com parâmetro de contexto
-template <typename D, typename K>
-void ArvoreAVL<D, K>::percorrerComCallback(void (*visitar)(D, void*), void* contexto) const {
-    _percorrerComCallback(raiz, visitar, contexto);
-}
-
-// Travessia in-order recursiva com contexto
-template <typename D, typename K>
-void ArvoreAVL<D, K>::_percorrerComCallback(NodeAVL<D>* node, void (*visitar)(D, void*), void* contexto) const {
-    if (node) {
-        _percorrerComCallback(node->esquerda, visitar, contexto);
-        visitar(node->dado, contexto);
-        _percorrerComCallback(node->direita, visitar, contexto);
-    }
-}
-
-#include "../include/Consulta.hpp"
-#include "../include/Evento.hpp"
 
 template class ArvoreAVL<Pacote*, int>;
-template class ArvoreAVL<Cliente*, std::string>;
 template class ArvoreAVL<Evento*, int>;
+template class ArvoreAVL<Cliente*, std::string>;

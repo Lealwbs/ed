@@ -76,10 +76,26 @@ void SistemaLogistico::consultarPacote(int idPacote) {
         return;
     }
 
-    std::cout << "Historico do pacote " << Utils::intToString(idPacote, 3) << ":" << std::endl;
+    // std::cout << "Historico do pacote " << Utils::intToString(idPacote, 3) << ":" << std::endl;
     std::cout << pacote->getHistoricoEventos().GetTamanho() << std::endl;
     pacote->getHistoricoEventos().Imprime();
-    std::cout << std::endl;
+    //std::cout << std::endl;
+}
+
+void SistemaLogistico::consultarUltimoEvento(int idPacote) {
+    Pacote* pacote = pacotes.buscar(idPacote);
+
+    if (pacote == nullptr) {
+        std::cout << "ERRO: Pacote " << idPacote << " nao encontrado." << std::endl;
+        return;
+    }
+
+    Evento* ultimoEvento = pacote->getUltimoEvento();
+    if (ultimoEvento != nullptr) {
+        std::cout << ultimoEvento->getInfo() << std::endl;
+    } else {
+        std::cout << "Nenhum evento associado ao pacote " << idPacote << "." << std::endl;
+    }
 }
 
 void SistemaLogistico::consultarCliente(const std::string& nomeCliente) {
@@ -90,25 +106,35 @@ void SistemaLogistico::consultarCliente(const std::string& nomeCliente) {
         return;
     };
 
-    std::cout << "Pacotes associados a " << nomeCliente << ":" << std::endl;
+    // std::cout << "Pacotes associados a " << nomeCliente << ":" << std::endl;
     Vetor& pacotesRemetidos = cliente->getpacotesComoRemetente();
     Vetor& pacotesRecebidos = cliente->getpacotesComoDestinatario();
     int qtdeTotalPacotes = pacotesRemetidos.GetTamanho() + pacotesRecebidos.GetTamanho();
-    std::cout << qtdeTotalPacotes << std::endl;
+
+    // Para cada evento que o cliente participou, será impresso o Evento e o último evento do pacote associado.
+    std::cout << qtdeTotalPacotes*2 << std::endl; 
+
+    Vetor temp;
 
     for (int i = 0; i < pacotesRemetidos.GetTamanho(); ++i) {
         int idPacote = pacotesRemetidos.GetItem(i);
-        //std::cout << Utils::intToString(idPacote, 3) << " (remetente)" << std::endl;
-        consultarPacote(idPacote);
+        std::cout << Utils::intToString(idPacote, 3) << " (remetente)" << std::endl;
+        temp.InsereFinal(idPacote);
+        //consultarUltimoEvento(idPacote);
     };
     
     for (int i = 0; i < pacotesRecebidos.GetTamanho(); ++i) {
         int idPacote = pacotesRecebidos.GetItem(i);
-        //std::cout << Utils::intToString(idPacote, 3) << " (destinatario)" << std::endl;
-        consultarPacote(idPacote);
+        std::cout << Utils::intToString(idPacote, 3) << " (destinatario)" << std::endl;
+        temp.InsereFinal(idPacote);
+        //consultarUltimoEvento(idPacote);
     };
 
-    std::cout << std::endl;
+    for(int i = 0; i < temp.GetTamanho(); i++) {
+        consultarUltimoEvento(temp.GetItem(i));
+    };
+
+    //std::cout << std::endl;
 }
 
 // --- Funções de Depuração ---

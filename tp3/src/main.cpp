@@ -60,11 +60,13 @@ int main(int argc, char** argv) {
 
         if(comando == TipoComando::PC) {
             arquivo >> idPacote;
+            std::cout << Utils::intToString(dataHora, 7) << " PC " << Utils::intToString(idPacote, 3) << std::endl;
             sistema.consultarPacote(idPacote);
         };
 
         if(comando == TipoComando::CL) {
             arquivo >> nomeCliente;
+            std::cout << Utils::intToString(dataHora, 7)  << " CL " << nomeCliente << std::endl;
             sistema.consultarCliente(nomeCliente);
         };
 

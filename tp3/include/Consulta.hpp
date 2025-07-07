@@ -22,7 +22,7 @@ class Cliente{
         // ADD PACOTES
         void addPacoteRemetente(int idPacote) { pacotesComoDestinatario.InsereFinal(idPacote); };
         void addPacoteDestinatario(int idPacote) { pacotesComoRemetente.InsereFinal(idPacote); };
-
+    
     private:
         std::string nome;
         Vetor pacotesComoRemetente; 
@@ -39,6 +39,12 @@ class Pacote {
 
         // GETTERS
         int getId() const { return id; }
+        Evento* getUltimoEvento() {
+            if (historicoEventos.GetTamanho() > 0) {
+                return historicoEventos.GetItem(historicoEventos.GetTamanho() - 1);
+            };
+            return nullptr; // Retorna nullptr se não houver eventos
+        };
 
         // OUTROS ME´TODOS
         void adicionarEvento(const Evento& evento) { historicoEventos.InsereFinal(evento);}

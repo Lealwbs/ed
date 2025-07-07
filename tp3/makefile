@@ -14,6 +14,7 @@ OBJ = $(patsubst $(SRC_FOLDER)/%.cpp, $(OBJ_FOLDER)/%.o, $(SRC))
 INPUT_ARGV_1 = .\files\inputs\input_1.txt
 INPUT_ARGV_2 = .\files\inputs\input_2.txt
 INPUT_ARGV_3 = .\files\inputs\input_3.txt
+INPUT_ARGV_4 = .\files\inputs\input_4.txt
 
 # Detectar sistema operacional
 ifeq ($(OS),Windows_NT)
@@ -59,6 +60,10 @@ run3: all
 	$(CLEAR)
 	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV_3)
 
+run4: all
+	$(CLEAR)
+	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV_4)
+
 SIZE_SPACES = 3
 run: all
 	$(CLEAR)
@@ -67,6 +72,8 @@ run: all
 	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV_2)
 	@for /l %%i in (1, 1, $(SIZE_SPACES)) do @echo.
 	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV_3)
+		@for /l %%i in (1, 1, $(SIZE_SPACES)) do @echo.
+	$(BIN_FOLDER)$(/)$(TARGET)$(EXEC_EXT) $(INPUT_ARGV_4)
 
 # Limpar os arquivos compilados e apagar os diretórios
 clean:
